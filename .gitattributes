@@ -1,0 +1,11 @@
+# Normalise line endings so the same file doesn't show up as changed on both
+# machines. Text is stored with LF in git; Windows checkouts get LF too, which
+# every editor here handles and which matches what the site serves.
+* text=auto eol=lf
+
+# Never diff or normalise binaries
+*.pdf  binary
+*.docx binary
+*.png  binary
+*.jpg  binary
+*.woff2 binary
