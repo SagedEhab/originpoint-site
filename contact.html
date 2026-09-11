@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Start a conversation — OriginPoint</title>
+  <meta name="description" content="OriginPoint builds and manages everything digital a startup needs, from day zero onward: websites, AI agents, data, internal tools, and the integrations between them.">
+  <meta name="theme-color" content="#F7F3EC">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="OriginPoint — Clarity at the starting line">
+  <meta property="og:description" content="One digital partner for startups, from day zero onward.">
+
+  <!-- Favicon: the origin point — a ring and a dot, in brand colours -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23BFD5F2'/%3E%3Ccircle cx='16' cy='16' r='9.5' fill='none' stroke='%235A0012' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%235A0012'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&display=swap">
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Flags that JS is available, so the menu and reveals can start in their resting state -->
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+
+<body id="top">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Registration mark from the brand sheet, drawn once and reused -->
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="reg-mark" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="6.5" fill="none" stroke="currentColor"/>
+      <path d="M12 0v24M0 12h24" fill="none" stroke="currentColor"/>
+    </symbol>
+  </svg>
+
+  <!-- ============ 1. Header ============ -->
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="logo" href="index.html"><span class="logo__origin">Origin</span><span class="logo__point">Point</span></a>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+
+      <nav class="site-nav" id="site-nav" aria-label="Primary">
+        <ul class="site-nav__list" role="list">
+          <li><a class="site-nav__link" href="services.html">Services</a></li>
+          <li><a class="site-nav__link" href="process.html">Process</a></li>
+          <li><a class="site-nav__link" href="about.html">About</a></li>
+          <li><a class="site-nav__link" href="contact.html" aria-current="page">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main"><section class="page-intro section section--sky"><div class="container"><div class="folio"><span>OriginPoint / Start here</span><span>05 — 05</span></div><h1>Every good thing<br><i>starts somewhere.</i></h1><p class="page-lede">Tell us where you are and what you’re working on. We’ll suggest a sensible first step, even if that step isn’t us.</p><div class="chapter-symbol" aria-hidden="true">05</div></div></section><section class="section section--paper" id="contact" aria-labelledby="contact-title">
+      <div class="container contact">
+        <div class="contact__intro">
+          <h2 id="contact-title">Start a conversation</h2>
+          <p class="section-intro">Tell us where you are and what you’re working on. We’ll suggest a sensible first step, even if that step isn’t us.</p>
+        </div>
+
+        <div class="contact__panel">
+          <!-- Project brief builder: local-only, no submission or storage. -->
+          <form class="form" id="contact-form" action="#contact" method="get">
+            <p class="form__note">All fields are required. This preview prepares a downloadable brief; it does not send your details.</p>
+
+            <div class="field">
+              <label class="field__label" for="name">Your name</label>
+              <input class="field__control" id="name" name="name" type="text" autocomplete="name" required aria-describedby="name-error">
+              <p class="field__error" id="name-error" hidden></p>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="email">Email address</label>
+              <input class="field__control" id="email" name="email" type="email" autocomplete="email" spellcheck="false" required aria-describedby="email-error">
+              <p class="field__error" id="email-error" hidden></p>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="stage">What stage are you at?</label>
+              <select class="field__control field__control--select" id="stage" name="stage" required aria-describedby="stage-error">
+                <option value="" selected disabled>Choose one</option>
+                <option>Just an idea</option>
+                <option>Pre-launch</option>
+                <option>Launched, first customers</option>
+                <option>Growing team</option>
+              <option>Scaling</option></select>
+              <p class="field__error" id="stage-error" hidden></p>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="message">Message</label>
+              <p class="field__hint" id="message-hint">A few lines about your idea or business is plenty.</p>
+              <textarea class="field__control field__control--textarea" id="message" name="message" rows="5" required aria-describedby="message-hint message-error"></textarea>
+              <p class="field__error" id="message-error" hidden></p>
+            </div>
+
+            <p class="form__actions"><button class="button" type="submit">Prepare my brief</button></p>
+          </form>
+
+          <div class="form-success" id="form-success" hidden>
+            <h3 class="form-success__title" tabindex="-1">Thank you<span data-success-name></span>.</h3>
+            <p>Your brief is ready to download. Nothing has been sent.</p><pre id="brief-preview"></pre><div class="brief-actions"><button class="button" type="button" id="download-brief">Download brief</button><button class="text-button" type="button" id="edit-brief">Edit details</button></div>
+          </div>
+        </div>
+      </div>
+    </section><section class="section section--wash"><div class="container faq-layout"><h2>A few things<br><i>worth knowing.</i></h2><div><details><summary>Do we need everything at once?</summary><p>No. We start from your current stage and build in the order your business actually needs it.</p></details><details><summary>Can we start with one service?</summary><p>Yes. A website, an agent, or a single integration can be the starting point.</p></details><details><summary>What happens after launch?</summary><p>Hosting, maintenance, and improvements are part of our approach. The scope is agreed around what you need.</p></details><details><summary>What should we bring to a first conversation?</summary><p>Your idea or existing website, the main problem you want to solve, and what a useful outcome would look like.</p></details></div></div></section></main><footer class="site-footer">
+    <svg class="reg reg--bl" aria-hidden="true" focusable="false"><use href="#reg-mark"/></svg>
+    <svg class="reg reg--br" aria-hidden="true" focusable="false"><use href="#reg-mark"/></svg>
+
+    <div class="container">
+      <div class="site-footer__top">
+        <div class="site-footer__brand">
+          <a class="logo logo--large" href="index.html"><span class="logo__origin">Origin</span><span class="logo__point">Point</span></a>
+          <p class="site-footer__tagline">Clarity at the starting line.</p>
+        </div>
+
+        <nav aria-label="Footer">
+          <ul class="footer-nav" role="list">
+            <li><a href="services.html">Services</a></li>
+            <li><a href="process.html">Process</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="site-footer__bottom">
+        <p>© <span id="year">2026</span> OriginPoint. All rights reserved.</p>
+        <a href="#top">Back to top</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="site.js" defer></script></body></html>

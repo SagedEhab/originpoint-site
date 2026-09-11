@@ -1,0 +1,3 @@
+# Internal brand and planning documents. Kept out of git so that
+# Git-connected deploys (Netlify / Vercel) never publish them.
+reference/
