@@ -365,3 +365,84 @@
  const form=document.getElementById('contact-form');if(form){const params=new URLSearchParams(location.search),stage=params.get('stage'),need=params.get('need');const map={'First customers':'Launched, first customers'};if(stage){const value=map[stage]||stage;for(const o of form.elements.stage.options)if(o.value===value)form.elements.stage.value=value}if(need)form.elements.message.value='I’m interested in '+need+'. ';
  document.getElementById('download-brief').addEventListener('click',()=>{const url=URL.createObjectURL(new Blob([window.__brief],{type:'text/plain;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='OriginPoint-project-brief.txt';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)});document.getElementById('edit-brief').addEventListener('click',()=>{document.getElementById('form-success').hidden=true;form.hidden=false;form.elements.name.focus()})}
 })();
+/* OriginPoint motion layer: native navigation, input-driven movement. */
+(function () {
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const fine = matchMedia('(hover: hover) and (pointer: fine)');
+  const progress = document.createElement('div');
+  progress.className = 'reading-progress'; progress.setAttribute('aria-hidden', 'true');
+  document.body.append(progress);
+  let scrollFrame = 0;
+  function updateProgress() {
+    scrollFrame = 0;
+    const total = document.documentElement.scrollHeight - innerHeight;
+    progress.style.transform = 'scaleX(' + (total > 0 ? Math.min(1, scrollY / total) : 0) + ')';
+    document.querySelector('.site-header')?.classList.toggle('has-scrolled', scrollY > 30);
+  }
+  addEventListener('scroll', () => { if (!scrollFrame) scrollFrame = requestAnimationFrame(updateProgress); }, {passive:true});
+  addEventListener('resize', updateProgress); updateProgress();
+
+  // A small pull toward the pointer; the native cursor and focus target stay intact.
+  document.querySelectorAll('.button, .giant-link > span').forEach(el => {
+    el.classList.add('magnetic');
+    el.addEventListener('pointermove', e => {
+      if (reduced.matches || !fine.matches || e.pointerType !== 'mouse') return;
+      const r = el.getBoundingClientRect();
+      el.style.translate = Math.max(-5, Math.min(5, (e.clientX-r.left-r.width/2)*.08))+'px '+Math.max(-4, Math.min(4,(e.clientY-r.top-r.height/2)*.08))+'px';
+    });
+    const reset = () => {el.style.translate='0px 0px';};
+    el.addEventListener('pointerleave', reset); el.addEventListener('blur', reset);
+    reduced.addEventListener('change', reset);
+  });
+
+  // Animate only deliberately changed content, never whole pages of scroll reveals.
+  const panels = [['[data-cap]', '.cap-result'], ['[data-plan]', '.plan-result'], ['[data-system]', '.system-result']];
+  panels.forEach(([selector, target]) => {
+    document.querySelectorAll(selector).forEach(button => button.addEventListener('click', () => {
+      const el = document.querySelector(target); if (!el || reduced.matches) return;
+      el.getAnimations().forEach(a=>a.cancel());
+      el.animate([{opacity:.55,transform:'translateY(8px)'},{opacity:1,transform:'translateY(0)'}],{duration:350,easing:'cubic-bezier(.2,.7,.2,1)'});
+    }));
+  });
+  reduced.addEventListener('change',()=>{if(reduced.matches)document.getAnimations().forEach(a=>a.cancel());});
+
+  // Orbital origin: three-dimensional ring geometry on secondary-page covers.
+  const cover = document.querySelector('.page-intro'); if (!cover) return;
+  const canvas = document.createElement('canvas'); canvas.className='orbital-canvas';
+  canvas.setAttribute('aria-hidden','true'); cover.prepend(canvas);
+  const ctx=canvas.getContext('2d'); if(!ctx)return;
+  let w=0,h=0,dpr=1,t=0,raf=0,last=0,visible=true,pointer=null,tilt={x:0,y:0},pulses=[];
+  const ink='90,0,18';
+  function resize(){const r=cover.getBoundingClientRect();w=r.width;h=r.height;dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);draw();}
+  function draw(){
+    ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);
+    const cx=w*(w<700?.8:.77),cy=h*.56,R=Math.min(w*.29,h*.43);
+    const yaw=.7+Math.sin(t*.12)*.3+tilt.x, pitch=.45+Math.cos(t*.09)*.2+tilt.y;
+    function project(x,y,z){const a=x*Math.cos(yaw)+z*Math.sin(yaw),b=-x*Math.sin(yaw)+z*Math.cos(yaw);return [cx+a,cy+y*Math.cos(pitch)-b*Math.sin(pitch),y*Math.sin(pitch)+b*Math.cos(pitch)];}
+    for(let ring=0;ring<9;ring++){
+      const lat=(ring-4)*.19, radius=R*Math.sqrt(1-lat*lat),y=R*lat;
+      for(let side=0;side<2;side++){
+        ctx.beginPath();let pen=false;
+        for(let i=0;i<=128;i++){const a=i/128*Math.PI*2;const p=project(Math.cos(a)*radius,y,Math.sin(a)*radius);const front=p[2]>=0;if(front===!!side){if(!pen)ctx.moveTo(p[0],p[1]);else ctx.lineTo(p[0],p[1]);pen=true}else pen=false;}
+        ctx.strokeStyle='rgba('+ink+','+(side?.25:.085)+')';ctx.lineWidth=.8;ctx.stroke();
+      }
+    }
+    for(let meridian=0;meridian<3;meridian++){ctx.beginPath();for(let i=0;i<=128;i++){const a=i/128*Math.PI*2,m=meridian*Math.PI/3+t*.04;const p=project(R*Math.cos(a)*Math.cos(m),R*Math.sin(a),R*Math.cos(a)*Math.sin(m));if(i===0)ctx.moveTo(p[0],p[1]);else ctx.lineTo(p[0],p[1]);}ctx.strokeStyle='rgba('+ink+',.15)';ctx.stroke();}
+    const satellite=project(R*Math.cos(t*.24),0,R*Math.sin(t*.24));ctx.beginPath();ctx.arc(satellite[0],satellite[1],4,0,Math.PI*2);ctx.fillStyle='rgba('+ink+',.65)';ctx.fill();
+    ctx.beginPath();ctx.arc(cx,cy,3,0,Math.PI*2);ctx.fill();
+    pulses.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.strokeStyle='rgba('+ink+','+Math.max(0,.4*(1-p.r/(R*2)))+')';ctx.stroke()});
+    // An opaque protection field under text, softening toward the orbital side.
+    ctx.globalCompositeOperation='destination-out';ctx.fillStyle='rgba(0,0,0,'+(w<700?.84:.9)+')';ctx.fillRect(0,0,w*(w<700?.75:.63),h);ctx.globalCompositeOperation='source-over';
+  }
+  function frame(now){raf=0;const dt=Math.min((now-last)/1000,.05);last=now;t+=dt;const k=1-Math.pow(.98,dt*60);tilt.x+=((pointer?.x||0)-tilt.x)*k;tilt.y+=((pointer?.y||0)-tilt.y)*k;pulses=pulses.filter(p=>(p.r+=dt*150)<Math.min(w*.29,h*.43)*2);draw();start();}
+  function start(){if(raf||reduced.matches||document.hidden||!visible)return;last=performance.now();raf=requestAnimationFrame(frame)}
+  function stop(){cancelAnimationFrame(raf);raf=0}
+  cover.addEventListener('pointermove',e=>{if(!fine.matches||e.pointerType!=='mouse')return;const r=cover.getBoundingClientRect();pointer={x:(e.clientX-r.left-w/2)/w*.65,y:(e.clientY-r.top-h/2)/h*.45}});
+  cover.addEventListener('pointerleave',()=>pointer=null);
+  cover.addEventListener('pointerdown',e=>{if(reduced.matches||e.button>0||e.target.closest('a,button'))return;const r=cover.getBoundingClientRect();pulses.push({x:e.clientX-r.left,y:e.clientY-r.top,r:0});if(pulses.length>4)pulses.shift()});
+  new ResizeObserver(resize).observe(cover);
+  new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;visible?start():stop()}).observe(cover);
+  document.addEventListener('visibilitychange',()=>document.hidden?stop():start());
+  reduced.addEventListener('change',()=>{stop();pulses=[];tilt={x:0,y:0};draw();start()});
+  resize();start();
+})();
