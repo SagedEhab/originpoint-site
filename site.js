@@ -333,6 +333,27 @@
         if (event.target.name === "stage") validate("stage");
       });
 
+      var formError = document.getElementById("form-error");
+      var submitButton = form.querySelector("button[type=submit]");
+
+      // Reveal the brief and the "thank you" panel once the message is sent.
+      function showSuccess() {
+        window.__brief = "OriginPoint — Project brief\n\n" + ["name", "email", "stage", "message"].map(function (key) { return key.charAt(0).toUpperCase() + key.slice(1) + ": " + form.elements[key].value.trim(); }).join("\n\n");
+        document.getElementById("brief-preview").textContent = window.__brief;
+        var firstName = form.elements.name.value.trim().split(/\s+/)[0];
+        success.querySelector("[data-success-name]").textContent = ", " + firstName;
+        form.hidden = true;
+        success.hidden = false;
+        success.querySelector(".form-success__title").focus();
+        submitButton.disabled = false; // ready again if they choose "Edit details"
+      }
+
+      function showError(message) {
+        formError.textContent = message;
+        formError.hidden = false;
+        submitButton.disabled = false;
+      }
+
       form.addEventListener("submit", function (event) {
         event.preventDefault();
 
@@ -344,12 +365,23 @@
           return;
         }
 
-        window.__brief = "OriginPoint — Project brief\n\n" + ["name", "email", "stage", "message"].map(function (key) { return key.charAt(0).toUpperCase() + key.slice(1) + ": " + form.elements[key].value.trim(); }).join("\n\n"); document.getElementById("brief-preview").textContent = window.__brief;
-        var firstName = form.elements.name.value.trim().split(/\s+/)[0];
-        success.querySelector("[data-success-name]").textContent = ", " + firstName;
-        form.hidden = true;
-        success.hidden = false;
-        success.querySelector(".form-success__title").focus();
+        formError.hidden = true;
+        submitButton.disabled = true;
+
+        // Netlify Forms: POST the whole form (incl. form-name) url-encoded to this origin.
+        fetch("/", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams(new FormData(form)).toString()
+        }).then(function (response) {
+          if (response.status === 200) {
+            showSuccess();
+          } else {
+            showError("Something went wrong sending your message. Please try again, or email us at hello@originpointeg.com.");
+          }
+        }).catch(function () {
+          showError("We couldn’t reach the server. Please check your connection and try again, or email us at hello@originpointeg.com.");
+        });
       });
     })();
 

@@ -60,9 +60,11 @@
         </div>
 
         <div class="contact__panel">
-          <!-- Project brief builder: local-only, no submission or storage. -->
-          <form class="form" id="contact-form" action="#contact" method="get">
-            <p class="form__note">All fields are required. This preview prepares a downloadable brief; it does not send your details.</p>
+          <!-- Submits to Netlify Forms; JS posts in the background and still builds a downloadable brief. -->
+          <form class="form" id="contact-form" name="contact" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field">
+            <input type="hidden" name="form-name" value="contact">
+            <p class="field--honeypot" hidden aria-hidden="true"><label>Leave this field empty if you’re human: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+            <p class="form__note">All fields are required. We’ll read your message and reply by email, and you can download a copy as a brief.</p>
 
             <div class="field">
               <label class="field__label" for="name">Your name</label>
@@ -95,12 +97,14 @@
               <p class="field__error" id="message-error" hidden></p>
             </div>
 
+            <p class="field__error" id="form-error" role="alert" hidden></p>
+
             <p class="form__actions"><button class="button" type="submit">Prepare my brief</button></p>
           </form>
 
           <div class="form-success" id="form-success" hidden>
             <h3 class="form-success__title" tabindex="-1">Thank you<span data-success-name></span>.</h3>
-            <p>Your brief is ready to download. Nothing has been sent.</p><pre id="brief-preview"></pre><div class="brief-actions"><button class="button" type="button" id="download-brief">Download brief</button><button class="text-button" type="button" id="edit-brief">Edit details</button></div>
+            <p>Your message is on its way to our team, and your brief is ready to download.</p><pre id="brief-preview"></pre><div class="brief-actions"><button class="button" type="button" id="download-brief">Download brief</button><button class="text-button" type="button" id="edit-brief">Edit details</button></div>
           </div>
         </div>
       </div>
