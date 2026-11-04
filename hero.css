@@ -59,7 +59,7 @@
   vector-effect: non-scaling-stroke;
 }
 
-/* Near: one solid Green Olive disc that sweeps up past the text and out */
+/* Near: one solid Persimmon disc that sweeps up past the text and out */
 .depth--near {
   right: clamp(1.5rem, 9vw, 9rem);
   bottom: 26%;

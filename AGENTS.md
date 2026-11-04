@@ -39,22 +39,22 @@ Colours (CSS custom properties at `:root`):
 
 | Token (CSS name) | Colour | Hex | Use |
 |---|---|---|---|
-| `--color-burgundy` | Dark Purple (Pantone 19-2524 TCX) | `#592148` | logo, headings, buttons, hero and page-header fields, closing field |
-| `--color-ink` | Deep purple ink (a shade of Dark Purple) | `#311228` | dark fields, display type |
-| `--color-ink-light` | Green Olive (Pantone 17-0535 TCX) | `#8C8B55` | numerals, hairlines on dark fields |
-| `--color-sky` | Sunshine (Pantone 12-0727 TCX) | `#F9DE85` | headlines and rings on purple, buttons and tabs on dark fields, highlight cards |
-| `--color-plate` | Green Olive | `#8C8B55` | the "Why" field, the hero disc, binder page 3, with dark text |
-| `--color-wash` | Pale wash (a tint of Sunshine) | `#F6ECCB` | quiet fields |
+| `--color-burgundy` | Cobalt Dust | `#435A86` | logo, headings, buttons, hero and page-header fields, closing field |
+| `--color-ink` | Deep cobalt ink (a shade of Cobalt Dust) | `#1B2438` | dark fields, display type, text on Persimmon |
+| `--color-ink-light` | Persimmon | `#D66F45` | numerals, hairlines on dark fields |
+| `--color-sky` | Parchment | `#E2D5BB` | headlines and rings on cobalt, buttons and tabs on dark fields, highlight cards |
+| `--color-plate` | Persimmon | `#D66F45` | the "Why" field, the hero disc, binder page 3, with dark text |
+| `--color-wash` | Pale wash (a tint of Parchment) | `#ECE3D0` | quiet fields |
 | `--color-ivory` | Soft ivory | `#F7F3EC` | header, cards, paper sections |
 | `--color-paper` | Warm paper | `#EFE8DC` | letter-like fields |
 | `--color-charcoal` | Muted charcoal | `#26242A` | body copy on light fields |
 
-The Pantone hex values were sampled from the colour reference image, so treat them as close
-matches, not official Pantone values. The token names are historical (they date from the
-earlier blue and burgundy palette): `--color-sky` is now Sunshine yellow and `--color-burgundy`
-is Dark Purple. The class names follow the old roles too: `.section--sky` (hero, page headers)
-is now Dark Purple with light text, and `.section--plate` (the "Why" section) is Green Olive. Keep the names stable; change the values. Green Olive is a mid-tone: use dark
-text on it, never ivory body text.
+The three palette hex values (Cobalt Dust, Persimmon, Parchment) are printed on the colour
+reference. The token names are historical (they date from earlier palettes), so `--color-sky`
+is now Parchment and `--color-burgundy` is Cobalt Dust. The class names follow the old roles
+too: `.section--sky` (hero, page headers) is Cobalt Dust with light text, and `.section--plate`
+(the "Why" section) is Persimmon. Keep the names stable; change the values. Persimmon is a
+mid-tone: use the dark ink on it, never ivory body text.
 
 - **Type:** Playfair Display throughout, body at 1.7 line-height, body lines under 75
   characters.

@@ -22,12 +22,12 @@
    -------------------------------------------------------------------------- */
 :root {
   /* Brand colours */
-  --color-burgundy: #592148;    /* Dark Purple: logo, headings, accents, hairlines */
-  --color-ink: #311228;         /* Deep purple ink (a shade of Dark Purple): dark fields, display type */
-  --color-ink-light: #8C8B55;   /* Green Olive: numerals, hairlines on dark fields */
-  --color-sky: #F9DE85;         /* Sunshine: the hero field */
-  --color-plate: #8C8B55;       /* Green Olive: large rich fields, dark text on it */
-  --color-wash: #F6ECCB;        /* Pale wash (a tint of Sunshine): quiet fields */
+  --color-burgundy: #435A86;    /* Cobalt Dust: logo, headings, accents, hairlines */
+  --color-ink: #1B2438;         /* Deep cobalt ink (a shade of Cobalt Dust): dark fields, display type */
+  --color-ink-light: #D66F45;   /* Persimmon: numerals, hairlines on dark fields */
+  --color-sky: #E2D5BB;         /* Parchment: headlines and rings on cobalt, tabs, highlight cards */
+  --color-plate: #D66F45;       /* Persimmon: large rich fields, dark text on it */
+  --color-wash: #ECE3D0;        /* Pale wash (a tint of Parchment): quiet fields */
   --color-ivory: #F7F3EC;      /* Soft Ivory — header, cards, paper sections */
   --color-paper: #EFE8DC;      /* Warm paper — letter-like fields */
   --color-charcoal: #26242A;   /* Muted Charcoal — body copy on light fields */
@@ -272,7 +272,7 @@ input, button, select, textarea {
 }
 
 /* Fields, and the contextual colours each one sets */
-/* The "sky" class now holds Dark Purple (hero and page headers): light text, Sunshine accents */
+/* The "sky" class now holds Cobalt Dust (hero and page headers): light text, Parchment accents */
 .section--sky {
   background-color: var(--color-burgundy);
   --text: var(--color-ivory);
@@ -296,7 +296,7 @@ input, button, select, textarea {
 .section--paper { background-color: var(--color-paper); }
 .section--wash  { background-color: var(--color-wash); }
 
-/* The plate class holds Green Olive (the "Why" field) */
+/* The plate class holds Persimmon (the "Why" field) */
 .section--plate {
   background-color: var(--color-plate);
   --text: var(--color-ink);
@@ -828,7 +828,7 @@ input, button, select, textarea {
 
 
 /* --------------------------------------------------------------------------
-   8. Why OriginPoint — the Green Olive field
+   8. Why OriginPoint — the Persimmon field
    -------------------------------------------------------------------------- */
 .reasons {
   display: grid;
@@ -972,7 +972,7 @@ input, button, select, textarea {
 .field__control--select {
   appearance: none;
   padding-right: 3rem;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 8'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%23592148' stroke-width='1.25'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 8'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%23435A86' stroke-width='1.25'/%3E%3C/svg%3E");
   background-position: right 1.125rem center;
   background-repeat: no-repeat;
   background-size: 0.875rem auto;
