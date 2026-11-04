@@ -15,6 +15,7 @@
   var content = hero.querySelector(".hero__content");
   var inView = true;
   var ticking = false;
+  var sy = window.scrollY;  // eased scroll, so layers glide rather than snap
   var px = 0, py = 0;     // pointer, -1..1, eased
   var tx = 0, ty = 0;     // pointer target
   var fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
@@ -24,8 +25,11 @@
   function render() {
     ticking = false;
     var h = hero.offsetHeight || 1;
-    var s = clamp(window.scrollY, 0, h * 1.2);
-    var easing = Math.abs(tx - px) + Math.abs(ty - py) > 0.001;
+    var target = clamp(window.scrollY, 0, h * 1.2);
+    sy += (target - sy) * 0.14;
+    if (Math.abs(target - sy) < 0.3) sy = target;
+    var s = sy;
+    var easing = Math.abs(tx - px) + Math.abs(ty - py) > 0.001 || sy !== target;
     px += (tx - px) * 0.08;
     py += (ty - py) * 0.08;
 

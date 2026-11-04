@@ -1,0 +1,47 @@
+/* ==========================================================================
+   OriginPoint — flow.css
+   One motion language for every page: a shared easing curve, the same
+   headline wipe the home hero uses, and sections that rise into place as you
+   reach them. Opacity, clip and the individual `translate` property only, so
+   nothing here fights the page's own transforms. Off under reduced motion.
+   ========================================================================== */
+
+:root {
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --flow-time: 1000ms;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Sections below the fold rise into place. story.js-free: added by flow.js
+     only after it knows it can reveal them, so nothing is ever left hidden. */
+  .flow {
+    opacity: 0;
+    translate: 0 1.5rem;
+  }
+
+  .flow.is-in {
+    opacity: 1;
+    translate: 0 0;
+    transition:
+      opacity var(--flow-time) var(--ease-out) var(--flow-delay, 0ms),
+      translate var(--flow-time) var(--ease-out) var(--flow-delay, 0ms);
+  }
+
+  /* Inner-page headlines wipe in like the home hero's */
+  .js .page-intro h1 {
+    animation: flow-wipe 1200ms var(--ease-out) 200ms both;
+  }
+
+  .js .page-intro .folio,
+  .js .page-intro .page-lede {
+    animation: flow-fade 900ms ease 500ms both;
+  }
+  .js .page-intro .page-lede { animation-delay: 700ms; }
+}
+
+@keyframes flow-wipe {
+  from { clip-path: inset(-0.1em 100% -0.2em 0); }
+  to   { clip-path: inset(-0.1em -0.3em -0.2em -0.05em); }
+}
+
+@keyframes flow-fade { from { opacity: 0; } to { opacity: 1; } }

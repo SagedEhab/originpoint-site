@@ -27,8 +27,7 @@
   var headerH = 0;
   var visible = false;
   var ticking = false;
-  var last = { open: -1, t: -1 };
-
+  
   function clamp(v, lo, hi) { return Math.min(hi, Math.max(lo, v)); }
 
   function measure() {
@@ -62,15 +61,11 @@
     return span > 0 ? clamp((headerH - rect.top) / span, 0, 1) : 0;
   }
 
-  function render() {
-    ticking = false;
-    var p = progress();
-    var open = clamp(p / OPEN_END, 0, 1);
-    var t = stepped(clamp((p - OPEN_END) / (1 - OPEN_END), 0, 1));
-    if (Math.abs(open - last.open) < 0.0005 && Math.abs(t - last.t) < 0.0005) return;
-    last.open = open;
-    last.t = t;
+  var cur = { open: 0, t: 0 };
+  var primed = false;
+  var EASE = 0.14;       // share of the remaining distance covered each frame
 
+  function apply(open, t) {
     story.style.setProperty("--open", open.toFixed(4));
     if (open >= 0.995) story.setAttribute("data-opened", ""); else story.removeAttribute("data-opened");
 
@@ -86,6 +81,23 @@
       var tab = tabs[i];
       if (i === active) tab.setAttribute("aria-current", "step"); else tab.removeAttribute("aria-current");
     });
+  }
+
+  // Scroll sets the target; the binder eases toward it, so a jerky wheel
+  // still turns pages smoothly and each one settles softly.
+  function render() {
+    ticking = false;
+    var p = progress();
+    var tOpen = clamp(p / OPEN_END, 0, 1);
+    var tT = stepped(clamp((p - OPEN_END) / (1 - OPEN_END), 0, 1));
+    if (!primed) { cur.open = tOpen; cur.t = tT; primed = true; apply(cur.open, cur.t); return; }
+
+    cur.open += (tOpen - cur.open) * EASE;
+    cur.t += (tT - cur.t) * EASE;
+    var settled = Math.abs(tOpen - cur.open) < 0.0006 && Math.abs(tT - cur.t) < 0.0006;
+    if (settled) { cur.open = tOpen; cur.t = tT; }
+    apply(cur.open, cur.t);
+    if (!settled) request();
   }
 
   function request() {
@@ -110,7 +122,7 @@
   function enable() {
     story.classList.add("story--binder");
     measure();
-    last.open = last.t = -1;
+    primed = false;
     render();
   }
 
@@ -132,7 +144,7 @@
   }, { rootMargin: "20% 0px" }).observe(story);
 
   window.addEventListener("scroll", request, { passive: true });
-  window.addEventListener("resize", function () { measure(); last.open = last.t = -1; request(); });
+  window.addEventListener("resize", function () { measure(); request(); });
 
   enable();
 
