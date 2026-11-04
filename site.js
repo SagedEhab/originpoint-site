@@ -15,7 +15,7 @@
       var scratch = document.createElement("canvas");
       var sctx = scratch.getContext("2d");
 
-      var INK = "89,33,72";        // Dark Purple
+      var INK = "249,222,133";     // Sunshine, drawn on the Dark Purple hero
       var MAX_RINGS = 12;
       var LIFETIME = 22;          // seconds for an ambient ring to reach full size
       var EASE = 0.02;            // origin moves 2% of the way to its target per frame
@@ -444,7 +444,7 @@
   canvas.setAttribute('aria-hidden','true'); cover.prepend(canvas);
   const ctx=canvas.getContext('2d'); if(!ctx)return;
   let w=0,h=0,dpr=1,t=0,raf=0,last=0,visible=true,pointer=null,tilt={x:0,y:0},pulses=[];
-  const ink='89,33,72';
+  const ink='249,222,133';
   function resize(){const r=cover.getBoundingClientRect();w=r.width;h=r.height;dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);draw();}
   function draw(){
     ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);

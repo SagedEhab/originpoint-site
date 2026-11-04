@@ -53,7 +53,7 @@
 .binder__cover { display: none; }
 
 .fold {
-  --fold-bg: var(--color-plate);
+  --fold-bg: var(--color-sky);
   --text: var(--color-ink);
   --heading: var(--color-ink);
   --accent: var(--color-ink);
@@ -89,12 +89,7 @@
   --tab-fg: var(--color-ink);
 }
 .fold--plate {
-  --fold-bg: var(--color-sky);
-  --text: var(--color-ink);
-  --heading: var(--color-ink);
-  --accent: var(--color-ink);
-  --line: var(--color-ink);
-  --focus: var(--color-ink);
+  --fold-bg: var(--color-plate);
   --tab-bg: var(--color-ink);
 }
 .fold--ink {
