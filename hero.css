@@ -1,0 +1,129 @@
+/* ==========================================================================
+   OriginPoint — hero.css
+   Depth for the home-page hero: three decorative layers behind the text that
+   travel at different speeds as you scroll (and lean a little with the
+   pointer), plus a wipe-in for the headline. Home page only.
+
+   The ripple canvas keeps a baked mask that clears space around the text, so
+   the text itself barely moves; all the depth lives in the layers below.
+   Brand tokens only, 1px hairlines, no shadows, gradients or blur.
+   ========================================================================== */
+
+.hero__depth {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: clip;
+  pointer-events: none;
+}
+
+.depth {
+  position: absolute;
+  display: block;
+  will-change: translate;
+}
+
+/* Far: slow concentric rings, largest and faintest */
+.depth--far {
+  top: -18%;
+  right: -14%;
+  width: clamp(26rem, 62vw, 56rem);
+  height: auto;
+  color: var(--color-burgundy);
+  opacity: 0.14;
+}
+
+.depth--far circle {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+}
+
+.depth--far .depth__spin {
+  transform-origin: 50% 50%;
+  transform-box: fill-box;
+}
+
+/* Mid: the paper's ruled columns, with crop ticks where they meet the edge */
+.depth--mid {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: var(--color-burgundy);
+  opacity: 0.11;
+}
+
+.depth--mid line {
+  stroke: currentColor;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+/* Near: one solid plate-blue disc that sweeps up past the text and out */
+.depth--near {
+  right: clamp(1.5rem, 9vw, 9rem);
+  bottom: 26%;
+  width: clamp(7rem, 18vw, 17rem);
+  aspect-ratio: 1;
+  border-radius: 50%;          /* a true circle, the origin mark's ring */
+  background-color: var(--color-plate);
+  opacity: 0.9;
+}
+
+@media (max-width: 47.99em) {
+  .depth--near { top: 9%; bottom: auto; right: 1rem; width: 6.5rem; opacity: 0.8; }
+  .depth--far  { top: -6%; right: -40%; }
+}
+
+.hero__content { will-change: translate, opacity; }
+
+/* Headline wipe-in and soft arrival of everything else. Opacity and clip only,
+   never transform, so the canvas mask measures the text where it will rest. */
+@media (prefers-reduced-motion: no-preference) {
+  .js .hero__line {
+    animation: hero-fade 900ms ease 150ms both;
+  }
+  .js .hero__line--italic { animation-delay: 420ms; }
+
+  /* Lines are only separate blocks from 48em; on phones they wrap inline and
+     a clip would cut the second line, so they fade instead */
+  @media (min-width: 48em) {
+    .js .hero__line {
+      clip-path: inset(-0.1em 100% -0.2em 0);
+      animation: hero-wipe 1200ms cubic-bezier(0.2, 0.7, 0.2, 1) 150ms both;
+    }
+    .js .hero__line--italic { animation-delay: 420ms; }
+  }
+
+  .js .hero .eyebrow,
+  .js .hero__lede,
+  .js .hero__actions {
+    animation: hero-fade 900ms ease 700ms both;
+  }
+  .js .hero__lede { animation-delay: 850ms; }
+  .js .hero__actions { animation-delay: 1000ms; }
+
+  .js .depth--far  { animation: hero-fade-far 2200ms ease 100ms both; }
+  .js .depth--mid  { animation: hero-fade-mid 1800ms ease 300ms both; }
+  .js .depth--near { animation: hero-disc 1600ms cubic-bezier(0.2, 0.7, 0.2, 1) 500ms both; }
+
+  .depth__spin { animation: hero-spin 140s linear infinite; }
+  .hero--offscreen .depth__spin { animation-play-state: paused; }
+}
+
+@keyframes hero-wipe {
+  from { clip-path: inset(-0.1em 100% -0.2em 0); }
+  to   { clip-path: inset(-0.1em -0.3em -0.2em -0.05em); }
+}
+@keyframes hero-fade      { from { opacity: 0; } to { opacity: 1; } }
+@keyframes hero-fade-far  { from { opacity: 0; } to { opacity: 0.14; } }
+@keyframes hero-fade-mid  { from { opacity: 0; } to { opacity: 0.11; } }
+@keyframes hero-disc {
+  from { opacity: 0; scale: 0.55; }
+  to   { opacity: 0.9; scale: 1; }
+}
+@keyframes hero-spin { to { rotate: 360deg; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .depth, .hero__content { will-change: auto; }
+}
