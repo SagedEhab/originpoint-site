@@ -1,0 +1,479 @@
+/* ==========================================================================
+   OriginPoint — story.css
+   The home-page "binder": five tabbed dividers that open as you scroll, from
+   a first conversation to launch. Loaded after styles.css, home page only.
+
+   Two modes, one DOM:
+     - Static (default, and under prefers-reduced-motion): five stacked cards.
+       Nothing is hidden, nothing moves.
+     - Binder (.story--binder, added by story.js when motion is allowed): a
+       pinned stage. The cover swings open, then the dividers slide open one
+       by one. story.js writes only custom properties (--open, --o, --d); all
+       the movement is in the rules below.
+
+   Brand rules held: Playfair only, brand tokens only, 1px hairlines, no
+   shadows, no gradients, no blur, square corners.
+   ========================================================================== */
+
+.story {
+  --sliver: 3.5rem;      /* width (or height, on phones) of a closed divider */
+  --spine: 4.5rem;       /* ring column */
+  position: relative;
+  overflow: clip;
+  background-color: var(--color-ivory);
+  border-top: 1px solid var(--color-burgundy);
+}
+
+.story__intro {
+  display: grid;
+  gap: 1.25rem;
+  padding-block: var(--section-space) clamp(2.5rem, 5vw, 4rem);
+}
+
+.story__intro .eyebrow { margin-bottom: 0; }
+
+.story__intro h2 i { color: var(--color-burgundy); }
+
+.story__intro p:not(.eyebrow) { max-width: var(--measure); }
+
+.story__hint { display: none; font-style: italic; }
+.story--binder .story__hint { display: block; }
+
+
+/* --------------------------------------------------------------------------
+   Static mode: stacked cards
+   -------------------------------------------------------------------------- */
+.binder {
+  width: min(100% - 2 * var(--gutter), var(--content-width));
+  margin-inline: auto;
+  padding-bottom: var(--section-space);
+}
+
+.binder__spine,
+.binder__cover { display: none; }
+
+.fold {
+  --fold-bg: var(--color-sky);
+  --text: var(--color-charcoal);
+  --heading: var(--color-burgundy);
+  --accent: var(--color-burgundy);
+  --line: var(--color-burgundy);
+  --focus: var(--color-burgundy);
+  --tab-bg: var(--color-burgundy);
+  --tab-fg: var(--color-ivory);
+  position: relative;
+  margin-top: -1px;
+  background-color: var(--fold-bg);
+  border: 1px solid var(--color-burgundy);
+  color: var(--text);
+}
+
+.fold--paper { --fold-bg: var(--color-paper); }
+.fold--wash  { --fold-bg: var(--color-wash); }
+.fold--plate {
+  --fold-bg: var(--color-plate);
+  --text: var(--color-ink);
+  --heading: var(--color-ink);
+  --accent: var(--color-ink);
+  --line: var(--color-ink);
+  --focus: var(--color-ink);
+  --tab-bg: var(--color-ink);
+}
+.fold--ink {
+  --fold-bg: var(--color-ink);
+  --text: var(--color-ivory);
+  --heading: var(--color-ivory);
+  --accent: var(--color-sky);
+  --line: var(--color-ink-light);
+  --focus: var(--color-sky);
+  --tab-bg: var(--color-sky);
+  --tab-fg: var(--color-ink);
+  border-color: var(--color-ink-light);
+}
+
+.fold__tab {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.75rem 1.25rem;
+  background-color: var(--tab-bg);
+  color: var(--tab-fg);
+  text-decoration: none;
+  font-size: var(--step--1);
+  /* The notch: a cut corner, not a round one */
+  clip-path: polygon(0 0, calc(100% - 1rem) 0, 100% 1rem, 100% 100%, 0 100%);
+  width: max-content;
+  min-width: 12rem;
+}
+
+.fold__tab:focus-visible {
+  outline: 2px solid var(--tab-fg);
+  outline-offset: -5px;
+}
+
+.fold__num { font-style: italic; }
+.fold__label { font-weight: 500; }
+
+.fold__body {
+  display: grid;
+  gap: 2rem;
+  padding: clamp(1.5rem, 4vw, 3rem);
+}
+
+.fold__title {
+  font-size: var(--step-3);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  margin-bottom: 1.25rem;
+}
+
+.fold__title i { font-weight: 400; }
+
+.fold__text p { max-width: 34ch; }
+
+.fold__list {
+  margin-top: 1.75rem;
+  border-top: 1px solid var(--line);
+  max-width: 34ch;
+}
+
+.fold__list li {
+  padding-block: 0.6rem;
+  border-bottom: 1px solid var(--line);
+  font-size: var(--step--1);
+}
+
+.fold__cta { margin-top: 2rem; }
+
+.fold__art {
+  width: min(100%, 22rem);
+  height: auto;
+  justify-self: center;
+  color: var(--accent);
+  overflow: visible;
+}
+
+.fold__art text { font-family: var(--font-serif); fill: currentColor; stroke: none; }
+.fold__art .lockup { font-size: 46px; }
+.fold__art .lockup b { font-weight: 700; }
+.fold__art .lockup i { font-weight: 400; font-style: italic; }
+.fold__art .small { font-size: 11px; font-style: italic; }
+.fold__art .solid { fill: currentColor; stroke: none; }
+
+.fold__art .draw {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.25;
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - var(--draw, 1));
+}
+
+.fold__ghost { display: none; }
+
+@media (min-width: 48em) {
+  .fold__body {
+    grid-template-columns: 1.1fr 0.9fr;
+    align-items: center;
+    gap: 3rem;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   Binder mode: pinned stage
+   -------------------------------------------------------------------------- */
+.story--binder .story__track { height: 620svh; }
+
+.story--binder .story__stage {
+  position: sticky;
+  top: var(--header-height);
+  height: calc(100svh - var(--header-height));
+  overflow: hidden;
+  background-color: var(--color-ink);
+  border-block: 1px solid var(--color-burgundy);
+}
+
+.story--binder .binder {
+  position: absolute;
+  inset: clamp(0.75rem, 2.5vw, 2rem);
+  width: auto;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+/* The rings: they stay put while everything turns around them */
+.story--binder .binder__spine {
+  display: flex;
+  flex: 0 0 var(--spine);
+  flex-direction: column;
+  justify-content: space-evenly;
+  position: relative;
+  z-index: 6;
+  pointer-events: none;
+}
+
+.story--binder .binder__spine::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 calc(50% - 0.2rem);
+  width: 0.4rem;
+  background-color: var(--color-ink-light);
+}
+
+.ring {
+  position: relative;
+  width: calc(var(--spine) + 2.25rem);
+  height: 1.9rem;
+  color: var(--color-ivory);
+  overflow: visible;
+}
+
+.ring path, .ring circle, .ring ellipse {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+
+.story--binder .binder__pages {
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  container-type: size;
+}
+
+.story--binder .fold {
+  --panel-size: calc(100cqw - 4 * var(--sliver));
+  --o: 0;
+  --d: 0;
+  flex: 0.001 1 var(--sliver);
+  min-width: var(--sliver);
+  margin: 0;
+  overflow: hidden;
+  border: 0;
+  border-left: 1px solid var(--line);
+}
+
+.story--binder .fold:first-child { border-left: 0; }
+
+/* The tab: a notched head at the top of each divider's edge */
+.story--binder .fold__tab {
+  position: absolute;
+  inset: 0 auto auto 0;
+  z-index: 2;
+  width: var(--sliver);
+  min-width: 0;
+  height: min(13rem, 55%);
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.9rem 0 1rem;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 1rem), calc(100% - 1rem) 100%, 0 100%);
+}
+
+.story--binder .fold__label {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  letter-spacing: 0.02em;
+}
+
+.story--binder .fold__tab[aria-current="step"] .fold__label { font-style: italic; }
+
+.story--binder .fold__body {
+  position: absolute;
+  inset: 0 auto 0 var(--sliver);
+  width: calc(var(--panel-size) - var(--sliver));
+  padding: clamp(1.25rem, 3.5vw, 3.5rem);
+  align-content: center;
+  opacity: clamp(0, calc((var(--o) - 0.4) * 2.2), 1);
+}
+
+.story--binder .fold__art {
+  --draw: clamp(0, calc((var(--o) - 0.35) * 1.8), 1);
+  translate: calc(var(--d) * -3.5rem) 0;
+}
+
+/* A large numeral behind the text, drifting slower than the page */
+.story--binder .fold__ghost {
+  display: block;
+  position: absolute;
+  right: -0.06em;
+  bottom: -0.22em;
+  z-index: 0;
+  font-size: clamp(14rem, 36vw, 30rem);
+  font-style: italic;
+  line-height: 1;
+  color: var(--accent);
+  opacity: 0.08;
+  pointer-events: none;
+  user-select: none;
+  translate: calc(var(--d) * 9rem) 0;
+}
+
+.story--binder .fold__text,
+.story--binder .fold__art { position: relative; z-index: 1; }
+
+/* The cover: hinged on the rings, swings open over the first divider */
+.story--binder .binder__cover {
+  position: absolute;
+  inset: 0 0 0 var(--spine);
+  z-index: 5;
+  display: grid;
+  place-content: center;
+  gap: 1.25rem;
+  padding: var(--gutter);
+  background-color: var(--color-burgundy);
+  color: var(--color-ivory);
+  border: 1px solid var(--color-ink-light);
+  transform-origin: left center;
+  transform: perspective(1800px) rotateY(calc(var(--open, 0) * -172deg));
+  backface-visibility: hidden;
+  pointer-events: none;
+  visibility: visible;
+}
+
+.story--binder[data-opened] .binder__cover { visibility: hidden; }
+
+.cover__frame {
+  position: absolute;
+  inset: 1rem;
+  border: 1px solid var(--color-ink-light);
+  pointer-events: none;
+}
+
+.cover__lockup {
+  font-size: clamp(3rem, 1rem + 8vw, 8rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  translate: calc(var(--open, 0) * -3rem) 0;
+}
+
+.cover__lockup b { font-weight: 700; }
+.cover__lockup i { font-weight: 400; font-style: italic; }
+
+.cover__tag {
+  font-size: var(--step-2);
+  font-style: italic;
+  max-width: 28ch;
+}
+
+.cover__meta {
+  font-size: var(--step--1);
+  font-style: italic;
+  color: var(--color-sky);
+}
+
+
+/* --------------------------------------------------------------------------
+   Phones: the binder turns on its side. Rings along the top, dividers stack
+   downward, the cover hinges at the top edge.
+   -------------------------------------------------------------------------- */
+@media (max-width: 47.99em) {
+  .story { --sliver: 2.75rem; --spine: 2.25rem; }
+
+  .story--binder .binder { flex-direction: column; }
+
+  .story--binder .binder__spine {
+    flex: 0 0 var(--spine);
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .story--binder .binder__spine::before {
+    inset: calc(50% - 0.2rem) 0 auto 0;
+    width: auto;
+    height: 0.4rem;
+  }
+
+  .ring {
+    width: 1.9rem;
+    height: calc(var(--spine) + 1.5rem);
+    transform: rotate(90deg);
+  }
+
+  .story--binder .binder__pages { flex-direction: column; }
+
+  .story--binder .fold {
+    --panel-size: calc(100cqh - 4 * var(--sliver));
+    min-width: 0;
+    min-height: var(--sliver);
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .story--binder .fold:first-child { border-top: 0; }
+
+  .story--binder .fold__tab {
+    inset: 0 auto auto 0;
+    width: min(13rem, 70%);
+    height: var(--sliver);
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 1rem;
+    clip-path: polygon(0 0, calc(100% - 1rem) 0, 100% 1rem, 100% 100%, 0 100%);
+  }
+
+  .story--binder .fold__label {
+    writing-mode: horizontal-tb;
+    transform: none;
+  }
+
+  .story--binder .fold__body {
+    inset: var(--sliver) 0 auto 0;
+    width: auto;
+    height: calc(var(--panel-size) - var(--sliver));
+    padding: 1rem var(--gutter) 1rem;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    align-content: start;
+  }
+
+  .story--binder .fold__title { font-size: clamp(1.9rem, 8.5vw, 2.6rem); margin-bottom: 0.75rem; }
+  .story--binder .fold__list { display: none; }
+  .story--binder .fold__art { width: min(40%, 8rem); justify-self: start; translate: none; }
+  .story--binder .fold__cta { margin-top: 1.25rem; }
+  .story--binder .fold__ghost { translate: none; font-size: 14rem; }
+
+  .story--binder .binder__cover {
+    inset: var(--spine) 0 0 0;
+    transform-origin: center top;
+    transform: perspective(1800px) rotateX(calc(var(--open, 0) * 172deg));
+  }
+
+  .cover__lockup { translate: none; }
+}
+
+
+/* Short phones: the art gives way so the words never clip */
+@media (max-width: 47.99em) and (max-height: 780px) {
+  .story--binder .fold__art { display: none; }
+}
+
+
+/* --------------------------------------------------------------------------
+   Parallax drifters elsewhere on the page (set by story.js, translate only)
+   -------------------------------------------------------------------------- */
+.has-drift { overflow: clip; }
+
+.drift {
+  position: absolute;
+  z-index: 1;
+  width: clamp(14rem, 34vw, 30rem);
+  height: auto;
+  color: var(--color-ivory);
+  opacity: 0.35;
+  pointer-events: none;
+  will-change: translate;
+}
+
+.drift circle, .drift path { fill: none; stroke: currentColor; stroke-width: 1; }
+.drift--right { right: -6rem; top: 10%; }
+.drift--left  { left: -8rem; bottom: -4rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .story *, .story { transition: none !important; animation: none !important; }
+  .drift { will-change: auto; }
+}

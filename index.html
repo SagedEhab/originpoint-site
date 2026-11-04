@@ -18,6 +18,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&display=swap">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="story.css">
 
   <!-- Flags that JS is available, so the menu and reveals can start in their resting state -->
   <script>document.documentElement.classList.add("js");</script>
@@ -73,7 +74,162 @@
           <span class="hero__hint-touch">Tap to send a ring.</span>
         </p>
       </div>
+    </section><section class="story" id="story" aria-labelledby="story-title">
+      <div class="container story__intro">
+        <p class="eyebrow">From first step to launch</p>
+        <h2 id="story-title">Open the file.<br><i>Follow the journey.</i></h2>
+        <p>Every project we take on moves through the same five stages, from a first conversation to a live product and beyond.</p>
+        <p class="story__hint" aria-hidden="true">Scroll to open the binder.</p>
+      </div>
+
+      <div class="story__track">
+        <div class="story__stage">
+          <div class="binder">
+            <div class="binder__spine" aria-hidden="true">
+              <svg class="ring" viewBox="0 0 80 28" focusable="false"><ellipse cx="40" cy="14" rx="38" ry="11"/><circle cx="72" cy="14" r="4"/></svg>
+              <svg class="ring" viewBox="0 0 80 28" focusable="false"><ellipse cx="40" cy="14" rx="38" ry="11"/><circle cx="72" cy="14" r="4"/></svg>
+              <svg class="ring" viewBox="0 0 80 28" focusable="false"><ellipse cx="40" cy="14" rx="38" ry="11"/><circle cx="72" cy="14" r="4"/></svg>
+              <svg class="ring" viewBox="0 0 80 28" focusable="false"><ellipse cx="40" cy="14" rx="38" ry="11"/><circle cx="72" cy="14" r="4"/></svg>
+              <svg class="ring" viewBox="0 0 80 28" focusable="false"><ellipse cx="40" cy="14" rx="38" ry="11"/><circle cx="72" cy="14" r="4"/></svg>
+            </div>
+
+            <div class="binder__pages">
+              <article class="fold fold--sky" aria-labelledby="fold-1-title">
+                <a class="fold__tab" href="#fold-1-title"><span class="fold__num">01</span><span class="fold__label">Clarity</span></a>
+                <span class="fold__ghost" aria-hidden="true">1</span>
+                <div class="fold__body">
+                  <div class="fold__text">
+                    <h3 class="fold__title" id="fold-1-title">Before anything is built, <i>we get clear.</i></h3>
+                    <p>We start by listening: what you do, who it is for, and what you want to be known for.</p>
+                    <ul class="fold__list" role="list">
+                      <li>Your offer, in one plain sentence</li>
+                      <li>Your customer, described honestly</li>
+                      <li>Your first priorities, in order</li>
+                    </ul>
+                  </div>
+                  <svg class="fold__art" viewBox="0 0 320 320" role="img" aria-label="Rings spreading outward from a single point">
+                    <path class="draw" pathLength="1" d="M160 6V314M6 160H314"/>
+                    <circle class="draw" pathLength="1" cx="160" cy="160" r="40"/>
+                    <circle class="draw" pathLength="1" cx="160" cy="160" r="80"/>
+                    <circle class="draw" pathLength="1" cx="160" cy="160" r="120"/>
+                    <circle class="solid" cx="160" cy="160" r="6"/>
+                    <text class="small" x="172" y="150">the origin point</text>
+                  </svg>
+                </div>
+              </article>
+
+              <article class="fold fold--paper" aria-labelledby="fold-2-title">
+                <a class="fold__tab" href="#fold-2-title"><span class="fold__num">02</span><span class="fold__label">Identity</span></a>
+                <span class="fold__ghost" aria-hidden="true">2</span>
+                <div class="fold__body">
+                  <div class="fold__text">
+                    <h3 class="fold__title" id="fold-2-title">Give it <i>a face.</i></h3>
+                    <p>Name, colour, type and voice, settled once and used everywhere, so every touchpoint feels like the same company.</p>
+                    <ul class="fold__list" role="list">
+                      <li>Logo and lockup</li>
+                      <li>Colour and typography</li>
+                      <li>Voice and tone</li>
+                    </ul>
+                  </div>
+                  <svg class="fold__art" viewBox="0 0 320 320" role="img" aria-label="An example logo lockup above a row of brand colour swatches">
+                    <path class="draw" pathLength="1" d="M20 60V20H60M260 20H300V60M300 200V240H260M60 240H20V200"/>
+                    <text class="lockup" x="160" y="140" text-anchor="middle"><tspan font-weight="700">Origin</tspan><tspan font-style="italic">Point</tspan></text>
+                    <rect x="20" y="272" width="48" height="32" fill="#5A0012" stroke="currentColor"/>
+                    <rect x="82" y="272" width="48" height="32" fill="#2A0009" stroke="currentColor"/>
+                    <rect x="144" y="272" width="48" height="32" fill="#BFD5F2" stroke="currentColor"/>
+                    <rect x="206" y="272" width="48" height="32" fill="#F7F3EC" stroke="currentColor"/>
+                    <rect x="268" y="272" width="32" height="32" fill="#6E9BD4" stroke="currentColor"/>
+                    <text class="small" x="20" y="262">Illustrative</text>
+                  </svg>
+                </div>
+              </article>
+
+              <article class="fold fold--wash" aria-labelledby="fold-3-title">
+                <a class="fold__tab" href="#fold-3-title"><span class="fold__num">03</span><span class="fold__label">Build</span></a>
+                <span class="fold__ghost" aria-hidden="true">3</span>
+                <div class="fold__body">
+                  <div class="fold__text">
+                    <h3 class="fold__title" id="fold-3-title">Build <i>the front door.</i></h3>
+                    <p>A website that says plainly what you do and makes the next step obvious, on any screen.</p>
+                    <ul class="fold__list" role="list">
+                      <li>Domain, hosting and pages</li>
+                      <li>One clear way to get in touch</li>
+                      <li>Readable on phone and desktop</li>
+                    </ul>
+                  </div>
+                  <svg class="fold__art" viewBox="0 0 320 320" role="img" aria-label="A simple wireframe of a website page">
+                    <rect class="draw" pathLength="1" x="20" y="30" width="280" height="260"/>
+                    <path class="draw" pathLength="1" d="M20 62H300M44 46H92M220 46H276"/>
+                    <path class="draw" pathLength="1" d="M44 110H200M44 128H160M44 146H180"/>
+                    <rect class="solid" x="44" y="170" width="76" height="24"/>
+                    <rect class="draw" pathLength="1" x="44" y="226" width="68" height="46"/>
+                    <rect class="draw" pathLength="1" x="126" y="226" width="68" height="46"/>
+                    <rect class="draw" pathLength="1" x="208" y="226" width="68" height="46"/>
+                  </svg>
+                </div>
+              </article>
+
+              <article class="fold fold--plate" aria-labelledby="fold-4-title">
+                <a class="fold__tab" href="#fold-4-title"><span class="fold__num">04</span><span class="fold__label">Connect</span></a>
+                <span class="fold__ghost" aria-hidden="true">4</span>
+                <div class="fold__body">
+                  <div class="fold__text">
+                    <h3 class="fold__title" id="fold-4-title">Connect <i>the pieces.</i></h3>
+                    <p>AI agents, customer data and internal tools joined to your website, so an enquiry reaches the people who can act on it.</p>
+                    <ul class="fold__list" role="list">
+                      <li>AI agents and chatbots</li>
+                      <li>Customer records and reporting</li>
+                      <li>Integrations between your tools</li>
+                    </ul>
+                  </div>
+                  <svg class="fold__art" viewBox="0 0 320 320" role="img" aria-label="Four connected points: website, AI agent, customer data and your team">
+                    <path class="draw" pathLength="1" d="M60 70H260L60 160H260L160 270"/>
+                    <circle class="solid" cx="60" cy="70" r="9"/>
+                    <circle class="solid" cx="260" cy="70" r="9"/>
+                    <circle class="solid" cx="60" cy="160" r="9"/>
+                    <circle class="solid" cx="260" cy="160" r="9"/>
+                    <circle class="solid" cx="160" cy="270" r="9"/>
+                    <text class="small" x="60" y="52" text-anchor="middle">Website</text>
+                    <text class="small" x="260" y="52" text-anchor="middle">AI agent</text>
+                    <text class="small" x="60" y="190" text-anchor="middle">Data</text>
+                    <text class="small" x="260" y="190" text-anchor="middle">Tools</text>
+                    <text class="small" x="160" y="300" text-anchor="middle">Your team</text>
+                  </svg>
+                </div>
+              </article>
+
+              <article class="fold fold--ink" aria-labelledby="fold-5-title">
+                <a class="fold__tab" href="#fold-5-title"><span class="fold__num">05</span><span class="fold__label">Launch</span></a>
+                <span class="fold__ghost" aria-hidden="true">5</span>
+                <div class="fold__body">
+                  <div class="fold__text">
+                    <h3 class="fold__title" id="fold-5-title">Launch, <i>and keep going.</i></h3>
+                    <p>We go live with you, then stay on. Hosting, maintenance and improvements are included.</p>
+                    <p class="fold__cta"><a class="button" href="contact.html">Start a conversation ↗</a></p>
+                  </div>
+                  <svg class="fold__art" viewBox="0 0 320 320" role="img" aria-label="Rings spreading outward from a single point, now live">
+                    <circle class="draw" pathLength="1" cx="160" cy="160" r="40"/>
+                    <circle class="draw" pathLength="1" cx="160" cy="160" r="80"/>
+                    <circle class="draw" pathLength="1" cx="160" cy="160" r="120"/>
+                    <circle class="draw" pathLength="1" cx="160" cy="160" r="156"/>
+                    <circle class="solid" cx="160" cy="160" r="8"/>
+                    <text class="small" x="160" y="196" text-anchor="middle">Live</text>
+                  </svg>
+                </div>
+              </article>
+            </div>
+
+            <div class="binder__cover" aria-hidden="true">
+              <span class="cover__frame"></span>
+              <p class="cover__lockup"><b>Origin</b><i>Point</i></p>
+              <p class="cover__tag">Clarity at the starting line.</p>
+              <p class="cover__meta">Your file · From first step to launch</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </section><section class="section directory-section section--ivory"><div class="container"><div class="hero-directory"><a href="services.html"><span>01 / Capabilities</span>What can we build?<b aria-hidden="true">↗</b></a><a href="process.html"><span>02 / Your next step</span>Find your stage.<b aria-hidden="true">↗</b></a><a href="about.html"><span>03 / The approach</span>Meet your digital partner.<b aria-hidden="true">↗</b></a></div></div></section><section class="section section--ink system-section"><div class="container system-layout"><div><p class="eyebrow">Built to work together</p><h2>Separate pieces.<br><i>One system.</i></h2><p class="section-intro">Explore how a customer enquiry moves from a website to the people who can act on it.</p><a class="text-link" href="services.html">Explore our capabilities ↗</a></div><div class="system-demo"><div class="system-controls" aria-label="Explore the connected system"><button type="button" data-system="0" aria-pressed="true">Website</button><button type="button" data-system="1" aria-pressed="false">AI agent</button><button type="button" data-system="2" aria-pressed="false">Customer data</button><button type="button" data-system="3" aria-pressed="false">Your team</button></div><div class="system-result" aria-live="polite"><span class="system-number" aria-hidden="true">01</span><h3 id="system-title">A clear first impression.</h3><p id="system-copy">Your customer finds what they need and starts a conversation, without getting lost between tools.</p><span class="sample-label">Illustrative workflow</span></div><div class="system-track" aria-hidden="true"><span class="active"></span><span></span><span></span><span></span></div></div></div></section><section class="section section--plate" id="why" aria-labelledby="why-title">
+      <svg class="drift drift--right" data-drift="-0.12" viewBox="0 0 200 200" aria-hidden="true" focusable="false"><circle cx="100" cy="100" r="30"/><circle cx="100" cy="100" r="60"/><circle cx="100" cy="100" r="90"/></svg>
       <div class="container">
         <header class="section-head">
           <h2 id="why-title">Why Origin<span class="lockup-point">Point</span></h2>
@@ -94,7 +250,7 @@
           </li>
         </ul>
       </div>
-    </section><section class="section section--burgundy next-step"><div class="container"><p class="eyebrow">Your next chapter</p><a class="giant-link" href="contact.html">Let’s find your<br><i>starting point.</i><span aria-hidden="true">↗</span></a><p>A first conversation. A clearer direction.</p></div></section></main><footer class="site-footer">
+    </section><section class="section section--burgundy next-step"><svg class="drift drift--left" data-drift="0.1" viewBox="0 0 200 200" aria-hidden="true" focusable="false"><circle cx="100" cy="100" r="30"/><circle cx="100" cy="100" r="60"/><circle cx="100" cy="100" r="90"/></svg><div class="container"><p class="eyebrow">Your next chapter</p><a class="giant-link" href="contact.html">Let’s find your<br><i>starting point.</i><span aria-hidden="true">↗</span></a><p>A first conversation. A clearer direction.</p></div></section></main><footer class="site-footer">
     <svg class="reg reg--bl" aria-hidden="true" focusable="false"><use href="#reg-mark"/></svg>
     <svg class="reg reg--br" aria-hidden="true" focusable="false"><use href="#reg-mark"/></svg>
 
@@ -122,4 +278,5 @@
     </div>
   </footer>
 
-  <script src="site.js" defer></script></body></html>
+  <script src="site.js" defer></script>
+  <script src="story.js" defer></script></body></html>
