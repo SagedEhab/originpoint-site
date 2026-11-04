@@ -21,8 +21,9 @@
   var tabs = folds.map(function (f) { return f.querySelector(".fold__tab"); });
   var bodies = folds.map(function (f) { return f.querySelector(".fold__body"); });
   var n = folds.length;
-  var OPEN_END = 0.14;   // share of the scroll spent swinging the cover open
-  var HOLD = 0.06;       // share held on the last divider
+  var OPEN_END = 0.12;   // share of the scroll spent swinging the cover open
+  var HOLD = 1;          // scroll weight a divider rests for
+  var TURN = 0.55;       // scroll weight of the turn between two dividers
   var headerH = 0;
   var visible = false;
   var ticking = false;
@@ -35,6 +36,26 @@
     headerH = h ? h.getBoundingClientRect().height : 0;
   }
 
+  // Maps scroll (0..1) to a position 0..n-1 that rests on every whole number,
+  // so each divider holds still for a few scrolls before the next one turns.
+  function stepped(s) {
+    var u = s * (n * HOLD + (n - 1) * TURN);
+    for (var i = 0; i < n; i++) {
+      if (u <= HOLD) return i;
+      u -= HOLD;
+      if (i === n - 1) break;
+      if (u <= TURN) { var k = u / TURN; return i + k * k * (3 - 2 * k); }
+      u -= TURN;
+    }
+    return n - 1;
+  }
+
+  // Inverse of stepped() at a resting point, for the tab buttons
+  function restAt(i) {
+    var total = n * HOLD + (n - 1) * TURN;
+    return (i * (HOLD + TURN) + HOLD / 2) / total;
+  }
+
   function progress() {
     var rect = track.getBoundingClientRect();
     var span = rect.height - stage.offsetHeight;
@@ -45,7 +66,7 @@
     ticking = false;
     var p = progress();
     var open = clamp(p / OPEN_END, 0, 1);
-    var t = clamp((p - OPEN_END) / (1 - OPEN_END - HOLD), 0, 1) * (n - 1);
+    var t = stepped(clamp((p - OPEN_END) / (1 - OPEN_END), 0, 1));
     if (Math.abs(open - last.open) < 0.0005 && Math.abs(t - last.t) < 0.0005) return;
     last.open = open;
     last.t = t;
@@ -80,7 +101,7 @@
       e.preventDefault();
       var rect = track.getBoundingClientRect();
       var span = rect.height - stage.offsetHeight;
-      var target = OPEN_END + (1 - OPEN_END - HOLD) * (i / (n - 1));
+      var target = OPEN_END + (1 - OPEN_END) * restAt(i);
       var y = window.scrollY + rect.top - headerH + target * span + 2;
       window.scrollTo({ top: y, behavior: "smooth" });
     });
