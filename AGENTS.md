@@ -41,9 +41,9 @@ Colours (CSS custom properties at `:root`):
 |---|---|---|---|
 | `--color-burgundy` | Dark Purple (Pantone 19-2524 TCX) | `#592148` | logo, headings, accents, hairlines, buttons, closing field |
 | `--color-ink` | Deep purple ink (a shade of Dark Purple) | `#311228` | dark fields, display type |
-| `--color-ink-light` | Green Olive (Pantone 17-0535 TCX) | `#8C8B55` | numerals, hairlines on dark fields, the hero disc |
-| `--color-sky` | Sunshine (Pantone 12-0727 TCX) | `#F9DE85` | hero field, highlights, tabs on dark fields |
-| `--color-plate` | Green Olive | `#8C8B55` | large rich fields, with dark text |
+| `--color-ink-light` | Green Olive (Pantone 17-0535 TCX) | `#8C8B55` | numerals, hairlines on dark fields |
+| `--color-sky` | Sunshine (Pantone 12-0727 TCX) | `#F9DE85` | the "Why" field, the hero disc, highlights, tabs on dark fields |
+| `--color-plate` | Green Olive | `#8C8B55` | hero and page-header fields, binder page 1, with dark text |
 | `--color-wash` | Pale wash (a tint of Sunshine) | `#F6ECCB` | quiet fields |
 | `--color-ivory` | Soft ivory | `#F7F3EC` | header, cards, paper sections |
 | `--color-paper` | Warm paper | `#EFE8DC` | letter-like fields |
@@ -52,7 +52,8 @@ Colours (CSS custom properties at `:root`):
 The Pantone hex values were sampled from the colour reference image, so treat them as close
 matches, not official Pantone values. The token names are historical (they date from the
 earlier blue and burgundy palette): `--color-sky` is now Sunshine yellow and `--color-burgundy`
-is Dark Purple. Keep the names stable; change the values. Green Olive is a mid-tone: use dark
+is Dark Purple. The class names follow the old roles too: `.section--sky` (hero, page headers)
+is now Green Olive and `.section--plate` (the "Why" section) is now Sunshine. Keep the names stable; change the values. Green Olive is a mid-tone: use dark
 text on it, never ivory body text.
 
 - **Type:** Playfair Display throughout, body at 1.7 line-height, body lines under 75

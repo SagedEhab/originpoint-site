@@ -59,14 +59,14 @@
   vector-effect: non-scaling-stroke;
 }
 
-/* Near: one solid Green Olive disc that sweeps up past the text and out */
+/* Near: one solid Sunshine disc that sweeps up past the text and out */
 .depth--near {
   right: clamp(1.5rem, 9vw, 9rem);
   bottom: 26%;
   width: clamp(7rem, 18vw, 17rem);
   aspect-ratio: 1;
   border-radius: 50%;          /* a true circle, the origin mark's ring */
-  background-color: var(--color-ink-light);
+  background-color: var(--color-sky);
   opacity: 0.9;
 }
 
@@ -127,3 +127,7 @@
 @media (prefers-reduced-motion: reduce) {
   .depth, .hero__content { will-change: auto; }
 }
+
+/* The hero field is Green Olive, a mid-tone: small copy takes the dark ink */
+.hero .eyebrow,
+.hero__hint { color: var(--color-ink); }

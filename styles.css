@@ -272,13 +272,22 @@ input, button, select, textarea {
 }
 
 /* Fields, and the contextual colours each one sets */
-.section--sky   { background-color: var(--color-sky); }
+/* The pale-sky class now holds Green Olive (hero and page headers); dark text on a mid-tone */
+.section--sky {
+  background-color: var(--color-plate);
+  --text: var(--color-ink);
+  --heading: var(--color-ink);
+  --accent: var(--color-ink);
+  --line: var(--color-ink);
+  --focus: var(--color-ink);
+}
 .section--ivory { background-color: var(--color-ivory); }
 .section--paper { background-color: var(--color-paper); }
 .section--wash  { background-color: var(--color-wash); }
 
+/* The plate class now holds Sunshine (the "Why" field) */
 .section--plate {
-  background-color: var(--color-plate);
+  background-color: var(--color-sky);
   --text: var(--color-ink);
   --heading: var(--color-ink);
   --accent: var(--color-ink);
@@ -808,7 +817,7 @@ input, button, select, textarea {
 
 
 /* --------------------------------------------------------------------------
-   8. Why OriginPoint — the Green Olive field
+   8. Why OriginPoint — the Sunshine field
    -------------------------------------------------------------------------- */
 .reasons {
   display: grid;

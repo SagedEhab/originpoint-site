@@ -53,12 +53,12 @@
 .binder__cover { display: none; }
 
 .fold {
-  --fold-bg: var(--color-sky);
-  --text: var(--color-charcoal);
-  --heading: var(--color-burgundy);
-  --accent: var(--color-burgundy);
-  --line: var(--color-burgundy);
-  --focus: var(--color-burgundy);
+  --fold-bg: var(--color-plate);
+  --text: var(--color-ink);
+  --heading: var(--color-ink);
+  --accent: var(--color-ink);
+  --line: var(--color-ink);
+  --focus: var(--color-ink);
   --tab-bg: var(--color-burgundy);
   --tab-fg: var(--color-ivory);
   position: relative;
@@ -68,6 +68,14 @@
   color: var(--text);
 }
 
+.fold--paper,
+.fold--wash {
+  --text: var(--color-charcoal);
+  --heading: var(--color-burgundy);
+  --accent: var(--color-burgundy);
+  --line: var(--color-burgundy);
+  --focus: var(--color-burgundy);
+}
 .fold--paper { --fold-bg: var(--color-paper); }
 .fold--wash  { --fold-bg: var(--color-wash); }
 .fold--purple {
@@ -81,7 +89,7 @@
   --tab-fg: var(--color-ink);
 }
 .fold--plate {
-  --fold-bg: var(--color-plate);
+  --fold-bg: var(--color-sky);
   --text: var(--color-ink);
   --heading: var(--color-ink);
   --accent: var(--color-ink);
