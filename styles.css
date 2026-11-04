@@ -22,12 +22,13 @@
    -------------------------------------------------------------------------- */
 :root {
   /* Brand colours */
-  --color-burgundy: #5A0012;   /* Deep Burgundy — logo, headings, accents, hairlines */
-  --color-ink: #2A0009;        /* Near-black ink — dark fields, display type */
-  --color-ink-light: #7A2333;  /* Lighter ink — numerals, hairlines on dark fields */
-  --color-sky: #BFD5F2;        /* Pale Sky Blue — the hero field */
-  --color-plate: #6E9BD4;      /* Deep plate blue — large rich fields */
-  --color-wash: #E4EDF9;       /* Pale wash — quiet blue fields */
+  --color-burgundy: #7F3B25;   /* Roycroft Copper Red: logo, headings, accents, hairlines */
+  --color-ink: #462014;        /* Deep copper ink (a shade of Copper Red): dark fields, display type */
+  --color-ink-light: #B57056;  /* Sunburn: numerals, hairlines on dark fields */
+  --color-sky: #DCCD8B;        /* Master Key: the hero field */
+  --color-plate: #475480;      /* Mozart: large rich fields */
+  --color-pear: #A7993C;       /* Prickly Pear: a secondary field */
+  --color-wash: #EEE6C8;       /* Pale wash (a tint of Master Key): quiet fields */
   --color-ivory: #F7F3EC;      /* Soft Ivory — header, cards, paper sections */
   --color-paper: #EFE8DC;      /* Warm paper — letter-like fields */
   --color-charcoal: #26242A;   /* Muted Charcoal — body copy on light fields */
@@ -279,11 +280,11 @@ input, button, select, textarea {
 
 .section--plate {
   background-color: var(--color-plate);
-  --text: var(--color-ink);
-  --heading: var(--color-ink);
-  --accent: var(--color-ink);
-  --line: var(--color-ink);
-  --focus: var(--color-ink);
+  --text: var(--color-ivory);
+  --heading: var(--color-ivory);
+  --accent: var(--color-sky);
+  --line: var(--color-ink-light);
+  --focus: var(--color-sky);
 }
 
 .section--ink {
@@ -808,7 +809,7 @@ input, button, select, textarea {
 
 
 /* --------------------------------------------------------------------------
-   8. Why OriginPoint — the plate-blue field
+   8. Why OriginPoint — the Mozart field
    -------------------------------------------------------------------------- */
 .reasons {
   display: grid;
@@ -952,7 +953,7 @@ input, button, select, textarea {
 .field__control--select {
   appearance: none;
   padding-right: 3rem;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 8'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%235A0012' stroke-width='1.25'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 8'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%237F3B25' stroke-width='1.25'/%3E%3C/svg%3E");
   background-position: right 1.125rem center;
   background-repeat: no-repeat;
   background-size: 0.875rem auto;
