@@ -70,24 +70,24 @@
 
 .fold--paper { --fold-bg: var(--color-paper); }
 .fold--wash  { --fold-bg: var(--color-wash); }
-.fold--pear {
-  --fold-bg: var(--color-pear);
+.fold--purple {
+  --fold-bg: var(--color-burgundy);
+  --text: var(--color-ivory);
+  --heading: var(--color-ivory);
+  --accent: var(--color-sky);
+  --line: var(--color-ink-light);
+  --focus: var(--color-sky);
+  --tab-bg: var(--color-sky);
+  --tab-fg: var(--color-ink);
+}
+.fold--plate {
+  --fold-bg: var(--color-plate);
   --text: var(--color-ink);
   --heading: var(--color-ink);
   --accent: var(--color-ink);
   --line: var(--color-ink);
   --focus: var(--color-ink);
   --tab-bg: var(--color-ink);
-}
-.fold--plate {
-  --fold-bg: var(--color-plate);
-  --text: var(--color-ivory);
-  --heading: var(--color-ivory);
-  --accent: var(--color-sky);
-  --line: var(--color-ink-light);
-  --focus: var(--color-sky);
-  --tab-bg: var(--color-ink);
-  --tab-fg: var(--color-ivory);
 }
 .fold--ink {
   --fold-bg: var(--color-ink);

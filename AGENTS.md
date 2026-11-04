@@ -39,20 +39,21 @@ Colours (CSS custom properties at `:root`):
 
 | Token (CSS name) | Colour | Hex | Use |
 |---|---|---|---|
-| `--color-burgundy` | Roycroft Copper Red | `#7F3B25` | logo, headings, accents, hairlines, buttons |
-| `--color-ink` | Deep copper ink (a shade of Copper Red) | `#462014` | dark fields, display type |
-| `--color-ink-light` | Sunburn | `#B57056` | numerals, hairlines on dark fields, the hero disc |
-| `--color-sky` | Master Key | `#DCCD8B` | hero field, quiet highlights |
-| `--color-pear` | Prickly Pear | `#A7993C` | secondary field (binder page 3) |
-| `--color-plate` | Mozart | `#475480` | large rich fields, with ivory text |
-| `--color-wash` | Pale wash (a tint of Master Key) | `#EEE6C8` | quiet fields |
+| `--color-burgundy` | Dark Purple (Pantone 19-2524 TCX) | `#592148` | logo, headings, accents, hairlines, buttons, closing field |
+| `--color-ink` | Deep purple ink (a shade of Dark Purple) | `#311228` | dark fields, display type |
+| `--color-ink-light` | Green Olive (Pantone 17-0535 TCX) | `#8C8B55` | numerals, hairlines on dark fields, the hero disc |
+| `--color-sky` | Sunshine (Pantone 12-0727 TCX) | `#F9DE85` | hero field, highlights, tabs on dark fields |
+| `--color-plate` | Green Olive | `#8C8B55` | large rich fields, with dark text |
+| `--color-wash` | Pale wash (a tint of Sunshine) | `#F6ECCB` | quiet fields |
 | `--color-ivory` | Soft ivory | `#F7F3EC` | header, cards, paper sections |
 | `--color-paper` | Warm paper | `#EFE8DC` | letter-like fields |
 | `--color-charcoal` | Muted charcoal | `#26242A` | body copy on light fields |
 
-The token names are historical (they date from the earlier blue and burgundy palette), so
-`--color-sky` is now Master Key yellow and `--color-burgundy` is copper red. Keep the names
-stable; change the values. Sunburn and Prickly Pear are mid-tones: do not put body text on them.
+The Pantone hex values were sampled from the colour reference image, so treat them as close
+matches, not official Pantone values. The token names are historical (they date from the
+earlier blue and burgundy palette): `--color-sky` is now Sunshine yellow and `--color-burgundy`
+is Dark Purple. Keep the names stable; change the values. Green Olive is a mid-tone: use dark
+text on it, never ivory body text.
 
 - **Type:** Playfair Display throughout, body at 1.7 line-height, body lines under 75
   characters.

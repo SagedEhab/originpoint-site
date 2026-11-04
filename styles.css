@@ -22,13 +22,12 @@
    -------------------------------------------------------------------------- */
 :root {
   /* Brand colours */
-  --color-burgundy: #7F3B25;   /* Roycroft Copper Red: logo, headings, accents, hairlines */
-  --color-ink: #462014;        /* Deep copper ink (a shade of Copper Red): dark fields, display type */
-  --color-ink-light: #B57056;  /* Sunburn: numerals, hairlines on dark fields */
-  --color-sky: #DCCD8B;        /* Master Key: the hero field */
-  --color-plate: #475480;      /* Mozart: large rich fields */
-  --color-pear: #A7993C;       /* Prickly Pear: a secondary field */
-  --color-wash: #EEE6C8;       /* Pale wash (a tint of Master Key): quiet fields */
+  --color-burgundy: #592148;    /* Dark Purple: logo, headings, accents, hairlines */
+  --color-ink: #311228;         /* Deep purple ink (a shade of Dark Purple): dark fields, display type */
+  --color-ink-light: #8C8B55;   /* Green Olive: numerals, hairlines on dark fields */
+  --color-sky: #F9DE85;         /* Sunshine: the hero field */
+  --color-plate: #8C8B55;       /* Green Olive: large rich fields, dark text on it */
+  --color-wash: #F6ECCB;        /* Pale wash (a tint of Sunshine): quiet fields */
   --color-ivory: #F7F3EC;      /* Soft Ivory — header, cards, paper sections */
   --color-paper: #EFE8DC;      /* Warm paper — letter-like fields */
   --color-charcoal: #26242A;   /* Muted Charcoal — body copy on light fields */
@@ -280,11 +279,11 @@ input, button, select, textarea {
 
 .section--plate {
   background-color: var(--color-plate);
-  --text: var(--color-ivory);
-  --heading: var(--color-ivory);
-  --accent: var(--color-sky);
-  --line: var(--color-ink-light);
-  --focus: var(--color-sky);
+  --text: var(--color-ink);
+  --heading: var(--color-ink);
+  --accent: var(--color-ink);
+  --line: var(--color-ink);
+  --focus: var(--color-ink);
 }
 
 .section--ink {
@@ -809,7 +808,7 @@ input, button, select, textarea {
 
 
 /* --------------------------------------------------------------------------
-   8. Why OriginPoint — the Mozart field
+   8. Why OriginPoint — the Green Olive field
    -------------------------------------------------------------------------- */
 .reasons {
   display: grid;
@@ -953,7 +952,7 @@ input, button, select, textarea {
 .field__control--select {
   appearance: none;
   padding-right: 3rem;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 8'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%237F3B25' stroke-width='1.25'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 8'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%23592148' stroke-width='1.25'/%3E%3C/svg%3E");
   background-position: right 1.125rem center;
   background-repeat: no-repeat;
   background-size: 0.875rem auto;
