@@ -219,7 +219,8 @@
   position: absolute;
   inset: 0 auto 0 calc(50% - 0.2rem);
   width: 0.4rem;
-  background-color: var(--color-ink-light);
+  /* the rod the rings are threaded on: brushed silver */
+  background: linear-gradient(90deg, #6B737B, #EEF1F4 38%, #9AA2AA 62%, #565D64);
 }
 
 .ring {
@@ -230,11 +231,10 @@
   overflow: visible;
 }
 
-.ring path, .ring circle, .ring ellipse {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.5;
-}
+/* Steel ring hardware: a dark edge under a polished silver face */
+.ring path, .ring circle, .ring ellipse { fill: none; }
+.ring__edge  { stroke: #4B5259; stroke-width: 3.8; }
+.ring__metal { stroke: url(#silver-ring); stroke-width: 2.3; }
 
 .story--binder .binder__pages {
   position: relative;
@@ -386,6 +386,7 @@
     inset: calc(50% - 0.2rem) 0 auto 0;
     width: auto;
     height: 0.4rem;
+    background: linear-gradient(180deg, #6B737B, #EEF1F4 38%, #9AA2AA 62%, #565D64);
   }
 
   .ring {
@@ -463,13 +464,12 @@
   z-index: 1;
   width: clamp(14rem, 34vw, 30rem);
   height: auto;
-  color: var(--color-ivory);
-  opacity: 0.18;
+  opacity: 0.4;
   pointer-events: none;
   will-change: translate;
 }
 
-.drift circle, .drift path { fill: none; stroke: currentColor; stroke-width: 1; }
+.drift circle, .drift path { fill: none; stroke: url(#silver-line); stroke-width: 1.4; }
 .drift--right { right: -6rem; top: 10%; }
 .drift--left  { left: -8rem; bottom: -4rem; }
 

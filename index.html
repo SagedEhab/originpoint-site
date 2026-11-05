@@ -31,6 +31,15 @@
 
   <!-- Registration mark from the brand sheet, drawn once and reused -->
   <svg class="sprite" aria-hidden="true" focusable="false">
+    <defs>
+      <!-- Polished silver: bright, shadow, bright, shadow, bright. Used by every ring on the page -->
+      <linearGradient id="silver-ring" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#F7F9FB"/><stop offset="0.3" stop-color="#9AA2AA"/><stop offset="0.5" stop-color="#EEF1F4"/><stop offset="0.75" stop-color="#737B83"/><stop offset="1" stop-color="#D9DEE2"/>
+      </linearGradient>
+      <linearGradient id="silver-line" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#F7F9FB"/><stop offset="0.25" stop-color="#97A0A8"/><stop offset="0.5" stop-color="#EEF1F4"/><stop offset="0.75" stop-color="#6F777F"/><stop offset="1" stop-color="#DCE0E4"/>
+      </linearGradient>
+    </defs>
     <symbol id="reg-mark" viewBox="0 0 24 24">
       <circle cx="12" cy="12" r="6.5" fill="none" stroke="currentColor"/>
       <path d="M12 0v24M0 12h24" fill="none" stroke="currentColor"/>
@@ -94,11 +103,11 @@
         <div class="story__stage">
           <div class="binder">
             <div class="binder__spine" aria-hidden="true">
-              <svg class="ring" viewBox="0 0 80 28" focusable="false"><ellipse cx="40" cy="14" rx="38" ry="11"/><circle cx="72" cy="14" r="4"/></svg>
-              <svg class="ring" viewBox="0 0 80 28" focusable="false"><ellipse cx="40" cy="14" rx="38" ry="11"/><circle cx="72" cy="14" r="4"/></svg>
-              <svg class="ring" viewBox="0 0 80 28" focusable="false"><ellipse cx="40" cy="14" rx="38" ry="11"/><circle cx="72" cy="14" r="4"/></svg>
-              <svg class="ring" viewBox="0 0 80 28" focusable="false"><ellipse cx="40" cy="14" rx="38" ry="11"/><circle cx="72" cy="14" r="4"/></svg>
-              <svg class="ring" viewBox="0 0 80 28" focusable="false"><ellipse cx="40" cy="14" rx="38" ry="11"/><circle cx="72" cy="14" r="4"/></svg>
+              <svg class="ring" viewBox="0 0 80 28" focusable="false"><ellipse class="ring__edge" cx="40" cy="14" rx="38" ry="11"/><ellipse class="ring__metal" cx="40" cy="14" rx="38" ry="11"/><circle class="ring__edge" cx="72" cy="14" r="4"/><circle class="ring__metal" cx="72" cy="14" r="4"/></svg>
+              <svg class="ring" viewBox="0 0 80 28" focusable="false"><ellipse class="ring__edge" cx="40" cy="14" rx="38" ry="11"/><ellipse class="ring__metal" cx="40" cy="14" rx="38" ry="11"/><circle class="ring__edge" cx="72" cy="14" r="4"/><circle class="ring__metal" cx="72" cy="14" r="4"/></svg>
+              <svg class="ring" viewBox="0 0 80 28" focusable="false"><ellipse class="ring__edge" cx="40" cy="14" rx="38" ry="11"/><ellipse class="ring__metal" cx="40" cy="14" rx="38" ry="11"/><circle class="ring__edge" cx="72" cy="14" r="4"/><circle class="ring__metal" cx="72" cy="14" r="4"/></svg>
+              <svg class="ring" viewBox="0 0 80 28" focusable="false"><ellipse class="ring__edge" cx="40" cy="14" rx="38" ry="11"/><ellipse class="ring__metal" cx="40" cy="14" rx="38" ry="11"/><circle class="ring__edge" cx="72" cy="14" r="4"/><circle class="ring__metal" cx="72" cy="14" r="4"/></svg>
+              <svg class="ring" viewBox="0 0 80 28" focusable="false"><ellipse class="ring__edge" cx="40" cy="14" rx="38" ry="11"/><ellipse class="ring__metal" cx="40" cy="14" rx="38" ry="11"/><circle class="ring__edge" cx="72" cy="14" r="4"/><circle class="ring__metal" cx="72" cy="14" r="4"/></svg>
             </div>
 
             <div class="binder__pages">

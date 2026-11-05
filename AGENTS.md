@@ -65,6 +65,9 @@ mid-tone: use the dark ink on it, never ivory body text.
 - **Look:** generous whitespace, editorial not SaaS. 1px burgundy hairlines instead of
   shadows. No gradients as decoration, no glassmorphism, no blur, no uniform rounded corners,
   no stock photography.
+  One deliberate exception: every ring (the hero ripples, the binder hardware, the slow
+  background and drifting rings) is polished silver. The gradient is the material, not
+  decoration; do not use gradients anywhere else.
 
 ### Must not regress
 

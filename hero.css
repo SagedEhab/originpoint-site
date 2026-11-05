@@ -29,14 +29,13 @@
   right: -14%;
   width: clamp(26rem, 62vw, 56rem);
   height: auto;
-  color: var(--color-sky);
-  opacity: 0.16;
+  opacity: 0.38;
 }
 
 .depth--far circle {
   fill: none;
-  stroke: currentColor;
-  stroke-width: 1;
+  stroke: url(#silver-line);
+  stroke-width: 1.6;
 }
 
 .depth--far .depth__spin {
@@ -116,7 +115,7 @@
   to   { clip-path: inset(-0.1em -0.3em -0.2em -0.05em); }
 }
 @keyframes hero-fade      { from { opacity: 0; } to { opacity: 1; } }
-@keyframes hero-fade-far  { from { opacity: 0; } to { opacity: 0.14; } }
+@keyframes hero-fade-far  { from { opacity: 0; } to { opacity: 0.38; } }
 @keyframes hero-fade-mid  { from { opacity: 0; } to { opacity: 0.11; } }
 @keyframes hero-disc {
   from { opacity: 0; scale: 0.55; }

@@ -15,7 +15,8 @@
       var scratch = document.createElement("canvas");
       var sctx = scratch.getContext("2d");
 
-      var INK = "226,213,187";     // Parchment, drawn on the Cobalt Dust hero
+      // Polished silver: bright, shadow, bright, shadow, bright, run diagonally across each ring
+      var SILVER = [[0, "247,249,251"], [0.25, "151,160,168"], [0.5, "238,241,244"], [0.75, "111,119,127"], [1, "220,224,228"]];
       var MAX_RINGS = 12;
       var LIFETIME = 22;          // seconds for an ambient ring to reach full size
       var EASE = 0.02;            // origin moves 2% of the way to its target per frame
@@ -125,6 +126,12 @@
         draw();
       }
 
+      function silver(x, y, r, a) {
+        var g = ctx.createLinearGradient(x - r, y - r, x + r, y + r);
+        for (var s = 0; s < SILVER.length; s++) g.addColorStop(SILVER[s][0], "rgba(" + SILVER[s][1] + "," + a.toFixed(3) + ")");
+        return g;
+      }
+
       function draw() {
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.globalCompositeOperation = "source-over";
@@ -135,14 +142,14 @@
           var ring = rings[i];
           var a = ring.alpha * Math.pow(1 - ring.r / maxR, 1.6) * Math.min(1, ring.r / 30);
           if (a < 0.004) continue;
-          ctx.lineWidth = ring.width;
-          ctx.strokeStyle = "rgba(" + INK + "," + a.toFixed(3) + ")";
+          ctx.lineWidth = ring.width * 1.2;
+          ctx.strokeStyle = silver(ring.x, ring.y, ring.r, Math.min(1, a * 1.15));
           ctx.beginPath();
           ctx.arc(ring.x, ring.y, ring.r, 0, TAU);
           ctx.stroke();
         }
         // The origin point itself
-        ctx.fillStyle = "rgba(" + INK + ",0.9)";
+        ctx.fillStyle = silver(origin.x, origin.y, 3, 0.95);
         ctx.beginPath();
         ctx.arc(origin.x, origin.y, 3, 0, TAU);
         ctx.fill();
