@@ -552,12 +552,7 @@
   pointer-events: none;
 }
 
-.hook__oval path {
-  fill: none;
-  stroke: var(--color-sky);
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
+/* the marker mark is built in story.js (Wasabi outlines revealed by a mask) */
 
 .story .hook .hook__text {
   position: relative;

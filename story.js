@@ -176,7 +176,7 @@
 })();
 
 
-/* ---- The hook: a hand-drawn oval around one word, and the two lines drifting --- */
+/* ---- The hook: a marker mark around one word, and the two lines drifting ---- */
 (function () {
   "use strict";
 
@@ -186,46 +186,113 @@
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
   var word = hook.querySelector(".hook__word");
   var svg = hook.querySelector(".hook__oval");
-  var path = svg && svg.querySelector("path");
   var a = hook.querySelector(".hook__line--a");
   var b = hook.querySelector(".hook__line--b");
+  var NS = "http://www.w3.org/2000/svg";
   var drawn = false;
+  var parts = [];                      // { mask: path element, len, delay, time }
 
-  /* A loose oval around the word: a bit more than one full turn, with the radius
-     wobbling and drifting inward so the ends overlap like a marker would. */
-  function ovalPath(w, h) {
-    var cx = w / 2, cy = h / 2;
-    var rx = w / 2 * 1.14 + 8, ry = h / 2 * 1.04 + 4;
-    var n = 120, d = "";
-    for (var i = 0; i <= n; i++) {
-      var t = i / n;
-      var th = -2.5 + t * Math.PI * 2 * 1.12;
-      var wob = 1 + 0.03 * Math.sin(3 * th + 1) + 0.02 * Math.sin(5 * th + 2) - 0.07 * t;
-      var x = cx + rx * wob * Math.cos(th);
-      var y = cy + ry * wob * Math.sin(th) - 0.05 * h * t;
-      d += (i ? "L" : "M") + x.toFixed(1) + " " + y.toFixed(1);
+  function rnd(seed) {                 // small seeded random, so the mark is the same every visit
+    var s = seed >>> 0;
+    return function () {
+      s += 0x6D2B79F5;
+      var t = s;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  /* A loose loop around the word: wobbling radius, drifting inward, slightly tilted */
+  function loopPts(cx, cy, rx, ry, rot, th0, turns, drift, seed) {
+    var r = rnd(seed), p1 = r() * 6, p2 = r() * 6, N = 150, pts = [];
+    var cr = Math.cos(rot), sr = Math.sin(rot);
+    for (var i = 0; i <= N; i++) {
+      var t = i / N, th = th0 + t * Math.PI * 2 * turns;
+      var wob = 1 + 0.035 * Math.sin(3 * th + p1) + 0.025 * Math.sin(5 * th + p2) - drift * t;
+      var x = rx * wob * Math.cos(th), y = ry * wob * Math.sin(th);
+      pts.push([cx + x * cr - y * sr, cy + x * sr + y * cr]);
     }
-    return d;
+    return pts;
+  }
+
+  /* Turn a centre line into a marker stroke: thick in the middle, tapered at the
+     ends, with the pressure wavering as it goes. Returns the outline and the line. */
+  function brush(pts, wMax, seed) {
+    var n = pts.length, ph = rnd(seed)() * 6, L = [], R = [], i;
+    for (i = 0; i < n; i++) {
+      var t = i / (n - 1);
+      var p0 = pts[Math.max(0, i - 1)], p1 = pts[Math.min(n - 1, i + 1)];
+      var dx = p1[0] - p0[0], dy = p1[1] - p0[1], len = Math.hypot(dx, dy) || 1;
+      var nx = -dy / len, ny = dx / len;
+      var w = wMax * (0.16 + 0.84 * Math.pow(Math.sin(Math.PI * t), 0.5)) * (1 + 0.22 * Math.sin(t * 11 + ph) + 0.1 * Math.sin(t * 27 + ph * 2));
+      L.push([pts[i][0] + nx * w / 2, pts[i][1] + ny * w / 2]);
+      R.push([pts[i][0] - nx * w / 2, pts[i][1] - ny * w / 2]);
+    }
+    var d = "M" + L.map(function (q) { return q[0].toFixed(1) + " " + q[1].toFixed(1); }).join("L");
+    for (i = n - 1; i >= 0; i--) d += "L" + R[i][0].toFixed(1) + " " + R[i][1].toFixed(1);
+    var center = "M" + pts.map(function (q) { return q[0].toFixed(1) + " " + q[1].toFixed(1); }).join("L");
+    return { d: d + "Z", center: center };
+  }
+
+  function el(name, attrs) {
+    var e = document.createElementNS(NS, name);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
   }
 
   function build() {
-    if (!word || !path) return;
+    if (!word || !svg) return;
     var w = word.offsetWidth, h = word.offsetHeight;
-    path.setAttribute("d", ovalPath(w, h));
-    path.style.strokeWidth = Math.max(4, Math.min(10, h * 0.05)).toFixed(1) + "px";
-    var len = path.getTotalLength();
-    path.style.strokeDasharray = len;
-    path.style.transition = "none";
-    path.style.strokeDashoffset = (drawn || reduced.matches) ? 0 : len;
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    parts = [];
+
+    var defs = el("defs", {});
+    var filter = el("filter", { id: "hook-rough", x: "-6%", y: "-12%", width: "112%", height: "124%" });
+    filter.appendChild(el("feTurbulence", { type: "fractalNoise", baseFrequency: "0.04", numOctaves: "2", seed: "7", result: "n" }));
+    filter.appendChild(el("feDisplacementMap", { "in": "SourceGraphic", in2: "n", scale: "3.5", xChannelSelector: "R", yChannelSelector: "G" }));
+    defs.appendChild(filter);
+    svg.appendChild(defs);
+
+    var g = el("g", { filter: "url(#hook-rough)" });
+    svg.appendChild(g);
+
+    var wMax = Math.max(8, Math.min(22, h * 0.085));
+    var cx = w / 2, cy = h / 2;
+    var shapes = [
+      // the big loop, then a looser second pass over it
+      { pts: loopPts(cx, cy, w / 2 * 1.14 + 8, h / 2 * 1.04 + 4, -0.045, -2.5, 1.16, 0.08, 3), wMax: wMax, seed: 11, delay: 350, time: 1150 },
+      { pts: loopPts(cx + w * 0.012, cy - h * 0.025, w / 2 * 1.08 + 4, h / 2 * 0.95, 0.05, 0.4, 1.06, 0.05, 9), wMax: wMax * 0.55, seed: 23, delay: 1150, time: 950 }
+    ];
+    // three quick burst strokes at the top right of the word
+    [-72, -48, -24].forEach(function (deg, i) {
+      var th = deg * Math.PI / 180, ox = w * 0.9, oy = h * 0.1;
+      var r0 = h * 0.15, r1 = h * (0.36 + i * 0.02), pts = [];
+      for (var s = 0; s <= 8; s++) { var r = r0 + (r1 - r0) * s / 8; pts.push([ox + r * Math.cos(th), oy + r * Math.sin(th)]); }
+      shapes.push({ pts: pts, wMax: wMax * 0.62, seed: 31 + i, delay: 1950 + i * 170, time: 280 });
+    });
+
+    shapes.forEach(function (s, i) {
+      var br = brush(s.pts, s.wMax, s.seed);
+      var m = el("mask", { id: "hook-m" + i, maskUnits: "userSpaceOnUse", x: "-400", y: "-400", width: "6000", height: "3000" });
+      var mp = el("path", { d: br.center, fill: "none", stroke: "#fff", "stroke-width": String(Math.max(40, s.wMax * 3)), "stroke-linecap": "round", "stroke-linejoin": "round" });
+      m.appendChild(mp);
+      defs.appendChild(m);
+      g.appendChild(el("path", { d: br.d, fill: "#E9F056", mask: "url(#hook-m" + i + ")" }));
+      var len = mp.getTotalLength();
+      mp.style.strokeDasharray = len;
+      mp.style.strokeDashoffset = (drawn || reduced.matches) ? 0 : len;
+      parts.push({ mask: mp, len: len, delay: s.delay, time: s.time });
+    });
   }
 
   function draw() {
-    if (drawn || !path) return;
+    if (drawn) return;
     drawn = true;
-    var len = path.getTotalLength();
-    path.style.transition = "stroke-dashoffset 1500ms cubic-bezier(0.5, 0, 0.2, 1)";
-    path.style.strokeDashoffset = 0;
-    void len;
+    parts.forEach(function (p) {
+      p.mask.style.transition = "stroke-dashoffset " + p.time + "ms cubic-bezier(0.5, 0, 0.2, 1) " + p.delay + "ms";
+      p.mask.style.strokeDashoffset = 0;
+    });
   }
 
   var ready = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
@@ -233,7 +300,7 @@
     build();
     if (reduced.matches || !("IntersectionObserver" in window)) { drawn = true; build(); return; }
     new IntersectionObserver(function (entries, io) {
-      if (entries[0].isIntersecting) { setTimeout(draw, 350); io.disconnect(); }
+      if (entries[0].isIntersecting) { draw(); io.disconnect(); }
     }, { threshold: 0.45 }).observe(hook);
   });
 
