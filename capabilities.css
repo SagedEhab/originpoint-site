@@ -74,13 +74,13 @@
 
 .wall {
   --wh: min(calc(100svh - var(--header-height) - 2.5rem), 46rem);
-  --sh: calc(var(--wh) * 0.43);                /* centre stamp height */
+  --sh: calc(var(--wh) * 0.45);                /* centre stamp height */
   --mx: 0;
   --my: 0;
   position: relative;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto;
-  width: min(100% - 2 * var(--gutter), 72rem);
+  width: min(100% - 2 * var(--gutter), 62rem);
   height: var(--wh);
   margin-inline: auto;
   overflow: hidden;
@@ -157,6 +157,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  z-index: 2;
   margin: 0;
   color: var(--color-ink-light);
   font-family: var(--font-display);
@@ -202,7 +203,8 @@
   translate: calc(-50% + var(--mx) * 14px) calc(-50% + var(--my) * 10px); }
 .stamp.is-next    { --x: 94%; --y: 92%; --r: 7deg;  --s: 0.74; --z: 2;
   translate: calc(-50% + var(--mx) * 14px) calc(-50% + var(--my) * 10px); }
-.stamp.is-far     { --x: 130%; --y: 50%; --r: 12deg; --s: 0.6; --z: 1; opacity: 0; pointer-events: none; }
+.stamp.is-far     { --x: 94%; --y: 26%; --r: 6deg; --s: 0.7; --z: 1;
+  translate: calc(-50% + var(--mx) * 8px) calc(-50% + var(--my) * 6px); }
 
 .stamp__frame {
   position: absolute;
@@ -275,6 +277,11 @@
 .cap a { color: var(--color-sky); }
 .cap a:focus-visible, .wall__more:focus-visible { outline: 2px solid var(--color-sky); outline-offset: 3px; }
 
+/* ---- Large screens: the wall grows with the screen ------------------------ */
+@media (min-width: 1700px) and (min-height: 960px) {
+  .wall { --wh: min(calc(100svh - var(--header-height) - 3rem), 56rem); width: min(100% - 2 * var(--gutter), 75rem); }
+}
+
 /* ---- Short screens and phones ------------------------------------------- */
 @media (max-height: 760px) {
   .wall { --sh: calc(var(--wh) * 0.4); }
@@ -292,6 +299,7 @@
   .wall__title { font-size: clamp(1.7rem, min(calc(var(--wh) * 0.095), calc(90cqw / var(--chars, 10) / 0.5)), 3.4rem); }
   .stamp.is-prev { --x: -4%; --y: 28%; --s: 0.6; }
   .stamp.is-next { --x: 104%; --y: 64%; --s: 0.6; }
+  .stamp.is-far { --x: 140%; --y: 40%; opacity: 0; pointer-events: none; }
   .stamp__in { inset: 8% 7%; gap: 0.25rem; }
   .stamp__top { font-size: 0.75rem; }
   .stamp__name { font-size: 0.8125rem; }
