@@ -74,7 +74,7 @@
 
 .wall {
   --wh: min(calc(100svh - var(--header-height) - 2.5rem), 46rem);
-  --sh: calc(var(--wh) * 0.6);                 /* centre stamp height */
+  --sh: calc(var(--wh) * 0.43);                /* centre stamp height */
   --mx: 0;
   --my: 0;
   position: relative;
@@ -110,7 +110,7 @@
   letter-spacing: -0.01em;
 }
 
-.wall__idx { display: flex; align-items: center; gap: 0.25rem; }
+.wall__idx { display: flex; align-items: center; gap: 0.25rem; margin-right: auto; margin-left: clamp(0.75rem, 2.5vw, 2rem); }
 
 .wall__idx button {
   min-width: 2.25rem;
@@ -152,7 +152,7 @@
 
 .wall__title {
   position: absolute;
-  inset: 0;
+  inset: 0 0 0.14em;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -161,7 +161,7 @@
   color: var(--color-ink-light);
   font-family: var(--font-display);
   /* as big as the height allows, but never wider than the stage: --chars is the longest line */
-  font-size: clamp(2rem, min(calc(var(--wh) * 0.16), calc(86cqw / var(--chars, 10) / 0.5)), 9rem);
+  font-size: clamp(2rem, min(calc(var(--wh) * 0.135), calc(82cqw / var(--chars, 10) / 0.5)), 9rem);
   font-size-adjust: 0.44;
   font-weight: 600;
   line-height: 0.84;
@@ -254,7 +254,7 @@
   position: relative;
   z-index: 6;
   display: grid;
-  padding: 0.6rem clamp(1rem, 2.4vw, 1.75rem) 1rem;
+  padding: 0.75rem clamp(1rem, 2.4vw, 1.75rem) 1rem;
   text-align: center;
 }
 
@@ -277,7 +277,9 @@
 
 /* ---- Short screens and phones ------------------------------------------- */
 @media (max-height: 760px) {
-  .wall { --sh: calc(var(--wh) * 0.56); }
+  .wall { --sh: calc(var(--wh) * 0.4); }
+}
+@media (max-height: 690px) {
   .cap__desc { display: none; }
 }
 
