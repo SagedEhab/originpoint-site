@@ -174,3 +174,101 @@
   }
   if (reduced.addEventListener) reduced.addEventListener("change", onMotionChange);
 })();
+
+
+/* ---- The hook: a hand-drawn oval around one word, and the two lines drifting --- */
+(function () {
+  "use strict";
+
+  var hook = document.querySelector(".hook");
+  if (!hook) return;
+
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+  var word = hook.querySelector(".hook__word");
+  var svg = hook.querySelector(".hook__oval");
+  var path = svg && svg.querySelector("path");
+  var a = hook.querySelector(".hook__line--a");
+  var b = hook.querySelector(".hook__line--b");
+  var drawn = false;
+
+  /* A loose oval around the word: a bit more than one full turn, with the radius
+     wobbling and drifting inward so the ends overlap like a marker would. */
+  function ovalPath(w, h) {
+    var cx = w / 2, cy = h / 2;
+    var rx = w / 2 * 1.14 + 8, ry = h / 2 * 1.04 + 4;
+    var n = 120, d = "";
+    for (var i = 0; i <= n; i++) {
+      var t = i / n;
+      var th = -2.5 + t * Math.PI * 2 * 1.12;
+      var wob = 1 + 0.03 * Math.sin(3 * th + 1) + 0.02 * Math.sin(5 * th + 2) - 0.07 * t;
+      var x = cx + rx * wob * Math.cos(th);
+      var y = cy + ry * wob * Math.sin(th) - 0.05 * h * t;
+      d += (i ? "L" : "M") + x.toFixed(1) + " " + y.toFixed(1);
+    }
+    return d;
+  }
+
+  function build() {
+    if (!word || !path) return;
+    var w = word.offsetWidth, h = word.offsetHeight;
+    path.setAttribute("d", ovalPath(w, h));
+    path.style.strokeWidth = Math.max(4, Math.min(10, h * 0.05)).toFixed(1) + "px";
+    var len = path.getTotalLength();
+    path.style.strokeDasharray = len;
+    path.style.transition = "none";
+    path.style.strokeDashoffset = (drawn || reduced.matches) ? 0 : len;
+  }
+
+  function draw() {
+    if (drawn || !path) return;
+    drawn = true;
+    var len = path.getTotalLength();
+    path.style.transition = "stroke-dashoffset 1500ms cubic-bezier(0.5, 0, 0.2, 1)";
+    path.style.strokeDashoffset = 0;
+    void len;
+  }
+
+  var ready = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+  ready.then(function () {
+    build();
+    if (reduced.matches || !("IntersectionObserver" in window)) { drawn = true; build(); return; }
+    new IntersectionObserver(function (entries, io) {
+      if (entries[0].isIntersecting) { setTimeout(draw, 350); io.disconnect(); }
+    }, { threshold: 0.45 }).observe(hook);
+  });
+
+  var rt = 0;
+  window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(build, 150); });
+
+  /* The two lines slide against each other as you scroll */
+  if (reduced.matches || !("IntersectionObserver" in window) || !a || !b) return;
+  var cur = 0, ticking = false, inView = false;
+
+  function target() {
+    var r = hook.getBoundingClientRect();
+    var vh = window.innerHeight;
+    return Math.max(-1, Math.min(1, (r.top + r.height / 2 - vh / 2) / vh));
+  }
+
+  function frame() {
+    ticking = false;
+    var t = target();
+    cur += (t - cur) * 0.12;
+    if (Math.abs(t - cur) < 0.001) cur = t;
+    a.style.setProperty("--tx", (cur * -9).toFixed(2) + "vw");
+    b.style.setProperty("--tx", (cur * 9).toFixed(2) + "vw");
+    if (cur !== t && inView) request();
+  }
+
+  function request() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
+
+  new IntersectionObserver(function (entries) {
+    inView = entries[0].isIntersecting;
+    if (inView) request();
+  }, { rootMargin: "20% 0px" }).observe(hook);
+
+  window.addEventListener("scroll", function () { if (inView) request(); }, { passive: true });
+  window.addEventListener("resize", request);
+  cur = target();
+  frame();
+})();

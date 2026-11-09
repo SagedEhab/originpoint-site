@@ -36,8 +36,7 @@
 
 .story__intro p:not(.eyebrow) { max-width: var(--measure); }
 
-.story__hint { display: none; font-style: italic; }
-.story--binder .story__hint { display: block; }
+.story__hint { font-style: italic; }
 
 
 /* --------------------------------------------------------------------------
@@ -471,4 +470,119 @@
 @media (prefers-reduced-motion: reduce) {
   .story *, .story { transition: none !important; animation: none !important; }
   .drift { will-change: auto; }
+}
+
+
+/* --------------------------------------------------------------------------
+   The hook: a poster band that opens the story. Big slanted lettering, one
+   word circled in a loose hand-drawn oval (drawn in by story.js), and a short
+   paragraph below, with quiet label rows at the top and bottom. Cassis
+   lettering and ink copy on Orange Topaze; the oval is Wasabi.
+   -------------------------------------------------------------------------- */
+.story .hook {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  align-content: stretch;
+  min-height: calc(100svh - var(--header-height));
+  padding: clamp(0.9rem, 3svh, 2rem) var(--gutter) clamp(0.9rem, 3svh, 2rem);
+  gap: 0;
+  overflow: clip;
+  background-color: var(--color-plate);
+  color: var(--color-ink);
+  --hs: min(20vw, 31svh);              /* size of the big word; the small line is 0.6 of it */
+  --heading: var(--color-burgundy);
+  --accent: var(--color-ink);
+  --line: var(--color-ink);
+  --focus: var(--color-ink);
+}
+
+.story .hook p { max-width: none; }
+
+.hook__meta {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0;
+  font-size: var(--step--1);
+  font-style: italic;
+}
+
+.hook__mid { display: inline-flex; align-items: center; gap: 0.6rem; }
+.hook__mark { width: 1.1rem; height: 1.1rem; color: var(--color-ink); }
+
+.hook__title {
+  position: relative;
+  z-index: 2;
+  align-self: center;
+  margin: clamp(0.5rem, 2svh, 1.5rem) 0;
+  padding-inline: clamp(0rem, 2vw, 2rem);
+  color: var(--color-burgundy);
+  font-size: var(--hs);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 0.86;
+  letter-spacing: -0.045em;
+}
+
+.hook__line {
+  display: block;
+  width: max-content;
+  rotate: -4deg;
+  translate: var(--tx, 0) 0;
+  transform-origin: left bottom;
+}
+
+.hook__line--a { font-size: 0.6em; }
+.hook__line--b { margin-left: clamp(1.5rem, 9vw, 9rem); margin-top: 0.12em; }
+
+/* the circled word */
+.hook__word { position: relative; display: inline-block; }
+
+.hook__oval {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.hook__oval path {
+  fill: none;
+  stroke: var(--color-sky);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.story .hook .hook__text {
+  position: relative;
+  z-index: 2;
+  max-width: 34ch;
+  margin: 0 0 clamp(0.75rem, 3svh, 1.75rem);
+  font-size: clamp(1.05rem, 0.8rem + 0.8vw, 1.45rem);
+  font-weight: 500;
+  line-height: 1.4;
+  text-wrap: pretty;
+}
+
+.hook__foot {
+  position: relative;
+  z-index: 3;
+  margin: 0;
+  font-size: var(--step--1);
+}
+
+@media (max-width: 47.99em) {
+  .story .hook { --hs: min(26vw, 22svh); }
+  .hook__line--b { margin-left: 1rem; }
+  .story .hook .hook__text { max-width: 30ch; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hook__line { translate: none; }
 }
