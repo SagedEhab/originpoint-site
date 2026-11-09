@@ -22,12 +22,13 @@
    -------------------------------------------------------------------------- */
 :root {
   /* Brand colours */
-  --color-burgundy: #435A86;    /* Cobalt Dust: logo, headings, accents, hairlines */
-  --color-ink: #1B2438;         /* Deep cobalt ink (a shade of Cobalt Dust): dark fields, display type */
-  --color-ink-light: #D66F45;   /* Persimmon: numerals, hairlines on dark fields */
-  --color-sky: #E2D5BB;         /* Parchment: headlines and rings on cobalt, tabs, highlight cards */
-  --color-plate: #D66F45;       /* Persimmon: large rich fields, dark text on it */
-  --color-wash: #ECE3D0;        /* Pale wash (a tint of Parchment): quiet fields */
+  --color-burgundy: #351E28;    /* Cassis: logo, headings, accents, hairlines */
+  --color-ink: #211218;         /* Deep cassis ink (a shade of Cassis): dark fields, display type */
+  --color-ink-light: #FF5C34;   /* Orange Topaze: hairlines and numerals on dark fields */
+  --color-sky: #E9F056;         /* Wasabi: headlines, rings and buttons on dark fields, highlight cards */
+  --color-plate: #FF5C34;       /* Orange Topaze: large rich fields, dark text on it */
+  --color-wash: #D7EFFF;        /* Cool Blue: quiet fields */
+  --color-sage: #AEB8A0;       /* Vert Sauge: a secondary mid-tone field, dark text on it */
   --color-ivory: #F7F3EC;      /* Soft Ivory — header, cards, paper sections */
   --color-paper: #EFE8DC;      /* Warm paper — letter-like fields */
   --color-charcoal: #26242A;   /* Muted Charcoal — body copy on light fields */
@@ -272,7 +273,7 @@ input, button, select, textarea {
 }
 
 /* Fields, and the contextual colours each one sets */
-/* The "sky" class now holds Cobalt Dust (hero and page headers): light text, Parchment accents */
+/* The "sky" class now holds Cassis (hero and page headers): light text, Wasabi accents */
 .section--sky {
   background-color: var(--color-burgundy);
   --text: var(--color-ivory);
@@ -296,7 +297,7 @@ input, button, select, textarea {
 .section--paper { background-color: var(--color-paper); }
 .section--wash  { background-color: var(--color-wash); }
 
-/* The plate class holds Persimmon (the "Why" field) */
+/* The plate class holds Orange Topaze (the "Why" field) */
 .section--plate {
   background-color: var(--color-plate);
   --text: var(--color-ink);
@@ -596,7 +597,7 @@ input, button, select, textarea {
 .service__index {
   display: block;
   margin-bottom: 1.5rem;
-  color: var(--color-ink-light);
+  color: var(--color-burgundy);
   font-size: clamp(2.5rem, 2rem + 2vw, 3.75rem);
   font-style: italic;
   line-height: 1;
@@ -828,7 +829,7 @@ input, button, select, textarea {
 
 
 /* --------------------------------------------------------------------------
-   8. Why OriginPoint — the Persimmon field
+   8. Why OriginPoint — the Orange Topaze field
    -------------------------------------------------------------------------- */
 .reasons {
   display: grid;
@@ -972,7 +973,7 @@ input, button, select, textarea {
 .field__control--select {
   appearance: none;
   padding-right: 3rem;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 8'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%23435A86' stroke-width='1.25'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 8'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%23351E28' stroke-width='1.25'/%3E%3C/svg%3E");
   background-position: right 1.125rem center;
   background-repeat: no-repeat;
   background-size: 0.875rem auto;
