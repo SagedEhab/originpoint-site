@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="flow.css">
+  <link rel="stylesheet" href="capabilities.css">
 
   <!-- Flags that JS is available, so the menu and reveals can start in their resting state -->
   <script>document.documentElement.classList.add("js");</script>
@@ -29,6 +30,11 @@
 
   <!-- Registration mark from the brand sheet, drawn once and reused -->
   <svg class="sprite" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="silver-ring" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#F7F9FB"/><stop offset="0.3" stop-color="#9AA2AA"/><stop offset="0.5" stop-color="#EEF1F4"/><stop offset="0.75" stop-color="#737B83"/><stop offset="1" stop-color="#D9DEE2"/>
+      </linearGradient>
+    </defs>
     <symbol id="reg-mark" viewBox="0 0 24 24">
       <circle cx="12" cy="12" r="6.5" fill="none" stroke="currentColor"/>
       <path d="M12 0v24M0 12h24" fill="none" stroke="currentColor"/>
@@ -53,39 +59,82 @@
     </div>
   </header>
 
-  <main id="main"><section class="page-intro section section--sky"><div class="container"><div class="folio"><span>OriginPoint / Capabilities</span><span>02 — 05</span></div><h1>Built for your<br><i>next move.</i></h1><p class="page-lede">Everything digital a young company needs, built by one team so each piece works with the next.</p><div class="chapter-symbol" aria-hidden="true">02</div></div></section><section class="section section--ink"><div class="container"><p class="eyebrow">The capability explorer</p><h2>What’s holding<br><i>you back?</i></h2><div class="cap-layout"><div class="cap-buttons" aria-label="Choose a business need"><button data-cap="0" aria-pressed="true">We need to launch.<span>01</span></button><button data-cap="1" aria-pressed="false">We miss enquiries.<span>02</span></button><button data-cap="2" aria-pressed="false">Our data is scattered.<span>03</span></button><button data-cap="3" aria-pressed="false">Our tools don’t connect.<span>04</span></button></div><div class="cap-result" aria-live="polite"><p class="eyebrow" id="cap-label">Foundation / Stage 1</p><h3 id="cap-title">A place to begin.</h3><p id="cap-copy">A focused website with a clear offer, useful content, and a route for customers to reach you.</p><ul id="cap-list"><li>Website and responsive interface</li><li>Domain and hosting setup</li><li>Maintenance after launch</li></ul><a id="cap-link" class="button button--light" href="contact.html?need=website">Build my starting point ↗</a></div></div></div></section><section class="section section--ivory section--grain services-section" id="services" aria-labelledby="services-title">
+  <main id="main"><section class="page-intro section section--sky"><div class="container"><div class="folio"><span>OriginPoint / Capabilities</span><span>02 — 05</span></div><h1>Built for your<br><i>next move.</i></h1><p class="page-lede">Everything digital a young company needs, built by one team so each piece works with the next.</p><div class="chapter-symbol" aria-hidden="true">02</div></div></section><section class="section section--ink"><div class="container"><p class="eyebrow">The capability explorer</p><h2>What’s holding<br><i>you back?</i></h2><div class="cap-layout"><div class="cap-buttons" aria-label="Choose a business need"><button data-cap="0" aria-pressed="true">We need to launch.<span>01</span></button><button data-cap="1" aria-pressed="false">We miss enquiries.<span>02</span></button><button data-cap="2" aria-pressed="false">Our data is scattered.<span>03</span></button><button data-cap="3" aria-pressed="false">Our tools don’t connect.<span>04</span></button></div><div class="cap-result" aria-live="polite"><p class="eyebrow" id="cap-label">Foundation / Stage 1</p><h3 id="cap-title">A place to begin.</h3><p id="cap-copy">A focused website with a clear offer, useful content, and a route for customers to reach you.</p><ul id="cap-list"><li>Website and responsive interface</li><li>Domain and hosting setup</li><li>Maintenance after launch</li></ul><a id="cap-link" class="button button--light" href="contact.html?need=website">Build my starting point ↗</a></div></div></div></section><section class="section section--plate caps" id="services" aria-labelledby="services-title">
       <div class="container">
         <header class="section-head">
           <h2 id="services-title">What we do</h2>
           <p class="section-intro">Four capabilities, added in the order your business needs them.</p>
         </header>
 
-        <ul class="services" role="list">
-          <li class="service service--feature">
-            <span class="service__index" aria-hidden="true">01</span>
-            <h3 class="service__title">AI agents &amp; chatbots</h3>
-            <p class="service__desc">Custom support, booking, and lead-qualification agents that work 24/7 across your website, WhatsApp, and Messenger.</p>
-            <p class="service__stage">From stage 2</p>
-          </li>
-          <li class="service">
-            <span class="service__index" aria-hidden="true">02</span>
-            <h3 class="service__title">Websites</h3>
-            <p class="service__desc">Landing pages and sites that launch fast and stay maintained.</p>
-            <p class="service__stage">From stage 1</p>
-          </li>
-          <li class="service service--sky">
-            <span class="service__index" aria-hidden="true">03</span>
-            <h3 class="service__title">Internal tools &amp; databases</h3>
-            <p class="service__desc">Systems to replace spreadsheets and keep your customer data organised as you grow.</p>
-            <p class="service__stage">From stage 3</p>
-          </li>
-          <li class="service service--cross">
-            <span class="service__index" aria-hidden="true">04</span>
-            <h3 class="service__title">Integrations</h3>
-            <p class="service__desc">Connecting your website, CRM, and invoicing so they talk to each other.</p>
-            <p class="service__stage">From stage 4</p>
-          </li>
-        </ul>
+        <div class="spread" data-spread>
+          <div class="leaf leaf--index">
+            <p class="leaf__running"><span>OriginPoint / Capabilities</span><span>Index</span></p>
+            <div class="leaf__cols">
+              <ol class="index" role="list">
+            <li><a class="index__item" href="#cap-ai" data-entry-link><span class="index__no" aria-hidden="true">01</span><span class="index__name">AI agents &amp; chatbots</span><span class="index__stage">From stage 2</span></a></li>
+            <li><a class="index__item" href="#cap-web" data-entry-link><span class="index__no" aria-hidden="true">02</span><span class="index__name">Websites</span><span class="index__stage">From stage 1</span></a></li>
+            <li><a class="index__item" href="#cap-tools" data-entry-link><span class="index__no" aria-hidden="true">03</span><span class="index__name">Internal tools &amp; databases</span><span class="index__stage">From stage 3</span></a></li>
+            <li><a class="index__item" href="#cap-link" data-entry-link><span class="index__no" aria-hidden="true">04</span><span class="index__name">Integrations</span><span class="index__stage">From stage 4</span></a></li>
+              </ol>
+          <figure class="plate" aria-hidden="true"><svg viewBox="0 0 240 240" focusable="false"><path class="draw" d="M24 36H156V92H64L40 114V92H24Z"/><path class="draw" d="M40 56H134M40 72H110"/><path class="draw" d="M84 128H216V184H200V206L176 184H84Z"/><path class="draw" d="M104 148H196M104 164H170"/><circle class="solid" cx="204" cy="52" r="6"/><circle class="draw" cx="204" cy="52" r="16"/><circle class="draw" cx="204" cy="52" r="28"/></svg><figcaption>Fig. 1: a conversation, answered</figcaption></figure>
+          <figure class="plate" aria-hidden="true"><svg viewBox="0 0 240 240" focusable="false"><rect class="draw" x="20" y="28" width="200" height="184"/><path class="draw" d="M20 56H220M38 42H76M170 42H202"/><path class="draw" d="M38 82H150M38 98H118M38 114H134"/><rect class="solid" x="38" y="134" width="56" height="18"/><rect class="draw" x="38" y="168" width="52" height="30"/><rect class="draw" x="100" y="168" width="52" height="30"/><rect class="draw" x="162" y="168" width="40" height="30"/></svg><figcaption>Fig. 2: a page with one clear way in</figcaption></figure>
+          <figure class="plate" aria-hidden="true"><svg viewBox="0 0 240 240" focusable="false"><rect class="draw" x="20" y="36" width="200" height="168"/><rect class="solid" x="20" y="36" width="200" height="28"/><path class="draw" d="M20 92H220M20 120H220M20 148H220M20 176H220M88 64V204M156 64V204"/><path class="draw" d="M34 106H70M102 106H138M170 106H202M34 134H62M102 134H128M170 134H190M34 162H74M102 162H142M170 162H206"/></svg><figcaption>Fig. 3: records in one place</figcaption></figure>
+          <figure class="plate" aria-hidden="true"><svg viewBox="0 0 240 240" focusable="false"><circle class="draw" cx="120" cy="120" r="26"/><circle class="solid" cx="120" cy="120" r="6"/><path class="draw" d="M94 120H48M146 120H192M120 94V52M120 146V188"/><circle class="draw" cx="36" cy="120" r="12"/><circle class="draw" cx="204" cy="120" r="12"/><circle class="draw" cx="120" cy="40" r="12"/><circle class="draw" cx="120" cy="200" r="12"/></svg><figcaption>Fig. 4: tools, joined up</figcaption></figure>
+            </div>
+          </div>
+
+          <div class="rings" aria-hidden="true">
+            <svg class="rings__unit" viewBox="0 0 44 128" focusable="false"><ellipse class="rings__hole" cx="22" cy="10" rx="13" ry="5"/><ellipse class="rings__hole" cx="22" cy="118" rx="13" ry="5"/><ellipse class="rings__edge" cx="22" cy="64" rx="10" ry="52"/><ellipse class="rings__metal" cx="22" cy="64" rx="10" ry="52"/></svg><svg class="rings__unit" viewBox="0 0 44 128" focusable="false"><ellipse class="rings__hole" cx="22" cy="10" rx="13" ry="5"/><ellipse class="rings__hole" cx="22" cy="118" rx="13" ry="5"/><ellipse class="rings__edge" cx="22" cy="64" rx="10" ry="52"/><ellipse class="rings__metal" cx="22" cy="64" rx="10" ry="52"/></svg><svg class="rings__unit" viewBox="0 0 44 128" focusable="false"><ellipse class="rings__hole" cx="22" cy="10" rx="13" ry="5"/><ellipse class="rings__hole" cx="22" cy="118" rx="13" ry="5"/><ellipse class="rings__edge" cx="22" cy="64" rx="10" ry="52"/><ellipse class="rings__metal" cx="22" cy="64" rx="10" ry="52"/></svg><svg class="rings__unit" viewBox="0 0 44 128" focusable="false"><ellipse class="rings__hole" cx="22" cy="10" rx="13" ry="5"/><ellipse class="rings__hole" cx="22" cy="118" rx="13" ry="5"/><ellipse class="rings__edge" cx="22" cy="64" rx="10" ry="52"/><ellipse class="rings__metal" cx="22" cy="64" rx="10" ry="52"/></svg>
+          </div>
+
+          <div class="leaf leaf--detail">
+          <article class="entry" id="cap-ai" aria-labelledby="cap-ai-title">
+            <div>
+              <span class="entry__no" aria-hidden="true">01</span>
+              <h3 class="entry__title" id="cap-ai-title">AI agents &amp; chatbots</h3>
+              <p class="entry__stage">From stage 2</p>
+            </div>
+            <div>
+              <p class="entry__desc">Custom support, booking, and lead-qualification agents that work 24/7 across your website, WhatsApp, and Messenger.</p>
+              <p class="entry__link"><a class="button" href="contact.html?need=AI%20agent">Talk about this ↗</a></p>
+            </div>
+          </article>
+          <article class="entry" id="cap-web" aria-labelledby="cap-web-title">
+            <div>
+              <span class="entry__no" aria-hidden="true">02</span>
+              <h3 class="entry__title" id="cap-web-title">Websites</h3>
+              <p class="entry__stage">From stage 1</p>
+            </div>
+            <div>
+              <p class="entry__desc">Landing pages and sites that launch fast and stay maintained.</p>
+              <p class="entry__link"><a class="button" href="contact.html?need=website">Talk about this ↗</a></p>
+            </div>
+          </article>
+          <article class="entry" id="cap-tools" aria-labelledby="cap-tools-title">
+            <div>
+              <span class="entry__no" aria-hidden="true">03</span>
+              <h3 class="entry__title" id="cap-tools-title">Internal tools &amp; databases</h3>
+              <p class="entry__stage">From stage 3</p>
+            </div>
+            <div>
+              <p class="entry__desc">Systems to replace spreadsheets and keep your customer data organised as you grow.</p>
+              <p class="entry__link"><a class="button" href="contact.html?need=internal%20tools">Talk about this ↗</a></p>
+            </div>
+          </article>
+          <article class="entry" id="cap-link" aria-labelledby="cap-link-title">
+            <div>
+              <span class="entry__no" aria-hidden="true">04</span>
+              <h3 class="entry__title" id="cap-link-title">Integrations</h3>
+              <p class="entry__stage">From stage 4</p>
+            </div>
+            <div>
+              <p class="entry__desc">Connecting your website, CRM, and invoicing so they talk to each other.</p>
+              <p class="entry__link"><a class="button" href="contact.html?need=integrations">Talk about this ↗</a></p>
+            </div>
+          </article>
+            <p class="leaf__folio" data-folio>Four capabilities</p>
+          </div>
+        </div>
       </div>
     </section><section class="section section--wash"><div class="container"><p class="eyebrow">Connected by design</p><h2>Good alone.<br><i>Better together.</i></h2><p class="section-intro">A website, an agent and your customer data share one direction, so an enquiry reaches the people who can act on it.</p></div></section><section class="section section--burgundy next-step"><div class="container"><p class="eyebrow">Your next chapter</p><a class="giant-link" href="contact.html">Let’s find your<br><i>starting point.</i><span aria-hidden="true">↗</span></a><p>A first conversation. A clearer direction.</p></div></section></main><footer class="site-footer">
     <svg class="reg reg--bl" aria-hidden="true" focusable="false"><use href="#reg-mark"/></svg>
@@ -116,4 +165,5 @@
   </footer>
 
   <script src="site.js" defer></script>
-  <script src="flow.js" defer></script></body></html>
+  <script src="flow.js" defer></script>
+  <script src="capabilities.js" defer></script></body></html>

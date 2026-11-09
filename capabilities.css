@@ -1,0 +1,258 @@
+/* ==========================================================================
+   OriginPoint — capabilities.css
+   The services page "What we do" section: an open ring binder seen from
+   above. The top leaf is the index of the four capabilities, the bottom leaf
+   tells the one you pick, and silver rings sit across the seam. Services page
+   only.
+
+   Two modes, one DOM:
+     - Static (no JS, or reduced motion where JS still lets you pick): all four
+       entries are readable. Without JS they simply stack on the bottom leaf.
+     - Live (.is-live, set by capabilities.js): pick an entry from the index
+       and the bottom leaf turns to it. On scroll the two leaves drift together
+       onto the rings (translate only; off under reduced motion).
+
+   The silver gradients used by the rings are defined once in the page sprite.
+   ========================================================================== */
+
+.caps { overflow: clip; }
+
+.spread {
+  --leaf-pad: clamp(1.25rem, 3.5vw, 3rem);
+  --split: 0;          /* 1 = leaves apart, 0 = closed onto the rings; set by JS */
+  position: relative;
+  display: grid;
+  width: min(100%, 64rem);
+  margin-inline: auto;
+}
+
+.leaf {
+  position: relative;
+  padding: var(--leaf-pad);
+  background-color: var(--color-ivory);
+  color: var(--color-charcoal);
+  border: 1px solid var(--color-ink);
+  --heading: var(--color-burgundy);
+  --accent: var(--color-burgundy);
+  --line: var(--color-burgundy);
+  --focus: var(--color-burgundy);
+}
+
+/* The edges of the pages beneath: two hairlines, not shadows */
+.leaf::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--color-ink);
+  opacity: 0.35;
+  pointer-events: none;
+}
+.leaf--index::after  { translate: 0 -5px; }
+.leaf--detail::after { translate: 0 5px; }
+
+.leaf--index  { translate: 0 calc(var(--split) * -2.5rem); }
+.leaf--detail { translate: 0 calc(var(--split) * 2.5rem); }
+
+.leaf__running {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.9rem;
+  margin-bottom: clamp(1.25rem, 2.5vw, 2rem);
+  border-bottom: 1px solid var(--line);
+  font-size: var(--step--1);
+  font-style: italic;
+}
+
+/* ---- Top leaf: the index and a drawing of the one selected ------------- */
+.leaf__cols {
+  display: grid;
+  gap: clamp(1.5rem, 4vw, 3rem);
+}
+
+.index { border-top: 1px solid var(--line); }
+
+.index__item {
+  display: grid;
+  grid-template-columns: 2.25rem minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding-block: 1.05rem;
+  border-bottom: 1px solid var(--line);
+  color: var(--color-charcoal);
+  text-decoration: none;
+}
+
+.index__no {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-style: italic;
+  color: var(--color-burgundy);
+}
+
+.index__name {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 1.1rem + 1.4vw, 2.1rem);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--color-burgundy);
+}
+
+.index__stage {
+  font-size: var(--step--1);
+  font-style: italic;
+  white-space: nowrap;
+}
+
+.index__item:hover .index__name,
+.index__item[aria-current="true"] .index__name { font-style: italic; }
+
+.index__item[aria-current="true"] { background-color: var(--color-wash); }
+
+.index__item:focus-visible { outline-offset: -3px; }
+
+.plate {
+  display: none;
+  align-self: center;
+  justify-self: center;
+  width: min(100%, 14rem);
+  color: var(--color-burgundy);
+}
+
+.plate svg { display: block; width: 100%; height: auto; }
+
+.plate figcaption {
+  margin-top: 0.75rem;
+  font-size: var(--step--1);
+  font-style: italic;
+  text-align: center;
+}
+
+.plate .draw { fill: none; stroke: currentColor; stroke-width: 1.25; }
+.plate .solid { fill: currentColor; stroke: none; }
+
+.spread:not(.is-live) .plate:first-of-type,
+.plate:not([hidden]) { display: block; }
+.spread.is-live .plate[hidden],
+.spread:not(.is-live) .plate:not(:first-of-type) { display: none; }
+
+/* ---- The rings across the seam ----------------------------------------- */
+.rings {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 3.75rem;
+  background-color: var(--color-ink);
+  border-inline: 1px solid var(--color-ink);
+  pointer-events: none;
+}
+
+/* the rod the rings hang on: brushed silver */
+.rings::before {
+  content: "";
+  position: absolute;
+  inset: calc(50% - 0.22rem) 0 auto 0;
+  height: 0.44rem;
+  background: linear-gradient(180deg, #6B737B, #EEF1F4 38%, #9AA2AA 62%, #565D64);
+}
+
+.rings__unit {
+  position: relative;
+  width: 2.75rem;
+  height: 8rem;
+  overflow: visible;
+}
+
+.rings__hole { fill: var(--color-ink); }
+.rings__edge { fill: none; stroke: #4B5259; stroke-width: 4.2; }
+.rings__metal { fill: none; stroke: url(#silver-ring); stroke-width: 2.6; }
+
+/* ---- Bottom leaf: the story of the selected capability ------------------ */
+.entry {
+  display: grid;
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+  position: relative;
+}
+
+.entry + .entry {
+  margin-top: clamp(2rem, 4vw, 3rem);
+  padding-top: clamp(2rem, 4vw, 3rem);
+  border-top: 1px solid var(--line);
+}
+
+.spread.is-live .entry + .entry { margin-top: 0; padding-top: 0; border-top: 0; }
+.spread.is-live .entry[hidden] { display: none; }
+
+.entry__no {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 1.5rem + 3vw, 4rem);
+  font-style: italic;
+  line-height: 1;
+  color: var(--color-burgundy);
+}
+
+/* the orange accent: a short rule, since orange text is too light on ivory */
+.entry__no::after {
+  content: "";
+  display: block;
+  width: 2.75rem;
+  height: 3px;
+  margin-top: 0.75rem;
+  background-color: var(--color-ink-light);
+}
+
+.entry__title {
+  margin-top: 0.75rem;
+  font-size: clamp(2.5rem, 1.4rem + 4.6vw, 5rem);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+}
+
+.entry__stage {
+  margin-top: 1rem;
+  font-style: italic;
+}
+
+.entry__desc {
+  max-width: 32ch;
+  font-size: var(--step-2);
+  line-height: 1.5;
+}
+
+.entry__link { margin-top: 1.75rem; }
+
+.leaf__folio {
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--line);
+  font-size: var(--step--1);
+  font-style: italic;
+  text-align: right;
+}
+
+@media (min-width: 48em) {
+  .leaf__cols { grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr); }
+
+  .entry { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); align-items: end; }
+}
+
+/* ---- Turning to another entry ------------------------------------------ */
+@media (prefers-reduced-motion: no-preference) {
+  .entry.is-turning { animation: entry-turn 650ms var(--ease-out, cubic-bezier(0.2, 0.7, 0.2, 1)) both; }
+  .plate.is-turning { animation: entry-fade 650ms var(--ease-out, cubic-bezier(0.2, 0.7, 0.2, 1)) both; }
+  .leaf--index, .leaf--detail { will-change: translate; }
+}
+
+@keyframes entry-turn {
+  from { opacity: 0; clip-path: inset(0 0 100% 0); translate: 0 0.75rem; }
+  to   { opacity: 1; clip-path: inset(0 0 0 0); translate: 0 0; }
+}
+@keyframes entry-fade { from { opacity: 0; } to { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .leaf--index, .leaf--detail { translate: none; }
+}
