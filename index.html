@@ -67,12 +67,9 @@
   <main id="main"><section class="section section--sky hero" aria-labelledby="hero-title">
       <!-- Depth layers: decorative, they travel at different speeds on scroll -->
       <div class="hero__depth" aria-hidden="true">
-        <svg class="depth depth--far" data-depth="0.30" data-lean="-10" viewBox="0 0 600 600" focusable="false"><g class="depth__spin"><circle cx="300" cy="300" r="70"/><circle cx="300" cy="300" r="130"/><circle cx="300" cy="300" r="190"/><circle cx="300" cy="300" r="250"/><circle cx="300" cy="300" r="295"/></g></svg>
-        <svg class="depth depth--mid" data-depth="0.14" data-lean="14" viewBox="0 0 100 100" preserveAspectRatio="none" focusable="false"><line x1="12.5" y1="0" x2="12.5" y2="100"/><line x1="37.5" y1="0" x2="37.5" y2="100"/><line x1="62.5" y1="0" x2="62.5" y2="100"/><line x1="87.5" y1="0" x2="87.5" y2="100"/></svg>
         <span class="depth depth--near" data-depth="-0.28" data-lean="26"></span>
       </div>
       <!-- The ripple field: an origin point with rings moving outward. Decorative. -->
-      <canvas class="hero__canvas" aria-hidden="true"></canvas>
       <svg class="reg reg--tl" aria-hidden="true" focusable="false"><use href="#reg-mark"/></svg>
       <svg class="reg reg--tr" aria-hidden="true" focusable="false"><use href="#reg-mark"/></svg>
 
@@ -277,4 +274,5 @@
   <script src="site.js" defer></script>
   <script src="story.js" defer></script>
   <script src="hero.js" defer></script>
+  <script src="hero-ascii.js" defer></script>
   <script src="flow.js" defer></script></body></html>

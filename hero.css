@@ -126,3 +126,13 @@
 @media (prefers-reduced-motion: reduce) {
   .depth, .hero__content { will-change: auto; }
 }
+
+/* The ASCII field: characters drawn on a canvas under the hero copy */
+.hero__ascii {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  display: block;
+  pointer-events: none;
+}

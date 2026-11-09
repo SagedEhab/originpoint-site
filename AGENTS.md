@@ -69,9 +69,12 @@ use the dark ink on them, never ivory body text.
 - **Look:** generous whitespace, editorial not SaaS. 1px burgundy hairlines instead of
   shadows. No gradients as decoration, no glassmorphism, no blur, no uniform rounded corners,
   no stock photography.
-  One deliberate exception: every ring (the hero ripples, the binder hardware, the slow
-  background and drifting rings) is polished silver. The gradient is the material, not
+  One deliberate exception: the rings that are hardware (the binder rings and the drifting
+  rings further down the home page) are polished silver. The gradient is the material, not
   decoration; do not use gradients anywhere else.
+- **Hero background:** the origin point and its ripples are drawn as characters (`. : % # @`)
+  on a canvas (`hero-ascii.js`), not as lines. The characters stay away from the hero text
+  (built from the `data-quiet` elements); keep any new hero copy marked `data-quiet`.
 
 ### Must not regress
 
@@ -80,8 +83,9 @@ use the dark ink on them, never ivory body text.
 - All motion disabled under `prefers-reduced-motion`.
 - Contact form: client-side validation with inline errors, success message replaces the form.
   There is no backend — wire it to a form service before relying on it.
-- Hero canvas, where present: pause when hidden or scrolled out of view, cap active rings,
-  and keep hero text legible against it.
+- Hero canvas, where present: pause when hidden or scrolled out of view, cap active rings
+  (12 in `hero-ascii.js`), draw one still frame under `prefers-reduced-motion`, and keep hero
+  text legible against it.
 
 ## Scripts on Windows
 
