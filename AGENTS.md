@@ -58,8 +58,10 @@ page headers) is Cassis with light text, and `.section--plate` (the "Why" sectio
 Topaze. Keep the names stable; change the values. Orange Topaze and Vert Sauge are mid-tones:
 use the dark ink on them, never ivory body text.
 
-- **Type:** Playfair Display throughout, body at 1.7 line-height, body lines under 75
-  characters.
+- **Type:** Cormorant Garamond for display (headlines, the logo, numerals) and Newsreader
+  for running text, both from Google Fonts. Body at 1.7 line-height, body lines under 75
+  characters. Display type uses `font-size-adjust: 0.44` to match Cormorant's small
+  x-height; use `--font-display` and `--font-body`, never a hard-coded family.
 - **Logo lockup:** "Origin" bold roman + "Point" italic, set tight with no space between.
   "Point" stays italic wherever the name appears in display type.
 - **Voice:** confident, considered, timeless. Clear over clever. Sentence case, no ALL CAPS,

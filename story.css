@@ -11,7 +11,7 @@
        by one. story.js writes only custom properties (--open, --o, --d); all
        the movement is in the rules below.
 
-   Brand rules held: Playfair only, brand tokens only, 1px hairlines, no
+   Brand rules held: Cormorant Garamond and Newsreader only, brand tokens only, 1px hairlines, no
    shadows, no gradients, no blur, square corners.
    ========================================================================== */
 
@@ -149,7 +149,7 @@
   overflow: visible;
 }
 
-.fold__art text { font-family: var(--font-serif); fill: currentColor; stroke: none; }
+.fold__art text { font-family: var(--font-body); fill: currentColor; stroke: none; }
 .fold__art .lockup { font-size: 46px; }
 .fold__art .lockup b { font-weight: 700; }
 .fold__art .lockup i { font-weight: 400; font-style: italic; }

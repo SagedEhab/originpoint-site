@@ -41,9 +41,11 @@
   --focus: var(--color-burgundy);
 
   /* Type: a steep scale, so display sizes jump well clear of body copy */
-  --font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
-  --step--1: 0.9375rem;                                   /* small italic labels */
-  --step-0: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);   /* body               */
+  --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;   /* headlines, logo, numerals */
+  --font-body: "Newsreader", Georgia, "Times New Roman", serif;               /* running text */
+  --font-serif: var(--font-body);
+  --step--1: 1rem;                                   /* small italic labels */
+  --step-0: clamp(1.125rem, 1.05rem + 0.25vw, 1.25rem);   /* body               */
   --step-1: clamp(1.375rem, 1.2rem + 0.7vw, 1.75rem);     /* h3                 */
   --step-2: clamp(1.25rem, 1.05rem + 0.9vw, 1.75rem);     /* intros, ledes      */
   --step-3: clamp(2.625rem, 1.6rem + 3vw, 4.25rem);       /* h2: 48px+ desktop  */
@@ -53,7 +55,7 @@
   /* Lines and layout */
   --hairline: 1px solid var(--line);
   --content-width: 68.75rem;   /* 1100px */
-  --measure: 56ch;             /* ≈72 characters of Playfair: under the 75 limit */
+  --measure: 56ch;             /* about 68 characters of Newsreader: under the 75 limit */
   --gutter: clamp(1.25rem, 5vw, 2.5rem);
   --section-space: clamp(5rem, 3rem + 8vw, 10rem);
   --header-height: 4rem;
@@ -106,7 +108,9 @@ ol[role="list"] {
 
 h1, h2, h3 {
   color: var(--heading);
-  font-weight: 400;
+  font-family: var(--font-display);
+  font-size-adjust: 0.44;
+  font-weight: 500;
   line-height: 1.1;
   letter-spacing: -0.015em;
   text-wrap: balance;
@@ -200,7 +204,7 @@ input, button, select, textarea {
   display: inline-block;
   color: var(--color-burgundy);
   font-family: var(--font-serif);
-  font-size: 1.375rem;
+  font-size: 1.5rem;
   line-height: 1;
   letter-spacing: -0.015em;
   text-decoration: none;
@@ -1170,4 +1174,12 @@ summary::marker{color:var(--color-burgundy)}
  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
  .magnetic{translate:none!important}.hero-directory a:hover b{transform:none}
  ::view-transition-old(root),::view-transition-new(root){animation:none!important}
+}
+
+/* Display face wherever the page sets large or numeric type */
+.logo, .giant-link, .cover__lockup, .cover__tag, .service__index, .system-number,
+.fold__ghost, .fold__num, .chapter-symbol, .pullquote, .stage-picker button span,
+.principles article > span, .hero__title, .page-intro h1, .fold__art .lockup {
+  font-family: var(--font-display);
+  font-size-adjust: 0.44;
 }
