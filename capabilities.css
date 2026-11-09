@@ -1,33 +1,35 @@
 /* ==========================================================================
    OriginPoint — capabilities.css
-   Services page "What we do": four capabilities in a plain row, sized to sit
-   on one screen on desktop. Two columns on tablets, one on phones, where it
-   scrolls normally. Services page only.
+   Services page "What we do": a wall of four perforated stamps, one per
+   capability. The picked stamp sits in the middle with its two-line headline
+   tucked behind it; the neighbours peek in from the corners; a dotted path
+   winds across. Built by capabilities.js from the plain list in the HTML, so
+   without script (or before it runs) you get the list, softly tinted.
+
+   The whole wall is at most one viewport tall and every size scales from
+   that height. Services page only. Motion is transform/position only and is
+   off under prefers-reduced-motion.
    ========================================================================== */
 
 .caps.section {
   display: grid;
   align-items: center;
   min-height: calc(100svh - var(--header-height));
-  padding-block: clamp(2rem, 6svh, 5rem);
+  padding-block: clamp(0.75rem, 2svh, 1.5rem);
 }
 
+/* ---- Plain list (no script): four softly tinted columns ------------------ */
 .caps .section-head { margin-bottom: clamp(1.5rem, 5svh, 3.5rem); }
 
-/* Four colour blocks from the palette, side by side. Every block takes the dark
-   ink: it is the one text colour that clears 4.5:1 on all four fields. */
-.caps__list {
-  display: grid;
-  gap: 0;
-  border: 1px solid var(--color-ink);
-}
+.caps__list { display: grid; gap: 0.75rem; }
 
 .caps__item {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  padding: clamp(1.25rem, 3.2svh, 2.25rem) clamp(1.1rem, 2vw, 1.85rem);
-  background-color: var(--panel);
+  padding: clamp(1.1rem, 3svh, 1.75rem) clamp(1.1rem, 2vw, 1.6rem);
+  background-color: var(--tint);
+  border-top: 6px solid var(--bar);
   color: var(--color-ink);
   --heading: var(--color-ink);
   --accent: var(--color-ink);
@@ -35,35 +37,20 @@
   --focus: var(--color-ink);
 }
 
-.caps__item:nth-child(1) { --panel: var(--color-sky); }
-.caps__item:nth-child(2) { --panel: var(--color-plate); }
-.caps__item:nth-child(3) { --panel: var(--color-wash); }
-.caps__item:nth-child(4) { --panel: var(--color-sage); }
-
-.caps__item + .caps__item { border-left: 1px solid var(--color-ink); }
+/* tints: each palette colour at low strength on ivory; bars are the full colour */
+.caps__item:nth-child(1) { --bar: var(--color-sky);   --tint: #F4F2C7; }
+.caps__item:nth-child(2) { --bar: var(--color-plate); --tint: #F9D5C7; }
+.caps__item:nth-child(3) { --bar: #8FCDF2;           --tint: #E7F1F6; }
+.caps__item:nth-child(4) { --bar: var(--color-sage);  --tint: #E1E1D5; }
 
 .caps__no {
   font-family: var(--font-display);
-  font-size: clamp(1.75rem, 1rem + 2svh, 2.5rem);
+  font-size: 2rem;
   font-style: italic;
   line-height: 1;
-  color: var(--color-ink);
 }
 
-.caps__no::after {
-  content: "";
-  display: block;
-  width: 2.5rem;
-  height: 3px;
-  margin-top: 0.6rem;
-  background-color: var(--color-ink);
-}
-
-.caps__title {
-  font-size: clamp(1.75rem, 1.2rem + 1.1vw, 2.25rem);
-  line-height: 1.08;
-}
-
+.caps__title { font-size: clamp(1.75rem, 1.2rem + 1.1vw, 2.25rem); line-height: 1.08; }
 .caps__desc { max-width: 30ch; }
 
 .caps__foot {
@@ -73,47 +60,252 @@
   justify-content: space-between;
   gap: 0.35rem 1rem;
   margin-top: auto;
-  padding-top: 0.75rem;
 }
 
 .caps__stage { font-style: italic; }
-
 .caps .text-link { margin-top: 0; }
 
-@media (min-width: 40em) {
-  .caps__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .caps__item:nth-child(3) { border-left: 0; }
-  .caps__item:nth-child(n + 3) { border-top: 1px solid var(--color-ink); }
+@media (min-width: 40em) { .caps__list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 64em) { .caps__list { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+/* ---- Live: the stamp wall ------------------------------------------------ */
+.caps--live .caps__list,
+.caps--live .section-head { display: none; }
+
+.wall {
+  --wh: min(calc(100svh - var(--header-height) - 2.5rem), 46rem);
+  --sh: calc(var(--wh) * 0.6);                 /* centre stamp height */
+  --mx: 0;
+  --my: 0;
+  position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  width: min(100% - 2 * var(--gutter), 72rem);
+  height: var(--wh);
+  margin-inline: auto;
+  overflow: hidden;
+  background-color: var(--color-burgundy);
+  color: var(--color-ivory);
+  touch-action: pan-y;
 }
 
-@media (min-width: 64em) {
-  .caps__list { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .caps__item:nth-child(3) { border-left: 1px solid var(--color-ink); }
-  .caps__item:nth-child(n + 3) { border-top: 0; }
+.wall:focus-visible { outline: 3px solid var(--color-sky); outline-offset: -6px; }
+
+.wall__bar {
+  position: relative;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem clamp(1rem, 2.4vw, 1.75rem);
+  font-style: italic;
 }
 
-/* Short desktop windows: tighter spacing so the row still fits */
-@media (min-width: 64em) and (max-height: 800px) {
-  .caps.section { padding-block: 1.25rem; }
-  .caps .section-head { margin-bottom: 1.25rem; }
-  .caps .section-head h2 { font-size: 2.75rem; }
-  .caps__item { gap: 0.5rem; padding-block: 0.9rem; }
-  .caps__no { font-size: 1.5rem; }
-  .caps__no::after { margin-top: 0.4rem; }
-  .caps__desc { line-height: 1.5; }
+.wall__bar h2 {
+  color: var(--color-ivory);
+  font-size: clamp(1.4rem, 1.1rem + 1vw, 1.9rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.01em;
 }
 
-/* Tablets: two by two, a little tighter so it still fits */
-@media (min-width: 40em) and (max-width: 63.99em) {
-  .caps.section { padding-block: 1.25rem; }
-  .caps .section-head { margin-bottom: 1.25rem; }
-  .caps__item { padding-block: 1.1rem; }
+.wall__idx { display: flex; align-items: center; gap: 0.25rem; }
+
+.wall__idx button {
+  min-width: 2.25rem;
+  min-height: 2.25rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-ivory);
+  font: inherit;
+  font-style: italic;
+  cursor: pointer;
 }
 
-/* Phones: a compact stack that scrolls normally */
-@media (max-width: 39.99em) {
-  .caps.section { min-height: 0; padding-block: 3rem; }
-  .caps__list { grid-template-columns: minmax(0, 1fr); }
-  .caps__item { gap: 0.5rem; border-left: 0 !important; }
-  .caps__item + .caps__item { border-top: 1px solid var(--color-ink); }
+.wall__idx button[aria-current="true"] { color: var(--color-sky); text-decoration: underline; text-underline-offset: 0.3em; }
+.wall__idx button:focus-visible { outline: 2px solid var(--color-sky); outline-offset: -2px; }
+
+.wall__more { color: var(--color-sky); }
+
+/* the dotted path: chunky dashes in Wasabi */
+.wall__path {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.wall__path path {
+  fill: none;
+  stroke: var(--color-sky);
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-dasharray: 0.1 17;
+  opacity: 0.9;
+}
+
+/* ---- Headlines, behind the stamp ---------------------------------------- */
+.wall__stage { position: relative; min-height: 0; container-type: inline-size; }
+
+.wall__title {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+  color: var(--color-ink-light);
+  font-family: var(--font-display);
+  /* as big as the height allows, but never wider than the stage: --chars is the longest line */
+  font-size: clamp(2rem, min(calc(var(--wh) * 0.16), calc(86cqw / var(--chars, 10) / 0.5)), 9rem);
+  font-size-adjust: 0.44;
+  font-weight: 600;
+  line-height: 0.84;
+  letter-spacing: -0.03em;
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 600ms ease;
+}
+
+.wall__title span { display: block; transition: translate 900ms cubic-bezier(0.2, 0.7, 0.2, 1); }
+.wall__title .l1 { translate: 0 -30%; }
+.wall__title .l2 { translate: 0 30%; padding-bottom: 0.24em; }
+.wall__title.is-current { opacity: 1; }
+.wall__title.is-current span { translate: 0 0; }
+
+/* ---- Stamps -------------------------------------------------------------- */
+.stamp {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  z-index: var(--z, 1);
+  width: calc(var(--sh) * 0.8);
+  aspect-ratio: 4 / 5;
+  translate: -50% -50%;
+  rotate: var(--r, 0deg);
+  scale: var(--s, 1);
+  color: var(--color-ivory);
+  cursor: pointer;
+  transition: left 900ms cubic-bezier(0.2, 0.7, 0.2, 1), top 900ms cubic-bezier(0.2, 0.7, 0.2, 1),
+              rotate 900ms cubic-bezier(0.2, 0.7, 0.2, 1), scale 900ms cubic-bezier(0.2, 0.7, 0.2, 1),
+              opacity 600ms ease;
+}
+
+.stamp.is-current { --x: 50%; --y: 50%; --r: 0deg; --s: 1; --z: 3; cursor: default;
+  translate: calc(-50% + var(--mx) * -10px) calc(-50% + var(--my) * -8px); }
+.stamp.is-prev    { --x: 6%;  --y: 36%; --r: -8deg; --s: 0.74; --z: 2;
+  translate: calc(-50% + var(--mx) * 14px) calc(-50% + var(--my) * 10px); }
+.stamp.is-next    { --x: 94%; --y: 92%; --r: 7deg;  --s: 0.74; --z: 2;
+  translate: calc(-50% + var(--mx) * 14px) calc(-50% + var(--my) * 10px); }
+.stamp.is-far     { --x: 130%; --y: 50%; --r: 12deg; --s: 0.6; --z: 1; opacity: 0; pointer-events: none; }
+
+.stamp__frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: var(--color-ivory);
+}
+
+.stamp__in {
+  position: absolute;
+  inset: 9% 8%;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 0.4rem;
+  color: var(--color-ink);
+}
+
+.stamp__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  font-style: italic;
+}
+
+.stamp__no {
+  min-width: 1.75rem;
+  padding: 0.1rem 0.3rem;
+  border: 1.5px solid var(--color-ink);
+  font-family: var(--font-display);
+  font-style: normal;
+  font-weight: 600;
+  text-align: center;
+}
+
+.stamp__art { min-height: 0; }
+.stamp__art svg { display: block; width: 100%; height: 100%; }
+
+.stamp__name {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, calc(var(--sh) * 0.052), 1.45rem);
+  font-weight: 600;
+  line-height: 1.05;
+}
+
+/* ---- Caption under the stage -------------------------------------------- */
+.wall__caption {
+  position: relative;
+  z-index: 6;
+  display: grid;
+  padding: 0.6rem clamp(1rem, 2.4vw, 1.75rem) 1rem;
+  text-align: center;
+}
+
+.cap {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  opacity: 0;
+  transition: opacity 500ms ease;
+}
+
+.cap.is-current { opacity: 1; }
+.cap__desc { max-width: 62ch; font-size: var(--step--1); line-height: 1.45; }
+.cap__foot { display: flex; gap: 1.25rem; align-items: baseline; font-size: var(--step--1); }
+.cap__stage { font-style: italic; color: var(--color-sky); }
+.cap a { color: var(--color-sky); }
+.cap a:focus-visible, .wall__more:focus-visible { outline: 2px solid var(--color-sky); outline-offset: 3px; }
+
+/* ---- Short screens and phones ------------------------------------------- */
+@media (max-height: 760px) {
+  .wall { --sh: calc(var(--wh) * 0.56); }
+  .cap__desc { display: none; }
+}
+
+@media (max-width: 47.99em) {
+  .caps.section { align-items: start; }
+  .wall { --wh: min(calc(100svh - var(--header-height) - 1.5rem), 44rem); --sh: calc(var(--wh) * 0.4); }
+  .wall__more { display: none; }
+  .wall__bar { padding-block: 0.6rem; }
+  .wall__idx button { min-width: 2rem; }
+  .wall__title { font-size: clamp(1.7rem, min(calc(var(--wh) * 0.095), calc(90cqw / var(--chars, 10) / 0.5)), 3.4rem); }
+  .stamp.is-prev { --x: -4%; --y: 28%; --s: 0.6; }
+  .stamp.is-next { --x: 104%; --y: 64%; --s: 0.6; }
+  .stamp__in { inset: 8% 7%; gap: 0.25rem; }
+  .stamp__top { font-size: 0.75rem; }
+  .stamp__name { font-size: 0.8125rem; }
+  .wall__caption { padding-bottom: 0.75rem; }
+  .cap__desc { font-size: 0.875rem; }
+}
+
+@media (max-width: 47.99em) and (max-height: 700px) {
+  .cap__desc { display: none; }
+  .caps.section { padding-block: 0.5rem; }
+  .wall__bar { padding-block: 0.4rem; }
+  .wall__caption { padding-block: 0.3rem 0.5rem; }
+}
+
+/* ---- Motion off ---------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .stamp, .wall__title, .wall__title span, .cap { transition: none; }
+  .stamp.is-current, .stamp.is-prev, .stamp.is-next { translate: -50% -50%; }
 }
