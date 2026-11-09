@@ -16,7 +16,7 @@
   var entries = Array.prototype.slice.call(root.querySelectorAll(".entry"));
   var plates = Array.prototype.slice.call(root.querySelectorAll(".plate"));
   var folio = root.querySelector("[data-folio]");
-  var detail = root.querySelector(".leaf--detail");
+  var detail = root.querySelector(".sheet");
   var current = -1;
 
   function select(i, animate) {

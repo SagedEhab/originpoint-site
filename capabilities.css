@@ -1,195 +1,279 @@
 /* ==========================================================================
    OriginPoint — capabilities.css
-   The services page "What we do" section: an open ring binder seen from
-   above. The top leaf is the index of the four capabilities, the bottom leaf
-   tells the one you pick, and silver rings sit across the seam. Services page
-   only.
+   The services page "What we do" section: one ring binder, built to fit a
+   single screen. The cover (rings down the spine, a strap, a taped drawing)
+   carries the title and the index of the four capabilities; the picked one
+   is a loose sheet tucked behind the cover. Services page only.
 
    Two modes, one DOM:
-     - Static (no JS, or reduced motion where JS still lets you pick): all four
-       entries are readable. Without JS they simply stack on the bottom leaf.
-     - Live (.is-live, set by capabilities.js): pick an entry from the index
-       and the bottom leaf turns to it. On scroll the two leaves drift together
-       onto the rings (translate only; off under reduced motion).
+     - Static (no JS): all four sheets stack and stay readable.
+     - Live (.is-live, set by capabilities.js): pick from the index and the
+       sheet turns to it. On scroll the cover and sheet slide together
+       (translate only; off under reduced motion).
 
-   The silver gradients used by the rings are defined once in the page sprite.
+   Sizing: the desk is at most one viewport tall, and every inner size scales
+   with it, so nothing needs to scroll. Short screens drop the intro and the
+   taped drawing first.
    ========================================================================== */
 
-.caps { overflow: clip; }
-
-.spread {
-  --leaf-pad: clamp(1.25rem, 3.5vw, 3rem);
-  --split: 0;          /* 1 = leaves apart, 0 = closed onto the rings; set by JS */
-  position: relative;
+.caps.section {
   display: grid;
-  width: min(100%, 64rem);
+  align-items: center;
+  min-height: calc(100svh - var(--header-height));
+  padding-block: clamp(1rem, 3svh, 2.25rem);
+  overflow: clip;
+}
+
+.desk {
+  --split: 0;                 /* 1 = pulled apart, 0 = together; set by JS */
+  --case-h: min(calc(100svh - var(--header-height) - 2.5rem), 46rem);
+  --spine: 3.25rem;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  width: min(100% - 2 * var(--gutter), 62rem);
   margin-inline: auto;
 }
 
-.leaf {
+/* ---- The binder ---------------------------------------------------------- */
+.case {
   position: relative;
-  padding: var(--leaf-pad);
+  z-index: 2;
+  display: grid;
+  grid-template-columns: var(--spine) minmax(0, 1fr);
+  height: var(--case-h);
+  aspect-ratio: 0.66;
+  translate: calc(var(--split) * -3.5rem) 0;
+}
+
+.case__spine {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: var(--color-ink);
+  border: 1px solid var(--color-ink);
+  pointer-events: none;
+}
+
+/* the rod the rings are threaded on: brushed silver */
+.case__spine::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 calc(50% - 0.2rem);
+  width: 0.4rem;
+  background: linear-gradient(90deg, #6B737B, #EEF1F4 38%, #9AA2AA 62%, #565D64);
+}
+
+.case__ring {
+  position: relative;
+  width: calc(var(--spine) + 1.75rem);
+  height: 1.6rem;
+  overflow: visible;
+}
+
+.case__ring .hole  { fill: var(--color-ink); }
+.case__ring .edge  { fill: none; stroke: #4B5259; stroke-width: 3.8; }
+.case__ring .metal { fill: none; stroke: url(#silver-ring-v); stroke-width: 2.3; }
+
+.case__cover {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.5rem, 1.6svh, 1rem);
+  min-height: 0;
+  padding: clamp(1.1rem, 3svh, 2rem) clamp(1.1rem, 2.4vw, 1.75rem);
+  background-color: var(--color-burgundy);
+  color: var(--color-ivory);
+  border: 1px solid var(--color-ink);
+  border-left: 0;
+  --heading: var(--color-ivory);
+  --accent: var(--color-sky);
+  --line: var(--color-ink-light);
+  --focus: var(--color-sky);
+}
+
+/* the strap and its stud on the open edge */
+.case__strap {
+  position: absolute;
+  top: 46%;
+  right: -1.25rem;
+  width: 2.75rem;
+  height: 4.25rem;
+  background-color: var(--color-ink);
+  border: 1px solid var(--color-ink);
+  pointer-events: none;
+}
+.case__strap::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0.6rem;
+  width: 1.1rem;
+  height: 1.1rem;
+  translate: 0 -50%;
+  border-radius: 50%;
+  background-color: #C9CED3;
+  border: 1px solid #5B636A;
+}
+
+.case__meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid var(--line);
+  font-size: var(--step--1);
+  font-style: italic;
+  color: var(--color-sky);
+}
+
+.case__cover h2 {
+  font-size: clamp(2.4rem, 1.2rem + 4svh + 1vw, 4.1rem);
+  line-height: 0.95;
+}
+
+.case__intro {
+  max-width: 26ch;
+  font-size: var(--step--1);
+  line-height: 1.45;
+}
+
+/* the taped drawing: a print stuck to the cover */
+.polaroid {
+  position: relative;
+  align-self: center;
+  width: clamp(6.5rem, 14svh, 8.5rem);
+  margin-block: 0.15rem;
+  padding: 0.55rem 0.55rem 0.35rem;
+  background-color: var(--color-ivory);
+  color: var(--color-burgundy);
+  rotate: -3deg;
+}
+
+.polaroid__tape {
+  position: absolute;
+  top: -0.55rem;
+  left: 50%;
+  width: 3.25rem;
+  height: 1.1rem;
+  translate: -50% 0;
+  background-color: var(--color-sky);
+  opacity: 0.9;
+}
+
+.plate { display: none; margin: 0; }
+.plate svg { display: block; width: 100%; height: auto; }
+.plate figcaption {
+  margin-top: 0.3rem;
+  font-size: 0.8125rem;
+  font-style: italic;
+  text-align: center;
+  line-height: 1.2;
+}
+.plate .draw  { fill: none; stroke: currentColor; stroke-width: 1.6; }
+.plate .solid { fill: currentColor; stroke: none; }
+
+.desk:not(.is-live) .plate:first-of-type,
+.plate:not([hidden]) { display: block; }
+.desk.is-live .plate[hidden],
+.desk:not(.is-live) .plate:not(:first-of-type) { display: none; }
+
+/* ---- The index: typed fields on the cover ------------------------------- */
+.index {
+  margin-top: auto;
+  border-top: 1px solid var(--line);
+}
+
+.index__item {
+  display: grid;
+  grid-template-columns: 1.9rem minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding-block: clamp(0.45rem, 1.3svh, 0.8rem);
+  border-bottom: 1px solid var(--line);
+  color: var(--color-ivory);
+  text-decoration: none;
+}
+
+.index__no {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--color-ink-light);
+}
+
+.index__name {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 0.9rem + 0.9vw, 1.55rem);
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+.index__stage {
+  font-size: 0.875rem;
+  font-style: italic;
+  white-space: nowrap;
+  color: var(--color-sky);
+}
+
+.index__item:hover .index__name { font-style: italic; }
+
+.index__item[aria-current="true"] .index__name { color: var(--color-sky); font-style: italic; }
+/* the picked row gets a Wasabi marker down its left edge */
+.index__item { padding-left: 0.6rem; border-left: 3px solid transparent; }
+.index__item[aria-current="true"] { border-left-color: var(--color-sky); }
+
+.index__item:focus-visible { outline-offset: -3px; }
+
+/* ---- The sheet: the picked capability ----------------------------------- */
+.sheet {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(var(--case-h) * 0.88);
+  margin-left: -2.75rem;
+  padding: clamp(1.25rem, 3.5svh, 2.75rem) clamp(1.25rem, 3vw, 2.75rem) clamp(1rem, 2.5svh, 1.75rem) calc(2.75rem + clamp(1.25rem, 3vw, 2.5rem));
   background-color: var(--color-ivory);
   color: var(--color-charcoal);
   border: 1px solid var(--color-ink);
+  translate: calc(var(--split) * 4rem) 0;
   --heading: var(--color-burgundy);
   --accent: var(--color-burgundy);
   --line: var(--color-burgundy);
   --focus: var(--color-burgundy);
 }
 
-/* The edges of the pages beneath: two hairlines, not shadows */
-.leaf::after {
+/* the page beneath: a hairline, not a shadow */
+.sheet::after {
   content: "";
   position: absolute;
   inset: 0;
+  translate: 5px 5px;
   border: 1px solid var(--color-ink);
   opacity: 0.35;
   pointer-events: none;
 }
-.leaf--index::after  { translate: 0 -5px; }
-.leaf--detail::after { translate: 0 5px; }
 
-.leaf--index  { translate: 0 calc(var(--split) * -2.5rem); }
-.leaf--detail { translate: 0 calc(var(--split) * 2.5rem); }
-
-.leaf__running {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  padding-bottom: 0.9rem;
-  margin-bottom: clamp(1.25rem, 2.5vw, 2rem);
-  border-bottom: 1px solid var(--line);
-  font-size: var(--step--1);
-  font-style: italic;
-}
-
-/* ---- Top leaf: the index and a drawing of the one selected ------------- */
-.leaf__cols {
-  display: grid;
-  gap: clamp(1.5rem, 4vw, 3rem);
-}
-
-.index { border-top: 1px solid var(--line); }
-
-.index__item {
-  display: grid;
-  grid-template-columns: 2.25rem minmax(0, 1fr) auto;
-  align-items: baseline;
-  gap: 0.75rem;
-  padding-block: 1.05rem;
-  border-bottom: 1px solid var(--line);
-  color: var(--color-charcoal);
-  text-decoration: none;
-}
-
-.index__no {
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  font-style: italic;
-  color: var(--color-burgundy);
-}
-
-.index__name {
-  font-family: var(--font-display);
-  font-size: clamp(1.5rem, 1.1rem + 1.4vw, 2.1rem);
-  font-weight: 500;
-  line-height: 1.1;
-  letter-spacing: -0.01em;
-  color: var(--color-burgundy);
-}
-
-.index__stage {
-  font-size: var(--step--1);
-  font-style: italic;
-  white-space: nowrap;
-}
-
-.index__item:hover .index__name,
-.index__item[aria-current="true"] .index__name { font-style: italic; }
-
-.index__item[aria-current="true"] { background-color: var(--color-wash); }
-
-.index__item:focus-visible { outline-offset: -3px; }
-
-.plate {
-  display: none;
-  align-self: center;
-  justify-self: center;
-  width: min(100%, 14rem);
-  color: var(--color-burgundy);
-}
-
-.plate svg { display: block; width: 100%; height: auto; }
-
-.plate figcaption {
-  margin-top: 0.75rem;
-  font-size: var(--step--1);
-  font-style: italic;
-  text-align: center;
-}
-
-.plate .draw { fill: none; stroke: currentColor; stroke-width: 1.25; }
-.plate .solid { fill: currentColor; stroke: none; }
-
-.spread:not(.is-live) .plate:first-of-type,
-.plate:not([hidden]) { display: block; }
-.spread.is-live .plate[hidden],
-.spread:not(.is-live) .plate:not(:first-of-type) { display: none; }
-
-/* ---- The rings across the seam ----------------------------------------- */
-.rings {
-  position: relative;
-  z-index: 3;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  height: 3.75rem;
-  background-color: var(--color-ink);
-  border-inline: 1px solid var(--color-ink);
-  pointer-events: none;
-}
-
-/* the rod the rings hang on: brushed silver */
-.rings::before {
-  content: "";
-  position: absolute;
-  inset: calc(50% - 0.22rem) 0 auto 0;
-  height: 0.44rem;
-  background: linear-gradient(180deg, #6B737B, #EEF1F4 38%, #9AA2AA 62%, #565D64);
-}
-
-.rings__unit {
-  position: relative;
-  width: 2.75rem;
-  height: 8rem;
-  overflow: visible;
-}
-
-.rings__hole { fill: var(--color-ink); }
-.rings__edge { fill: none; stroke: #4B5259; stroke-width: 4.2; }
-.rings__metal { fill: none; stroke: url(#silver-ring); stroke-width: 2.6; }
-
-/* ---- Bottom leaf: the story of the selected capability ------------------ */
-.entry {
-  display: grid;
-  gap: clamp(1.25rem, 3vw, 2.5rem);
-  position: relative;
-}
+.entry { display: flex; flex-direction: column; gap: clamp(0.75rem, 2svh, 1.5rem); }
 
 .entry + .entry {
-  margin-top: clamp(2rem, 4vw, 3rem);
-  padding-top: clamp(2rem, 4vw, 3rem);
+  margin-top: clamp(1.5rem, 3svh, 2.5rem);
+  padding-top: clamp(1.5rem, 3svh, 2.5rem);
   border-top: 1px solid var(--line);
 }
 
-.spread.is-live .entry + .entry { margin-top: 0; padding-top: 0; border-top: 0; }
-.spread.is-live .entry[hidden] { display: none; }
+.desk.is-live .entry + .entry { margin-top: 0; padding-top: 0; border-top: 0; }
+.desk.is-live .entry[hidden] { display: none; }
 
 .entry__no {
   display: block;
   font-family: var(--font-display);
-  font-size: clamp(2.25rem, 1.5rem + 3vw, 4rem);
+  font-size: clamp(2rem, 1rem + 3svh + 1vw, 3.5rem);
   font-style: italic;
   line-height: 1;
   color: var(--color-burgundy);
@@ -201,50 +285,104 @@
   display: block;
   width: 2.75rem;
   height: 3px;
-  margin-top: 0.75rem;
+  margin-top: 0.6rem;
   background-color: var(--color-ink-light);
 }
 
 .entry__title {
-  margin-top: 0.75rem;
-  font-size: clamp(2.5rem, 1.4rem + 4.6vw, 5rem);
+  font-size: clamp(2.25rem, 0.8rem + 5svh + 1.2vw, 4.75rem);
   line-height: 0.98;
   letter-spacing: -0.03em;
 }
 
-.entry__stage {
-  margin-top: 1rem;
-  font-style: italic;
-}
+.entry__stage { font-style: italic; }
 
 .entry__desc {
-  max-width: 32ch;
+  max-width: 30ch;
   font-size: var(--step-2);
   line-height: 1.5;
 }
 
-.entry__link { margin-top: 1.75rem; }
+.entry__link { margin-top: clamp(0.25rem, 1svh, 1rem); }
 
-.leaf__folio {
-  margin-top: clamp(1.5rem, 3vw, 2.5rem);
-  padding-top: 0.9rem;
+.sheet__folio {
+  margin-top: clamp(0.75rem, 2svh, 1.5rem);
+  padding-top: 0.7rem;
   border-top: 1px solid var(--line);
   font-size: var(--step--1);
   font-style: italic;
   text-align: right;
 }
 
-@media (min-width: 48em) {
-  .leaf__cols { grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr); }
+/* ---- Short screens: lose the extras first -------------------------------- */
+@media (max-height: 860px) {
+  .case__intro { display: none; }
+}
+@media (max-height: 760px) {
+  .polaroid, .entry__no { display: none; }
+  .entry__desc { font-size: var(--step-0); }
+}
 
-  .entry { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); align-items: end; }
+/* ---- Tablets and phones: the binder stands up, the sheet sits under it --- */
+@media (max-width: 63.99em) {
+  .caps.section { align-items: start; padding-block: 0.75rem; }
+
+  .desk {
+    --case-h: auto;
+    --spine: 2.25rem;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .case {
+    height: auto;
+    aspect-ratio: auto;
+    margin-right: 1.25rem;       /* room for the strap */
+    translate: 0 calc(var(--split) * -2rem);
+  }
+
+  .case__ring { width: calc(var(--spine) + 1.25rem); height: 1.25rem; }
+  .case__cover { padding: 0.9rem; gap: 0.5rem; }
+  .case__cover h2 { font-size: 2.4rem; }
+  .case__intro, .polaroid { display: none; }
+  .case__strap { top: 38%; width: 1.75rem; height: 3.25rem; }
+  .case__strap::after { left: 0.45rem; width: 0.9rem; height: 0.9rem; }
+  .index__item { padding-block: 0.4rem; }
+  .index__name { font-size: 1.25rem; }
+
+  .sheet {
+    height: auto;
+    margin-left: 0;
+    margin-top: -0.5rem;
+    margin-right: 0.35rem;
+    padding: 1rem 1rem 0.75rem;
+    translate: 0 calc(var(--split) * 2rem);
+  }
+  .entry__no { font-size: 1.75rem; }
+  .entry__title { font-size: clamp(2.1rem, 9.5vw, 2.75rem); }
+  .entry__desc { font-size: 1.0625rem; }
+  .entry__link { margin-top: 0; }
+  .sheet__folio { margin-top: 0.6rem; padding-top: 0.5rem; }
+}
+
+/* Small phones: the essentials only, so it still fits the screen */
+@media (max-width: 63.99em) and (max-height: 720px) {
+  .case__meta, .sheet__folio, .entry__no, .entry__stage { display: none; }
+  .case__cover h2 { font-size: 2rem; }
+  .case__cover { gap: 0.35rem; padding-block: 0.7rem; }
+  .index__item { padding-block: 0.3rem; }
+  .index__name { font-size: 1.125rem; }
+  .entry { gap: 0.5rem; }
+  .entry__title { font-size: clamp(1.9rem, 8.5vw, 2.4rem); }
+  .entry__desc { font-size: 1rem; line-height: 1.4; }
+  .sheet { padding-block: 0.8rem; }
 }
 
 /* ---- Turning to another entry ------------------------------------------ */
 @media (prefers-reduced-motion: no-preference) {
   .entry.is-turning { animation: entry-turn 650ms var(--ease-out, cubic-bezier(0.2, 0.7, 0.2, 1)) both; }
-  .plate.is-turning { animation: entry-fade 650ms var(--ease-out, cubic-bezier(0.2, 0.7, 0.2, 1)) both; }
-  .leaf--index, .leaf--detail { will-change: translate; }
+  .plate.is-turning { animation: entry-fade 650ms ease both; }
+  .case, .sheet { will-change: translate; }
 }
 
 @keyframes entry-turn {
@@ -254,5 +392,5 @@
 @keyframes entry-fade { from { opacity: 0; } to { opacity: 1; } }
 
 @media (prefers-reduced-motion: reduce) {
-  .leaf--index, .leaf--detail { translate: none; }
+  .case, .sheet { translate: none; }
 }
