@@ -72,9 +72,10 @@ use the dark ink on them, never ivory body text.
   One deliberate exception: the rings that are hardware (the binder rings and the drifting
   rings further down the home page) are polished silver. The gradient is the material, not
   decoration; do not use gradients anywhere else.
-- **Hero background:** the origin point and its ripples are drawn as characters (`. : % # @`)
-  on a canvas (`hero-ascii.js`), not as lines. The characters stay away from the hero text
-  (built from the `data-quiet` elements); keep any new hero copy marked `data-quiet`.
+- **Hero background:** the origin point and its ripples are a halftone of round dots on a
+  staggered grid, drawn on a canvas (`hero-ascii.js`, named from an earlier character version),
+  not as lines. The dots stay away from the hero text (built from the `data-quiet` elements);
+  keep any new hero copy marked `data-quiet`.
 
 ### Must not regress
 

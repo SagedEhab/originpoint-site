@@ -1,9 +1,10 @@
 /* ==========================================================================
    OriginPoint — hero-ascii.js
-   The hero background: the origin point and its rings, drawn as a field of
-   characters (. : % # @). Rings spread outward from the origin, which follows
-   the pointer; a click sends a new ring. Characters thin out to almost nothing
-   behind the hero text so it stays legible.
+   The hero background: the origin point and its rings, drawn as a halftone
+   field of round dots on a staggered grid. Rings spread outward from the
+   origin, which follows the pointer; a click sends a new ring. Dot size follows
+   the field, and the dots thin out to nothing behind the hero text so it stays
+   legible.
 
    Rules kept from the old ripple canvas: pauses when the hero is hidden or
    scrolled out of view, caps the number of active rings, and under
@@ -17,7 +18,6 @@
 
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
   var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
-  var RAMP = [".", ":", "%", "#", "@"];
   var MAX_RINGS = 12;
   var SPAWN_EVERY = 1.7;        // seconds between ambient rings
   var SPEED = 84;               // px per second
@@ -34,9 +34,8 @@
   var css = getComputedStyle(document.documentElement);
   var IVORY = (css.getPropertyValue("--color-ivory") || "#F7F3EC").trim();
   var SKY = (css.getPropertyValue("--color-sky") || "#E9F056").trim();
-  var FAMILY = getComputedStyle(document.body).fontFamily;
 
-  var W = 0, H = 0, dpr = 1, fs = 14, cw = 9, chh = 16, cols = 0, rows = 0;
+  var W = 0, H = 0, dpr = 1, cw = 16, chh = 14, cols = 0, rows = 0;   // cw: dot pitch, chh: row pitch
   var mask = null;                         // 0..1 per cell: how much ink is allowed there
   var rings = [];
   var origin = { x: 0, y: 0, tx: 0, ty: 0 };
@@ -44,6 +43,10 @@
   var clock = 0, spawnClock = 0, last = 0, raf = 0, inView = true;
 
   function clamp(v, lo, hi) { return Math.min(hi, Math.max(lo, v)); }
+
+  // Dot centres sit on a staggered grid: every other row is shifted half a pitch
+  function dotX(i, j) { return (i + 0.5 + (j & 1) * 0.5) * cw; }
+  function dotY(j) { return (j + 0.5) * chh; }
 
   // The origin lives on the orange disc; fall back to the right of the hero
   function home() {
@@ -67,7 +70,7 @@
     var FEATHER = 130;
     for (var j = 0; j < rows; j++) {
       for (var i = 0; i < cols; i++) {
-        var px = (i + 0.5) * cw, py = (j + 0.5) * chh, d = 1e9;
+        var px = dotX(i, j), py = dotY(j), d = 1e9;
         for (var b = 0; b < boxes.length; b++) {
           var bx = boxes[b];
           var dx = Math.max(bx[0] - px, 0, px - bx[2]);
@@ -89,11 +92,10 @@
     canvas.height = Math.round(H * dpr);
     canvas.style.width = W + "px";
     canvas.style.height = H + "px";
-    fs = clamp(W / 82, 14, 20);
-    cw = fs * 0.68;
-    chh = fs * 1.18;
-    cols = Math.ceil(W / cw);
-    rows = Math.ceil(H / chh);
+    cw = clamp(W / 88, 13, 19);
+    chh = cw * 0.866;                      // staggered rows: equal spacing to the neighbours
+    cols = Math.ceil(W / cw) + 1;
+    rows = Math.ceil(H / chh) + 1;
     buildMask();
     var h = home();
     if (!origin.x && !origin.y) { origin.x = origin.tx = h.x; origin.y = origin.ty = h.y; }
@@ -124,19 +126,18 @@
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.font = "600 " + fs.toFixed(1) + "px " + FAMILY;
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
 
     var maxR = Math.hypot(W, H) * 0.95;
-    var tick = reduced.matches ? 0 : Math.floor(clock * 5);   // characters shimmer ~5 times a second
+    var tick = reduced.matches ? 0 : Math.floor(clock * 5);   // the dots shimmer ~5 times a second
     var ox = origin.x, oy = origin.y;
+    var rMax = cw * 0.5 * 0.92;
 
     for (var j = 0; j < rows; j++) {
-      var py = (j + 0.5) * chh;
+      var py = dotY(j);
       for (var i = 0; i < cols; i++) {
         var m = mask[j * cols + i];
-        var px = (i + 0.5) * cw;
+        if (m <= 0) continue;
+        var px = dotX(i, j);
         var v = 0;
         // the origin point itself
         var d0 = Math.hypot(px - ox, py - oy);
@@ -153,12 +154,15 @@
         }
         v *= m;
         if (v < 0.07) continue;
-        v *= 0.85 + 0.15 * hash(i, j, tick);                  // shimmer
+        v *= 0.88 + 0.12 * hash(i, j, tick);                  // shimmer
         if (v < 0.07) continue;
-        var idx = Math.min(RAMP.length - 1, Math.floor(Math.pow(clamp(v, 0, 0.999), 0.75) * RAMP.length));
-        ctx.globalAlpha = clamp(0.55 + 0.45 * v, 0, 1);
+        var r = rMax * Math.pow(clamp(v, 0, 1), 0.7);         // dot size follows the field
+        if (r < 0.9) continue;
         ctx.fillStyle = v > 0.9 ? SKY : IVORY;
-        ctx.fillText(RAMP[idx], px, py);
+        ctx.globalAlpha = clamp(0.6 + 0.4 * v, 0, 1);
+        ctx.beginPath();
+        ctx.arc(px, py, r, 0, TAU);
+        ctx.fill();
       }
     }
     ctx.globalAlpha = 1;
