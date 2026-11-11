@@ -1,0 +1,258 @@
+/* ==========================================================================
+   OriginPoint — Version B landing page (landing-b/b.css)
+   A light, airy take on the home page: a flat landscape hero with a dotted
+   route leaving the origin point, a road that draws itself through the five
+   stages as you scroll, then calm colour-block sections. Self-contained: it
+   does not use styles.css, so Version A is untouched.
+   Brand held: the five palette colours plus ivory, Cormorant Garamond and
+   Newsreader only, 1px hairlines, no shadows, no blur, square corners.
+   ========================================================================== */
+
+:root {
+  --cassis: #351E28;
+  --ink: #211218;
+  --orange: #FF5C34;
+  --wasabi: #E9F056;
+  --blue: #D7EFFF;
+  --sage: #AEB8A0;
+  --ivory: #F7F3EC;
+  --paper: #EFE8DC;
+  --charcoal: #26242A;
+  --display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --body: "Newsreader", Georgia, "Times New Roman", serif;
+  --gutter: clamp(1.25rem, 5vw, 2.5rem);
+  --header: 4.5rem;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { background: var(--ivory); scroll-padding-top: var(--header); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--ivory);
+  color: var(--charcoal);
+  font-family: var(--body);
+  font-size: clamp(1.125rem, 1.05rem + 0.25vw, 1.25rem);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, p, ul, ol { margin: 0; }
+ul[role="list"], ol[role="list"] { list-style: none; padding: 0; }
+svg { display: block; }
+a { color: inherit; text-underline-offset: 0.25em; }
+
+h1, h2, h3 {
+  font-family: var(--display);
+  font-size-adjust: 0.44;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  color: var(--cassis);
+}
+
+h2 { font-size: clamp(2.75rem, 1.4rem + 5vw, 6rem); letter-spacing: -0.035em; line-height: 0.95; }
+h3 { font-size: clamp(1.6rem, 1.2rem + 1vw, 2.2rem); }
+i { font-style: italic; }
+
+:focus-visible { outline: 3px solid var(--cassis); outline-offset: 3px; }
+
+.skip-link { position: absolute; left: 0.75rem; top: -4rem; z-index: 100; padding: 0.6rem 1rem; background: var(--cassis); color: var(--ivory); }
+.skip-link:focus { top: 0.75rem; }
+
+.bwrap { width: min(100% - 2 * var(--gutter), 72rem); margin-inline: auto; }
+
+.eyebrow { font-size: 1rem; font-style: italic; margin-bottom: 1.25rem; }
+
+/* ---- Logo ---------------------------------------------------------------- */
+.logo { display: inline-block; font-family: var(--display); font-size: 1.6rem; line-height: 1; letter-spacing: -0.015em; color: var(--cassis); text-decoration: none; }
+.logo__o { font-weight: 700; }
+.logo__p { font-style: italic; font-weight: 400; }
+.logo--lg { font-size: clamp(2.5rem, 5vw, 4rem); }
+
+/* ---- Buttons ------------------------------------------------------------- */
+.bbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 3.25rem;
+  padding: 0.7rem 1.6rem;
+  border: 1px solid var(--cassis);
+  background: var(--cassis);
+  color: var(--ivory);
+  font-size: 1.0625rem;
+  text-decoration: none;
+  transition: background-color 200ms, color 200ms;
+}
+.bbtn:hover { background: transparent; color: var(--cassis); }
+.bbtn--sm { min-height: 2.75rem; padding: 0.4rem 1.1rem; font-size: 1rem; }
+.bbtn--wasabi { background: var(--wasabi); border-color: var(--wasabi); color: var(--ink); }
+.bbtn--wasabi:hover { background: transparent; color: var(--wasabi); }
+.blink { font-size: 1.0625rem; }
+
+/* ---- Header --------------------------------------------------------------- */
+.bh { position: sticky; top: 0; z-index: 50; background: var(--ivory); border-bottom: 1px solid var(--cassis); }
+.bh__in { display: flex; align-items: center; justify-content: space-between; min-height: var(--header); gap: 1rem; }
+.bh__nav ul { display: flex; align-items: center; gap: clamp(1rem, 2.5vw, 2rem); }
+.bh__nav a:not(.bbtn) { text-decoration: none; }
+.bh__nav a:not(.bbtn):hover { text-decoration: underline; }
+.bh__toggle { display: none; min-height: 2.75rem; padding: 0 1rem; border: 1px solid var(--cassis); background: transparent; color: var(--cassis); font: inherit; cursor: pointer; }
+
+@media (max-width: 47.99em) {
+  .js .bh__toggle { display: inline-block; }
+  .js .bh__nav { display: none; position: absolute; left: 0; right: 0; top: 100%; padding: 1rem var(--gutter) 1.5rem; background: var(--ivory); border-bottom: 1px solid var(--cassis); }
+  .js .bh__nav.is-open { display: block; }
+  .bh__nav ul { flex-direction: column; align-items: flex-start; gap: 0.9rem; }
+}
+
+/* ---- 1. Hero -------------------------------------------------------------- */
+.bhero {
+  position: relative;
+  overflow: clip;
+  background: var(--blue);
+  min-height: calc(100svh - var(--header));
+  display: grid;
+  align-items: stretch;
+}
+
+.bhero__grid { display: grid; gap: 0; align-items: center; }
+
+.bhero__copy { position: relative; z-index: 2; padding-block: clamp(2.5rem, 7svh, 5rem) 1rem; }
+
+.bhero h1 { font-size: clamp(3.2rem, 1rem + 8.4vw, 8.5rem); font-weight: 500; line-height: 0.92; letter-spacing: -0.04em; }
+.bhero h1 span { display: block; }
+.bhero h1 i { display: block; font-weight: 400; letter-spacing: -0.03em; }
+
+.bhero__lede { max-width: 30ch; margin-top: clamp(1.25rem, 3svh, 2rem); font-size: clamp(1.15rem, 1rem + 0.6vw, 1.45rem); line-height: 1.5; color: var(--ink); }
+.bhero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem 2rem; margin-top: clamp(1.5rem, 4svh, 2.5rem); }
+
+.bhero__art { position: relative; min-height: 18rem; margin-inline: calc(var(--gutter) * -1); }
+.bhero__art svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+.lyr { translate: calc(var(--mx, 0) * var(--d, 1) * -10px) calc(var(--my, 0) * var(--d, 1) * -5px + var(--sy, 0) * var(--d, 1) * -26px); }
+.route-dots { stroke: var(--cassis); stroke-width: 6; stroke-linecap: round; stroke-dasharray: 0.1 15; }
+
+@media (min-width: 64em) {
+  .bhero__grid { grid-template-columns: minmax(0, 0.62fr) minmax(0, 0.38fr); min-height: calc(100svh - var(--header)); }
+  /* the landscape fills the whole hero; the copy sits on the open sky at the left */
+  .bhero__art { position: absolute; inset: 0; z-index: 0; min-height: 0; margin: 0; }
+}
+
+/* ---- 2. The route --------------------------------------------------------- */
+.route { padding-block: clamp(4rem, 10vw, 8rem); background: var(--ivory); border-bottom: 1px solid var(--cassis); }
+.route__head { max-width: 36rem; }
+.route__head h2 { margin-bottom: 1.25rem; }
+.route__head p:not(.eyebrow) { max-width: 34ch; }
+
+.route__track { position: relative; margin-top: clamp(2rem, 6vw, 4rem); }
+
+.route__svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.route__ghost { fill: none; stroke: var(--cassis); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 0.1 13; opacity: 0.45; }
+.route__line  { fill: none; stroke: var(--cassis); stroke-width: 4; stroke-linecap: round; }
+.you__ring { fill: none; stroke: var(--orange); stroke-width: 2; }
+.you__dot  { fill: var(--orange); }
+
+.route__list { position: relative; z-index: 2; }
+
+.stop { position: relative; display: flex; padding-block: clamp(1.25rem, 4vw, 2.75rem); }
+.stop:nth-child(even) { justify-content: flex-end; }
+
+.stop__card {
+  position: relative;
+  width: min(40%, 27rem);
+  padding: clamp(1.25rem, 2.5vw, 1.9rem);
+  background: var(--panel);
+  color: var(--ink);
+  border: 1px solid var(--ink);
+}
+.stop--1 .stop__card { --panel: var(--wasabi); }
+.stop--2 .stop__card { --panel: var(--orange); }
+.stop--3 .stop__card { --panel: var(--blue); }
+.stop--4 .stop__card { --panel: var(--sage); }
+.stop--5 .stop__card { --panel: var(--cassis); color: var(--ivory); border-color: var(--cassis); }
+.stop--5 .stop__card h3, .stop--5 .stop__card .stop__no { color: var(--ivory); }
+.stop__card h3 { color: var(--ink); margin-bottom: 0.6rem; }
+.stop__no { display: block; margin-bottom: 0.6rem; font-family: var(--display); font-size: 2.1rem; font-style: italic; line-height: 1; }
+.stop__card p { font-size: 1.0625rem; line-height: 1.55; }
+
+.stop__dot { display: none; position: absolute; z-index: 3; width: 1.15rem; height: 1.15rem; translate: -50% -50%; border: 2px solid var(--cassis); border-radius: 50%; background: var(--ivory); transition: background-color 300ms, scale 300ms var(--ease); }
+.js .stop__dot { display: block; }
+.stop.is-passed .stop__dot { background: var(--cassis); scale: 1.25; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .js .stop__card { opacity: 0; translate: 0 1.75rem; }
+  .js .stop.is-seen .stop__card { opacity: 1; translate: 0 0; transition: opacity 800ms var(--ease), translate 800ms var(--ease); }
+  .route-dots { animation: march 3.2s linear infinite; }
+}
+@keyframes march { to { stroke-dashoffset: -30.2; } }
+
+@media (max-width: 47.99em) {
+  .stop, .stop:nth-child(even) { justify-content: flex-start; padding-left: 2.25rem; }
+  .stop__card { width: 100%; }
+}
+
+/* ---- 3. What we do -------------------------------------------------------- */
+.bsvc { padding-block: clamp(4rem, 10vw, 8rem); background: var(--paper); border-bottom: 1px solid var(--cassis); }
+.bsvc h2 { margin-bottom: clamp(1.75rem, 5vw, 3.5rem); }
+.bsvc__list { border-top: 1px solid var(--cassis); }
+.bsvc__list a {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1.1fr) minmax(0, 1fr) 2rem;
+  align-items: baseline;
+  gap: 0.75rem 1.5rem;
+  padding: clamp(1.1rem, 2.4vw, 1.75rem) 0.5rem;
+  border-bottom: 1px solid var(--cassis);
+  color: var(--ink);
+  text-decoration: none;
+  transition: background-color 250ms, padding 250ms var(--ease);
+}
+.bsvc__list li:nth-child(1) a:hover, .bsvc__list li:nth-child(1) a:focus-visible { background: var(--wasabi); padding-inline: 1.25rem; }
+.bsvc__list li:nth-child(2) a:hover, .bsvc__list li:nth-child(2) a:focus-visible { background: var(--orange); padding-inline: 1.25rem; }
+.bsvc__list li:nth-child(3) a:hover, .bsvc__list li:nth-child(3) a:focus-visible { background: var(--blue); padding-inline: 1.25rem; }
+.bsvc__list li:nth-child(4) a:hover, .bsvc__list li:nth-child(4) a:focus-visible { background: var(--sage); padding-inline: 1.25rem; }
+.bsvc__no { font-family: var(--display); font-style: italic; font-size: 1.4rem; color: var(--cassis); }
+.bsvc__name { font-family: var(--display); font-size: clamp(1.7rem, 1.1rem + 1.8vw, 2.75rem); font-weight: 500; line-height: 1.05; letter-spacing: -0.015em; color: var(--cassis); }
+.bsvc__desc { font-size: 1.0625rem; line-height: 1.5; }
+.bsvc__go { justify-self: end; font-size: 1.4rem; }
+
+@media (max-width: 47.99em) {
+  .bsvc__list a { grid-template-columns: 2rem minmax(0, 1fr) 1.5rem; }
+  .bsvc__desc { grid-column: 2; grid-row: 2; }
+  .bsvc__go { grid-column: 3; grid-row: 1; }
+}
+
+/* ---- 4. Why --------------------------------------------------------------- */
+.bwhy { padding-block: clamp(4rem, 10vw, 8rem); background: var(--wasabi); color: var(--ink); border-bottom: 1px solid var(--cassis); }
+.bwhy h2 { margin-bottom: clamp(2rem, 5vw, 4rem); font-size: clamp(3rem, 1.4rem + 6vw, 7.5rem); }
+.bwhy__list { display: grid; gap: 2rem 2.5rem; }
+.bwhy__list li { padding-top: 1.25rem; border-top: 1px solid var(--cassis); }
+.bwhy__list h3 { margin-bottom: 0.75rem; font-size: clamp(1.7rem, 1.2rem + 1.4vw, 2.5rem); line-height: 1.08; }
+.bwhy__list p { max-width: 28ch; }
+@media (min-width: 48em) { .bwhy__list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+/* ---- 5. Call to action ---------------------------------------------------- */
+.bcta { padding-block: clamp(4.5rem, 11vw, 9rem); background: var(--cassis); color: var(--ivory); }
+.bcta h2 { color: var(--ivory); font-size: clamp(3rem, 1.2rem + 7.5vw, 9rem); letter-spacing: -0.04em; }
+.bcta h2 i { color: var(--wasabi); }
+.bcta .eyebrow { color: var(--wasabi); }
+.bcta__line { margin: 1.5rem 0 2rem; font-size: 1.25rem; }
+.bcta :focus-visible { outline-color: var(--wasabi); }
+
+/* ---- Footer ---------------------------------------------------------------- */
+.bfoot { background: var(--ink); color: var(--ivory); padding-top: clamp(2.5rem, 6vw, 4rem); }
+.bfoot a { text-decoration: none; }
+.bfoot a:hover { text-decoration: underline; }
+.bfoot .logo { color: var(--ivory); }
+.bfoot :focus-visible { outline-color: var(--wasabi); }
+.bfoot__in { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 2rem; padding-bottom: 2rem; }
+.bfoot__tag { margin-top: 0.75rem; font-style: italic; color: var(--wasabi); }
+.bfoot ul { display: flex; flex-wrap: wrap; gap: 0.5rem 1.75rem; }
+.bfoot__bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.75rem 1.5rem; padding-block: 1.25rem 1.75rem; border-top: 1px solid rgba(247, 243, 236, 0.3); font-size: 0.9375rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+  .lyr { translate: none; }
+}
