@@ -20,7 +20,6 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="cine.css">
   <link rel="stylesheet" href="story.css">
-  <link rel="stylesheet" href="refinements.css?v=editorial-4">
     <link rel="stylesheet" href="flow.css">
 
   <!-- Flags that JS is available, so the menu and reveals can start in their resting state -->
@@ -68,7 +67,7 @@
   <main id="main"><section class="cine" id="cine" data-cine aria-labelledby="cine-title">
       <div class="cine__pin">
         <h1 class="cine__sr" id="cine-title">OriginPoint: clarity at the starting line</h1>
-        <a class="cine__contact" href="contact.html">Start a conversation ↗</a><a class="cine__skip" href="#journey">Skip intro ↓</a>
+        <a class="cine__skip" href="#story">Skip intro</a>
 
         <!-- The miniature ecosystem. Decorative: the story is told in the text below. -->
         <div class="cine__stage" aria-hidden="true">
@@ -84,7 +83,7 @@
             <div class="cine__block">
               <p class="cine__eyebrow">The origin</p>
               <h2 class="cine__h">Every business starts with <i>an idea.</i></h2>
-              <p class="cine__sub">Websites, AI agents and connected business tools. Built and maintained by one partner, from day zero onward.</p>
+              <p class="cine__sub">OriginPoint builds and manages everything digital a startup needs, from day zero onward.</p>
             </div>
           </li>
           <li class="cine__scene" data-scene="2">
@@ -151,12 +150,18 @@
         <div class="cine__hud" aria-hidden="true"><span class="cine__count">01 / 07</span><span class="cine__scroll">Scroll to begin</span></div>
         <div class="cine__bar" aria-hidden="true"><i></i></div>
       </div>
-    </section><section class="journey" id="journey" aria-labelledby="journey-title"><div class="container"><div class="journey__heading"><p class="eyebrow" id="journey-title">Your business journey</p><p>Build the next stage when you need it.</p></div><ol class="journey__steps"><li><span>01</span>Foundation</li><li><span>02</span>Customer interaction</li><li><span>03</span>Data &amp; operations</li><li><span>04</span>Internal efficiency</li><li><span>05</span>Scale</li></ol><a class="text-link" href="process.html">Find your current stage ↗</a></div></section>
-<section class="story" id="story" aria-labelledby="story-title">
+    </section><section class="story" id="story" aria-labelledby="story-title">
       <div class="story__intro hook">
-        <p class="eyebrow">How we work</p>
-        <h2 class="editorial-title" id="story-title">What we agree.<br><i>What we build.</i></h2>
-        <p class="hook__text">These are the decisions and deliverables behind a project. The scope changes with your business; the work is agreed before we begin.</p>
+        <p class="hook__meta" aria-hidden="true">
+          <span>OriginPoint</span>
+          <span class="hook__mid">Day zero <svg class="hook__mark" focusable="false"><use href="#reg-mark"/></svg> Launch</span>
+          <span>2026</span>
+        </p>
+        <h2 class="hook__title" id="story-title">
+          <span class="hook__line hook__line--a">The art of</span>
+          <span class="hook__line hook__line--b"><span class="hook__word">creating<svg class="hook__oval" aria-hidden="true" focusable="false"><path/></svg></span></span>
+        </h2>
+        <p class="hook__text">Every business starts as an idea someone can’t leave alone. We take yours from a first conversation to a live product in five stages, then stay on after launch, so nothing has to be torn down and started again.</p>
         <p class="hook__foot story__hint" aria-hidden="true">Scroll to turn the pages <span>↓</span></p>
       </div>
 
@@ -172,15 +177,109 @@
             </div>
 
             <div class="binder__pages">
-              <article class="fold fold--sky" aria-labelledby="fold-1-title"><a class="fold__tab" href="#fold-1-title"><span class="fold__num">01</span><span class="fold__label">Clarity</span></a><div class="fold__body"><div class="fold__text"><h3 class="fold__title" id="fold-1-title">What should the business <i>do next?</i></h3><p>We ask where enquiries come from, what customers need, and which task takes too much of your time. Then we agree what to solve first.</p></div><aside class="fold-spec" aria-label="Questions for our first conversation"><p class="fold-spec__label">Questions for our first conversation</p><ul><li>What are customers asking you repeatedly?</li><li>Where do you lose track of an enquiry?</li><li>What needs to work before launch?</li></ul><p class="fold-spec__foot">You leave with a written scope, priorities and exclusions.</p></aside></div></article>
+              <article class="fold fold--sky" aria-labelledby="fold-1-title">
+                <a class="fold__tab" href="#fold-1-title"><span class="fold__num">01</span><span class="fold__label">Clarity</span></a>
+                <span class="fold__ghost" aria-hidden="true">1</span>
+                <div class="fold__body">
+                  <div class="fold__text">
+                    <h3 class="fold__title" id="fold-1-title">Before anything is built, <i>we get clear.</i></h3>
+                    <p>We start by listening: what you do, who it is for, and what you want to be known for.</p>
+                  </div>
+                  <svg class="fold__art" viewBox="0 0 320 320" role="img" aria-label="Rings spreading outward from a single point">
+                    <path class="draw" pathLength="1" d="M160 6V314M6 160H314"/>
+                    <circle class="draw" pathLength="1" cx="160" cy="160" r="40"/>
+                    <circle class="draw" pathLength="1" cx="160" cy="160" r="80"/>
+                    <circle class="draw" pathLength="1" cx="160" cy="160" r="120"/>
+                    <circle class="solid" cx="160" cy="160" r="6"/>
+                    <text class="small" x="172" y="150">the origin point</text>
+                  </svg>
+                </div>
+              </article>
 
-              <article class="fold fold--paper" aria-labelledby="fold-2-title"><a class="fold__tab" href="#fold-2-title"><span class="fold__num">02</span><span class="fold__label">Identity</span></a><div class="fold__body"><div class="fold__text"><h3 class="fold__title" id="fold-2-title">Make the brand <i>usable.</i></h3><p>We settle the basics before building: the logo files, colours, type and the sentence that explains your offer. Existing brand assets come first.</p></div><aside class="fold-spec" aria-label="OriginPoint · our own brand"><p class="fold-spec__label">OriginPoint · our own brand</p><div class="spec-lockup"><b>Origin</b><i>Point</i></div><div class="spec-swatches"><span>Cassis</span><span>Ivory</span><span>Lime accent</span></div><p class="fold-spec__foot">A compact reference for the website, email and social profiles.</p></aside></div></article>
+              <article class="fold fold--paper" aria-labelledby="fold-2-title">
+                <a class="fold__tab" href="#fold-2-title"><span class="fold__num">02</span><span class="fold__label">Identity</span></a>
+                <span class="fold__ghost" aria-hidden="true">2</span>
+                <div class="fold__body">
+                  <div class="fold__text">
+                    <h3 class="fold__title" id="fold-2-title">Give it <i>a face.</i></h3>
+                    <p>Name, colour, type and voice, settled once and used everywhere, so every touchpoint feels like the same company.</p>
+                  </div>
+                  <svg class="fold__art" viewBox="0 0 320 320" role="img" aria-label="An example logo lockup above a row of brand colour swatches">
+                    <path class="draw" pathLength="1" d="M20 60V20H60M260 20H300V60M300 200V240H260M60 240H20V200"/>
+                    <text class="lockup" x="160" y="140" text-anchor="middle"><tspan font-weight="700">Origin</tspan><tspan font-style="italic">Point</tspan></text>
+                    <rect x="20" y="272" width="48" height="32" fill="#351E28" stroke="currentColor"/>
+                    <rect x="82" y="272" width="48" height="32" fill="#E9F056" stroke="currentColor"/>
+                    <rect x="144" y="272" width="48" height="32" fill="#FF5C34" stroke="currentColor"/>
+                    <rect x="206" y="272" width="48" height="32" fill="#AEB8A0" stroke="currentColor"/>
+                    <rect x="268" y="272" width="32" height="32" fill="#D7EFFF" stroke="currentColor"/>
+                    <text class="small" x="20" y="262">Illustrative</text>
+                  </svg>
+                </div>
+              </article>
 
-              <article class="fold fold--plate" aria-labelledby="fold-3-title"><a class="fold__tab" href="#fold-3-title"><span class="fold__num">03</span><span class="fold__label">Build</span></a><div class="fold__body"><div class="fold__text"><h3 class="fold__title" id="fold-3-title">Give visitors <i>a clear next step.</i></h3><p>We work out what a visitor needs to know, then build the pages and enquiry path around it. The phone layout is part of that work.</p></div><aside class="fold-spec" aria-label="Example page outline"><p class="fold-spec__label">Example page outline</p><ol><li>What you offer and who it is for</li><li>Services and what each includes</li><li>Relevant work or a labelled demonstration</li><li>A direct route to contact you</li></ol><p class="fold-spec__foot">Example structure, adapted to each project.</p></aside></div></article>
+              <article class="fold fold--plate" aria-labelledby="fold-3-title">
+                <a class="fold__tab" href="#fold-3-title"><span class="fold__num">03</span><span class="fold__label">Build</span></a>
+                <span class="fold__ghost" aria-hidden="true">3</span>
+                <div class="fold__body">
+                  <div class="fold__text">
+                    <h3 class="fold__title" id="fold-3-title">Build <i>the front door.</i></h3>
+                    <p>A website that says plainly what you do and makes the next step obvious, on any screen.</p>
+                  </div>
+                  <svg class="fold__art" viewBox="0 0 320 320" role="img" aria-label="A simple wireframe of a website page">
+                    <rect class="draw" pathLength="1" x="20" y="30" width="280" height="260"/>
+                    <path class="draw" pathLength="1" d="M20 62H300M44 46H92M220 46H276"/>
+                    <path class="draw" pathLength="1" d="M44 110H200M44 128H160M44 146H180"/>
+                    <rect class="solid" x="44" y="170" width="76" height="24"/>
+                    <rect class="draw" pathLength="1" x="44" y="226" width="68" height="46"/>
+                    <rect class="draw" pathLength="1" x="126" y="226" width="68" height="46"/>
+                    <rect class="draw" pathLength="1" x="208" y="226" width="68" height="46"/>
+                  </svg>
+                </div>
+              </article>
 
-              <article class="fold fold--sage" aria-labelledby="fold-4-title"><a class="fold__tab" href="#fold-4-title"><span class="fold__num">04</span><span class="fold__label">Connect</span></a><div class="fold__body"><div class="fold__text"><h3 class="fold__title" id="fold-4-title">Keep the enquiry <i>with its context.</i></h3><p>We agree which details to capture, where they belong and who follows up. An AI agent is useful only when its handoff is useful too.</p></div><aside class="fold-spec" aria-label="Illustrative enquiry record"><p class="fold-spec__label">Illustrative enquiry record</p><dl><div><dt>Request</dt><dd>Consultation on Tuesday</dd></div><div><dt>Status</dt><dd>Awaiting availability</dd></div><div><dt>Next action</dt><dd>Team confirms a time</dd></div></dl><p class="fold-spec__foot">Fictional data. Explore the interactive example below.</p></aside></div></article>
+              <article class="fold fold--sage" aria-labelledby="fold-4-title">
+                <a class="fold__tab" href="#fold-4-title"><span class="fold__num">04</span><span class="fold__label">Connect</span></a>
+                <span class="fold__ghost" aria-hidden="true">4</span>
+                <div class="fold__body">
+                  <div class="fold__text">
+                    <h3 class="fold__title" id="fold-4-title">Connect <i>the pieces.</i></h3>
+                    <p>AI agents, customer data and internal tools joined to your website, so an enquiry reaches the people who can act on it.</p>
+                  </div>
+                  <svg class="fold__art" viewBox="0 0 320 320" role="img" aria-label="Four connected points: website, AI agent, customer data and your team">
+                    <path class="draw" pathLength="1" d="M60 70H260L60 160H260L160 270"/>
+                    <circle class="solid" cx="60" cy="70" r="9"/>
+                    <circle class="solid" cx="260" cy="70" r="9"/>
+                    <circle class="solid" cx="60" cy="160" r="9"/>
+                    <circle class="solid" cx="260" cy="160" r="9"/>
+                    <circle class="solid" cx="160" cy="270" r="9"/>
+                    <text class="small" x="60" y="52" text-anchor="middle">Website</text>
+                    <text class="small" x="260" y="52" text-anchor="middle">AI agent</text>
+                    <text class="small" x="60" y="190" text-anchor="middle">Data</text>
+                    <text class="small" x="260" y="190" text-anchor="middle">Tools</text>
+                    <text class="small" x="160" y="300" text-anchor="middle">Your team</text>
+                  </svg>
+                </div>
+              </article>
 
-              <article class="fold fold--ink" aria-labelledby="fold-5-title"><a class="fold__tab" href="#fold-5-title"><span class="fold__num">05</span><span class="fold__label">Launch</span></a><div class="fold__body"><div class="fold__text"><h3 class="fold__title" id="fold-5-title">Check the details. <i>Then go live.</i></h3><p>Before launch, we check the pages, forms, links and phone layouts. We agree who handles hosting, renewals and fixes after handover.</p></div><aside class="fold-spec" aria-label="Launch checklist"><p class="fold-spec__label">Launch checklist</p><ul class="spec-checks"><li>Phone and desktop layouts checked</li><li>Enquiry delivery tested</li><li>Domain and hosting ownership confirmed</li><li>Support responsibilities agreed</li></ul><p class="fold-spec__foot">The support scope is written down before launch.</p></aside></div></article>
+              <article class="fold fold--ink" aria-labelledby="fold-5-title">
+                <a class="fold__tab" href="#fold-5-title"><span class="fold__num">05</span><span class="fold__label">Launch</span></a>
+                <span class="fold__ghost" aria-hidden="true">5</span>
+                <div class="fold__body">
+                  <div class="fold__text">
+                    <h3 class="fold__title" id="fold-5-title">Launch, <i>and keep going.</i></h3>
+                    <p>We go live with you, then stay on. Hosting, maintenance, and improvements are included.</p>
+                    <p class="fold__cta"><a class="button" href="contact.html">Start a conversation ↗</a></p>
+                  </div>
+                  <svg class="fold__art" viewBox="0 0 320 320" role="img" aria-label="Rings spreading outward from a single point, now live">
+                    <circle class="draw" pathLength="1" cx="160" cy="160" r="40"/>
+                    <circle class="draw" pathLength="1" cx="160" cy="160" r="80"/>
+                    <circle class="draw" pathLength="1" cx="160" cy="160" r="120"/>
+                    <circle class="draw" pathLength="1" cx="160" cy="160" r="156"/>
+                    <circle class="solid" cx="160" cy="160" r="8"/>
+                    <text class="small" x="160" y="196" text-anchor="middle">Live</text>
+                  </svg>
+                </div>
+              </article>
             </div>
 
             <div class="binder__cover" aria-hidden="true">
@@ -191,8 +290,8 @@
           </div>
         </div>
       </div>
-    </section><section class="section directory-section section--ivory"><div class="container"><div class="hero-directory"><a href="services.html"><span>Capabilities</span>Websites, agents &amp; systems<b aria-hidden="true">↗</b></a><a href="process.html"><span>Your next step</span>Find your stage.<b aria-hidden="true">↗</b></a><a href="about.html"><span>The approach</span>Who you will work with.<b aria-hidden="true">↗</b></a></div></div></section><section class="section section--ink system-section" id="example" aria-labelledby="example-title"><div class="container system-layout"><div><p class="eyebrow">Interactive demonstration</p><h2 id="example-title">One enquiry.<br><i>Every step connected.</i></h2><p class="section-intro">Follow a sample booking enquiry from the website to your team. Select a step to see what each part contributes.</p><p class="demo-disclaimer">A fictional example of a system we can build. No client results or performance claims.</p><a class="text-link" href="services.html">Explore our capabilities ↗</a></div><div class="system-demo"><div class="system-controls" aria-label="Explore the connected system"><button type="button" data-system="0" aria-pressed="true">Website</button><button type="button" data-system="1" aria-pressed="false">AI agent</button><button type="button" data-system="2" aria-pressed="false">Customer data</button><button type="button" data-system="3" aria-pressed="false">Your team</button></div><div class="system-result" aria-live="polite"><span class="system-number" aria-hidden="true">01</span><h3 id="system-title">A clear first impression.</h3><p id="system-copy">Your customer finds what they need and starts a conversation, without getting lost between tools.</p><div class="demo-record"><span id="demo-label">Customer enquiry</span><p id="demo-value">“Can I book a consultation for Tuesday?”</p></div><span class="sample-label">Example data · no live customer information</span></div><div class="system-track" aria-hidden="true"><span class="active"></span><span></span><span></span><span></span></div></div></div></section><section class="section section--plate" id="why" aria-labelledby="why-title">
-      
+    </section><section class="section directory-section section--ivory"><div class="container"><div class="hero-directory"><a href="services.html"><span>Capabilities</span>What can we build?<b aria-hidden="true">↗</b></a><a href="process.html"><span>Your next step</span>Find your stage.<b aria-hidden="true">↗</b></a><a href="about.html"><span>The approach</span>Meet your digital partner.<b aria-hidden="true">↗</b></a></div></div></section><section class="section section--ink system-section"><div class="container system-layout"><div><p class="eyebrow">Built to work together</p><h2>Separate pieces.<br><i>One system.</i></h2><p class="section-intro">Explore how a customer enquiry moves from a website to the people who can act on it.</p><a class="text-link" href="services.html">Explore our capabilities ↗</a></div><div class="system-demo"><div class="system-controls" aria-label="Explore the connected system"><button type="button" data-system="0" aria-pressed="true">Website</button><button type="button" data-system="1" aria-pressed="false">AI agent</button><button type="button" data-system="2" aria-pressed="false">Customer data</button><button type="button" data-system="3" aria-pressed="false">Your team</button></div><div class="system-result" aria-live="polite"><span class="system-number" aria-hidden="true">01</span><h3 id="system-title">A clear first impression.</h3><p id="system-copy">Your customer finds what they need and starts a conversation, without getting lost between tools.</p><span class="sample-label">Illustrative workflow</span></div><div class="system-track" aria-hidden="true"><span class="active"></span><span></span><span></span><span></span></div></div></div></section><section class="section section--plate" id="why" aria-labelledby="why-title">
+      <svg class="drift drift--right" data-drift="-0.12" viewBox="0 0 200 200" aria-hidden="true" focusable="false"><circle cx="100" cy="100" r="30"/><circle cx="100" cy="100" r="60"/><circle cx="100" cy="100" r="90"/></svg>
       <div class="container">
         <header class="section-head">
           <h2 id="why-title">Why Origin<span class="lockup-point">Point</span></h2>
@@ -201,19 +300,19 @@
         <ul class="reasons" role="list">
           <li class="reason">
             <h3 class="reason__title">One partner, not five vendors.</h3>
-            <p class="reason__desc">Your website, agents and internal tools share one agreed scope and one point of contact.</p>
+            <p class="reason__desc">One team plans, builds, and runs it all, so nothing falls between the cracks.</p>
           </li>
           <li class="reason">
             <h3 class="reason__title">We stay on after launch.</h3>
-            <p class="reason__desc">Hosting, renewals, maintenance and improvements are scoped with you before launch.</p>
+            <p class="reason__desc">Hosting, maintenance, and improvements included.</p>
           </li>
           <li class="reason">
             <h3 class="reason__title">Built for startups.</h3>
-            <p class="reason__desc">We start with your current workload and the tools you already use. The next stage can wait until you need it.</p>
+            <p class="reason__desc">Priced and scoped for teams of 2 to 20.</p>
           </li>
         </ul>
       </div>
-    </section><section class="section section--burgundy next-step"><div class="container"><p class="eyebrow">Start with the problem</p><a class="giant-link" href="contact.html">What keeps getting<br><i>done by hand?</i><span aria-hidden="true">↗</span></a><p>Tell us what you are building, what you use today, and what needs to work better.</p></div></section></main><footer class="site-footer">
+    </section><section class="section section--burgundy next-step"><svg class="drift drift--left" data-drift="0.1" viewBox="0 0 200 200" aria-hidden="true" focusable="false"><circle cx="100" cy="100" r="30"/><circle cx="100" cy="100" r="60"/><circle cx="100" cy="100" r="90"/></svg><div class="container"><p class="eyebrow">Your next chapter</p><a class="giant-link" href="contact.html">Let’s find your<br><i>starting point.</i><span aria-hidden="true">↗</span></a><p>A first conversation. A clearer direction.</p></div></section></main><footer class="site-footer">
     <svg class="reg reg--bl" aria-hidden="true" focusable="false"><use href="#reg-mark"/></svg>
     <svg class="reg reg--br" aria-hidden="true" focusable="false"><use href="#reg-mark"/></svg>
 
@@ -241,8 +340,7 @@
     </div>
   </footer>
 
-  <script src="site.js?v=editorial-1" defer></script>
-  <script src="story.js?v=editorial-2" defer></script>
+  <script src="site.js" defer></script>
+  <script src="story.js" defer></script>
   <script src="cine.js" defer></script>
-
-  <script src="flow.js" defer></script><script src="demo.js" defer></script></body></html>
+  <script src="flow.js" defer></script></body></html>

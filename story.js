@@ -21,7 +21,6 @@
   var tabs = folds.map(function (f) { return f.querySelector(".fold__tab"); });
   var bodies = folds.map(function (f) { return f.querySelector(".fold__body"); });
   var n = folds.length;
-  var compact = window.matchMedia('(max-width: 47.99em)');
   var OPEN_END = 0.12;   // share of the scroll spent swinging the cover open
   var HOLD = 1;          // scroll weight a divider rests for
   var TURN = 0.55;       // scroll weight of the turn between two dividers
@@ -102,7 +101,7 @@
   }
 
   function request() {
-    if (!visible || ticking || compact.matches) return;
+    if (!visible || ticking) return;
     ticking = true;
     window.requestAnimationFrame(render);
   }
@@ -111,7 +110,6 @@
   // stay clickable and keyboard-reachable on every closed divider.
   tabs.forEach(function (tab, i) {
     tab.addEventListener("click", function (e) {
-      if (compact.matches) return;
       e.preventDefault();
       var rect = track.getBoundingClientRect();
       var span = rect.height - stage.offsetHeight;
@@ -122,7 +120,6 @@
   });
 
   function enable() {
-    if (compact.matches) { disable(); return; }
     story.classList.add("story--binder");
     measure();
     primed = false;
@@ -147,7 +144,7 @@
   }, { rootMargin: "20% 0px" }).observe(story);
 
   window.addEventListener("scroll", request, { passive: true });
-  window.addEventListener("resize", function () { if (compact.matches) disable(); else if (!story.classList.contains("story--binder")) enable(); measure(); request(); });
+  window.addEventListener("resize", function () { measure(); request(); });
 
   enable();
 
