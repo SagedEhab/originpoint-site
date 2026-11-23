@@ -12,12 +12,14 @@
   <meta property="og:description" content="One digital partner for startups, from day zero onward.">
 
   <!-- Favicon: the origin point — a ring and a dot, in brand colours -->
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23BFD5F2'/%3E%3Ccircle cx='16' cy='16' r='9.5' fill='none' stroke='%235A0012' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%235A0012'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23E9F056'/%3E%3Ccircle cx='16' cy='16' r='9.5' fill='none' stroke='%23351E28' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23351E28'/%3E%3C/svg%3E">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="refinements.css?v=editorial-4">
+  <link rel="stylesheet" href="flow.css">
 
   <!-- Flags that JS is available, so the menu and reveals can start in their resting state -->
   <script>document.documentElement.classList.add("js");</script>
@@ -52,19 +54,19 @@
     </div>
   </header>
 
-  <main id="main"><section class="page-intro section section--sky"><div class="container"><div class="folio"><span>OriginPoint / Start here</span><span>05 — 05</span></div><h1>Every good thing<br><i>starts somewhere.</i></h1><p class="page-lede">Tell us where you are and what you’re working on. We’ll suggest a sensible first step, even if that step isn’t us.</p><div class="chapter-symbol" aria-hidden="true">05</div></div></section><section class="section section--paper" id="contact" aria-labelledby="contact-title">
+  <main id="main"><section class="page-intro section section--sky"><div class="container"><div class="folio"><span>OriginPoint / Start here</span><span>05 — 05</span></div><h1>Tell us what<br><i>needs to work.</i></h1><p class="page-lede">Tell us where you are and what you’re working on. We’ll suggest a sensible first step, even if that step isn’t us.</p></div></section><section class="section section--paper" id="contact" aria-labelledby="contact-title">
       <div class="container contact">
         <div class="contact__intro">
           <h2 id="contact-title">Start a conversation</h2>
-          <p class="section-intro">Tell us where you are and what you’re working on. We’ll suggest a sensible first step, even if that step isn’t us.</p>
+          <p class="section-intro">Tell us what you need and where you are. We’ll read your message and reply by email.</p>
         </div>
 
         <div class="contact__panel">
-          <!-- Submits to Netlify Forms; JS posts in the background and still builds a downloadable brief. -->
+          <!-- Submits to Netlify Forms and prepares a downloadable copy of the brief. -->
           <form class="form" id="contact-form" name="contact" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field">
             <input type="hidden" name="form-name" value="contact">
             <p class="field--honeypot" hidden aria-hidden="true"><label>Leave this field empty if you’re human: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
-            <p class="form__note">All fields are required. We’ll read your message and reply by email, and you can download a copy as a brief.</p>
+            <p class="form__note">All fields are required. We’ll use your details to respond to your enquiry. You can also download a copy of your brief.</p>
 
             <div class="field">
               <label class="field__label" for="name">Your name</label>
@@ -99,7 +101,7 @@
 
             <p class="field__error" id="form-error" role="alert" hidden></p>
 
-            <p class="form__actions"><button class="button" type="submit">Prepare my brief</button></p>
+            <noscript><p>JavaScript is needed to prepare a downloadable brief. You can still send your enquiry using this form.</p></noscript><p class="form__actions"><button class="button" type="submit">Send enquiry</button></p>
           </form>
 
           <div class="form-success" id="form-success" hidden>
@@ -136,4 +138,5 @@
     </div>
   </footer>
 
-  <script src="site.js" defer></script></body></html>
+  <script src="site.js?v=editorial-1" defer></script>
+  <script src="flow.js" defer></script></body></html>

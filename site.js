@@ -15,7 +15,8 @@
       var scratch = document.createElement("canvas");
       var sctx = scratch.getContext("2d");
 
-      var INK = "90,0,18";        // Deep Burgundy
+      // Polished silver: bright, shadow, bright, shadow, bright, run diagonally across each ring
+      var SILVER = [[0, "247,249,251"], [0.25, "151,160,168"], [0.5, "238,241,244"], [0.75, "111,119,127"], [1, "220,224,228"]];
       var MAX_RINGS = 12;
       var LIFETIME = 22;          // seconds for an ambient ring to reach full size
       var EASE = 0.02;            // origin moves 2% of the way to its target per frame
@@ -125,6 +126,12 @@
         draw();
       }
 
+      function silver(x, y, r, a) {
+        var g = ctx.createLinearGradient(x - r, y - r, x + r, y + r);
+        for (var s = 0; s < SILVER.length; s++) g.addColorStop(SILVER[s][0], "rgba(" + SILVER[s][1] + "," + a.toFixed(3) + ")");
+        return g;
+      }
+
       function draw() {
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.globalCompositeOperation = "source-over";
@@ -135,14 +142,14 @@
           var ring = rings[i];
           var a = ring.alpha * Math.pow(1 - ring.r / maxR, 1.6) * Math.min(1, ring.r / 30);
           if (a < 0.004) continue;
-          ctx.lineWidth = ring.width;
-          ctx.strokeStyle = "rgba(" + INK + "," + a.toFixed(3) + ")";
+          ctx.lineWidth = ring.width * 1.2;
+          ctx.strokeStyle = silver(ring.x, ring.y, ring.r, Math.min(1, a * 1.15));
           ctx.beginPath();
           ctx.arc(ring.x, ring.y, ring.r, 0, TAU);
           ctx.stroke();
         }
         // The origin point itself
-        ctx.fillStyle = "rgba(" + INK + ",0.9)";
+        ctx.fillStyle = silver(origin.x, origin.y, 3, 0.95);
         ctx.beginPath();
         ctx.arc(origin.x, origin.y, 3, 0, TAU);
         ctx.fill();
@@ -368,7 +375,7 @@
         formError.hidden = true;
         submitButton.disabled = true;
 
-        // Netlify Forms: POST the whole form (incl. form-name) url-encoded to this origin.
+        // Netlify Forms: POST the enquiry to this origin before showing success.
         fetch("/", {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -382,6 +389,7 @@
         }).catch(function () {
           showError("We couldn’t reach the server. Please check your connection and try again, or email us at hello@originpointeg.com.");
         });
+
       });
     })();
 
@@ -438,43 +446,4 @@
   });
   reduced.addEventListener('change',()=>{if(reduced.matches)document.getAnimations().forEach(a=>a.cancel());});
 
-  // Orbital origin: three-dimensional ring geometry on secondary-page covers.
-  const cover = document.querySelector('.page-intro'); if (!cover) return;
-  const canvas = document.createElement('canvas'); canvas.className='orbital-canvas';
-  canvas.setAttribute('aria-hidden','true'); cover.prepend(canvas);
-  const ctx=canvas.getContext('2d'); if(!ctx)return;
-  let w=0,h=0,dpr=1,t=0,raf=0,last=0,visible=true,pointer=null,tilt={x:0,y:0},pulses=[];
-  const ink='90,0,18';
-  function resize(){const r=cover.getBoundingClientRect();w=r.width;h=r.height;dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);draw();}
-  function draw(){
-    ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);
-    const cx=w*(w<700?.8:.77),cy=h*.56,R=Math.min(w*.29,h*.43);
-    const yaw=.7+Math.sin(t*.12)*.3+tilt.x, pitch=.45+Math.cos(t*.09)*.2+tilt.y;
-    function project(x,y,z){const a=x*Math.cos(yaw)+z*Math.sin(yaw),b=-x*Math.sin(yaw)+z*Math.cos(yaw);return [cx+a,cy+y*Math.cos(pitch)-b*Math.sin(pitch),y*Math.sin(pitch)+b*Math.cos(pitch)];}
-    for(let ring=0;ring<9;ring++){
-      const lat=(ring-4)*.19, radius=R*Math.sqrt(1-lat*lat),y=R*lat;
-      for(let side=0;side<2;side++){
-        ctx.beginPath();let pen=false;
-        for(let i=0;i<=128;i++){const a=i/128*Math.PI*2;const p=project(Math.cos(a)*radius,y,Math.sin(a)*radius);const front=p[2]>=0;if(front===!!side){if(!pen)ctx.moveTo(p[0],p[1]);else ctx.lineTo(p[0],p[1]);pen=true}else pen=false;}
-        ctx.strokeStyle='rgba('+ink+','+(side?.25:.085)+')';ctx.lineWidth=.8;ctx.stroke();
-      }
-    }
-    for(let meridian=0;meridian<3;meridian++){ctx.beginPath();for(let i=0;i<=128;i++){const a=i/128*Math.PI*2,m=meridian*Math.PI/3+t*.04;const p=project(R*Math.cos(a)*Math.cos(m),R*Math.sin(a),R*Math.cos(a)*Math.sin(m));if(i===0)ctx.moveTo(p[0],p[1]);else ctx.lineTo(p[0],p[1]);}ctx.strokeStyle='rgba('+ink+',.15)';ctx.stroke();}
-    const satellite=project(R*Math.cos(t*.24),0,R*Math.sin(t*.24));ctx.beginPath();ctx.arc(satellite[0],satellite[1],4,0,Math.PI*2);ctx.fillStyle='rgba('+ink+',.65)';ctx.fill();
-    ctx.beginPath();ctx.arc(cx,cy,3,0,Math.PI*2);ctx.fill();
-    pulses.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.strokeStyle='rgba('+ink+','+Math.max(0,.4*(1-p.r/(R*2)))+')';ctx.stroke()});
-    // An opaque protection field under text, softening toward the orbital side.
-    ctx.globalCompositeOperation='destination-out';ctx.fillStyle='rgba(0,0,0,'+(w<700?.84:.9)+')';ctx.fillRect(0,0,w*(w<700?.75:.63),h);ctx.globalCompositeOperation='source-over';
-  }
-  function frame(now){raf=0;const dt=Math.min((now-last)/1000,.05);last=now;t+=dt;const k=1-Math.pow(.98,dt*60);tilt.x+=((pointer?.x||0)-tilt.x)*k;tilt.y+=((pointer?.y||0)-tilt.y)*k;pulses=pulses.filter(p=>(p.r+=dt*150)<Math.min(w*.29,h*.43)*2);draw();start();}
-  function start(){if(raf||reduced.matches||document.hidden||!visible)return;last=performance.now();raf=requestAnimationFrame(frame)}
-  function stop(){cancelAnimationFrame(raf);raf=0}
-  cover.addEventListener('pointermove',e=>{if(!fine.matches||e.pointerType!=='mouse')return;const r=cover.getBoundingClientRect();pointer={x:(e.clientX-r.left-w/2)/w*.65,y:(e.clientY-r.top-h/2)/h*.45}});
-  cover.addEventListener('pointerleave',()=>pointer=null);
-  cover.addEventListener('pointerdown',e=>{if(reduced.matches||e.button>0||e.target.closest('a,button'))return;const r=cover.getBoundingClientRect();pulses.push({x:e.clientX-r.left,y:e.clientY-r.top,r:0});if(pulses.length>4)pulses.shift()});
-  new ResizeObserver(resize).observe(cover);
-  new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;visible?start():stop()}).observe(cover);
-  document.addEventListener('visibilitychange',()=>document.hidden?stop():start());
-  reduced.addEventListener('change',()=>{stop();pulses=[];tilt={x:0,y:0};draw();start()});
-  resize();start();
 })();

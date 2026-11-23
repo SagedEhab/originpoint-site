@@ -1,0 +1,766 @@
+/* ==========================================================================
+   OriginPoint — cine.css
+   The Living Ecosystem: a scroll-controlled cinematic hero, plus the
+   homepage sections that follow it (what we build, how we work, start).
+
+   Progressive enhancement
+     1. Default (no JS, reduced motion, or the engine failed): a static,
+        fully readable hero — final headline, CTAs, a still of the model,
+        and the story as a short list.
+     2. `.js` + motion allowed: the pinned, scroll-driven stage. cine.js
+        adds `.cine--static` to fall back to (1) if canvas is unavailable.
+
+   Layout modes (live)
+     wide  — the canvas fills the pinned stage, copy overlays the left side.
+     tall  — (aspect <= 1:1: phones, portrait tablets) the canvas takes the
+             top 58 %, the copy sits in a panel underneath. Art-directed
+             camera moves are defined for this mode in cine.js.
+
+   No inline styles are used (the site's CSP forbids them); cine.js sets
+   styles through the CSSOM only.
+   ========================================================================== */
+
+.cine {
+  --cine-fg: var(--color-ink);
+  --cine-fg-soft: var(--color-charcoal);
+  --cine-accent: var(--color-burgundy);
+  --cine-bg: #0c0c0c;
+  --cine-x: max(var(--gutter), 5.5vw);
+  position: relative;
+  background-color: var(--color-ivory);
+  color: var(--cine-fg);
+}
+
+.cine__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- 1. Static (default) -------------------------------------- */
+
+.cine__pin {
+  position: relative;
+  display: grid;
+  gap: clamp(2rem, 4vw, 4rem);
+  width: min(100% - 2 * var(--gutter), var(--content-width));
+  margin-inline: auto;
+  padding-block: clamp(3rem, 2rem + 4vw, 6rem);
+}
+
+@media (min-width: 56em) {
+  .cine__pin {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    align-items: center;
+  }
+}
+
+.cine__stage {
+  position: relative;
+  order: 2;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--color-burgundy);
+  background-color: var(--color-paper);
+}
+
+@media (min-width: 56em) {
+  .cine__stage { order: 3; }
+}
+
+.cine__still,
+.cine__poster,
+.cine__canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.cine__still { object-fit: cover; }
+.cine__poster, .cine__canvas { display: none; }
+
+.cine__copy {
+  display: contents;
+}
+
+.cine__final {
+  order: 1;
+  display: grid;
+  gap: 1.25rem;
+  justify-items: start;
+}
+
+@media (min-width: 56em) {
+  .cine__final { order: 1; grid-column: 1; grid-row: 1; }
+  .cine__stage { grid-column: 2; grid-row: 1; }
+  .cine__scenes { grid-column: 1 / -1; grid-row: 2; }
+}
+
+.cine__scenes {
+  order: 3;
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 48em) {
+  .cine__scenes { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+.cine__scene {
+  padding: 1.5rem 1rem 1.5rem 0;
+  border-top: 1px solid var(--color-burgundy);
+}
+
+.cine__eyebrow {
+  margin: 0 0 0.75rem;
+  font-size: 0.9375rem;
+  font-style: italic;
+  color: var(--cine-accent);
+}
+
+.cine__h {
+  margin: 0;
+  font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--cine-fg);
+  text-wrap: balance;
+}
+
+.cine__h i { font-style: italic; }
+
+.cine__sub {
+  margin: 0.75rem 0 0;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--cine-fg-soft);
+  max-width: 34ch;
+}
+
+.cine__zones { display: none; }
+
+/* Final scene (also the whole static hero) */
+.cine__logo {
+  position: relative;
+  width: min(100%, 30rem);
+  aspect-ratio: 1610 / 925;
+}
+
+.cine__logo-img,
+.cine__ripple {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.cine__ripple { display: none; }
+
+.cine__final .cine__eyebrow { margin: 0; }
+
+.cine__final .cine__h {
+  font-size: clamp(2.25rem, 1.4rem + 3.4vw, 4.25rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.cine__final .cine__sub { max-width: 40ch; font-size: var(--step-0); }
+
+.cine__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.875rem 1rem;
+  margin: 0.5rem 0 0;
+}
+
+.cine__skip,
+.cine__hud,
+.cine__bar,
+.cine__veil { display: none; }
+
+
+/* ---------- 2. Live: the pinned, scroll-driven stage ------------------ */
+
+@media (prefers-reduced-motion: no-preference) {
+
+  .js .cine:not(.cine--static) {
+    --cine-fg: var(--color-ivory);
+    --cine-fg-soft: rgba(247, 243, 236, 0.8);
+    --cine-accent: var(--color-sky);
+    --cine-pin-h: calc(100vh - var(--header-height));
+    --cine-runway: calc(var(--cine-pin-h) * 4.4);
+    height: calc(var(--cine-pin-h) + var(--cine-runway));
+    background-color: var(--cine-bg);
+  }
+
+  @supports (height: 100svh) {
+    .js .cine:not(.cine--static) { --cine-pin-h: calc(100svh - var(--header-height)); }
+  }
+
+  .js .cine:not(.cine--static)[data-tone="dark"] {
+    --cine-fg: var(--color-ink);
+    --cine-fg-soft: var(--color-charcoal);
+    --cine-accent: var(--color-burgundy);
+  }
+
+  .js .cine:not(.cine--static) .cine__pin {
+    position: sticky;
+    top: var(--header-height);
+    display: block;
+    width: auto;
+    height: var(--cine-pin-h);
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: var(--cine-bg);
+  }
+
+  .js .cine:not(.cine--static) .cine__stage {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    aspect-ratio: auto;
+    border: 0;
+    background: transparent;
+  }
+
+  .js .cine:not(.cine--static) .cine__still { display: none; }
+
+  .js .cine:not(.cine--static) .cine__poster {
+    display: block;
+    object-fit: cover;
+    /* Matches the engine's opening camera (centre .5/.56, 70 % wide) so the
+       canvas can take over without a visible jump. */
+    transform: scale(1.4286);
+    transform-origin: 50% 56%;
+  }
+
+  .js .cine:not(.cine--static) .cine__canvas {
+    display: block;
+    opacity: 0;
+    transition: opacity 400ms ease;
+  }
+
+  .js .cine.cine--ready:not(.cine--static) .cine__canvas { opacity: 1; }
+  .js .cine.cine--ready:not(.cine--static) .cine__poster { visibility: hidden; }
+
+  .js .cine:not(.cine--static) .cine__veil {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background-color: var(--color-ivory);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .js .cine:not(.cine--static) .cine__copy {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  /* Scenes: stacked, shown one at a time by cine.js */
+  .js .cine:not(.cine--static) .cine__scenes { display: block; position: absolute; inset: 0; }
+
+  .js .cine:not(.cine--static) .cine__scene {
+    position: absolute;
+    inset: 0;
+    padding: 0;
+    border: 0;
+    opacity: 0;
+    color: var(--cine-fg);
+    transition: color 500ms ease;
+  }
+
+  .js .cine:not(.cine--static) .cine__scene[data-scene="1"] { opacity: 1; }
+
+  .js .cine:not(.cine--static) .cine__block {
+    position: absolute;
+    left: var(--cine-x);
+    top: 50%;
+    translate: 0 -50%;
+    width: min(42vw, 38rem);
+  }
+
+  /* Scene 5 keeps the headline small and high: the whole model is in frame */
+  .js .cine:not(.cine--static) .cine__scene[data-scene="6"] .cine__block {
+    top: 3.5%;
+    translate: none;
+    width: min(60vw, 52rem);
+  }
+
+  .js .cine:not(.cine--static) .cine__scene[data-scene="6"] .cine__h {
+    font-size: clamp(2rem, min(5vw, 8.5vh), 4.75rem);
+  }
+
+  .js .cine:not(.cine--static) .cine__scene[data-scene="6"] .cine__sub { display: none; }
+
+  .js .cine:not(.cine--static) .cine__eyebrow {
+    margin-bottom: 1.25rem;
+    font-size: clamp(1rem, 0.9rem + 0.3vw, 1.2rem);
+    transition: color 500ms ease;
+  }
+
+  .js .cine:not(.cine--static) .cine__h {
+    font-size: clamp(2.5rem, min(6.2vw, 10.5vh), 6.25rem);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    transition: color 500ms ease;
+  }
+
+  .js .cine:not(.cine--static) .cine__sub {
+    margin-top: 1.5rem;
+    max-width: 30ch;
+    font-size: clamp(1.0625rem, 0.95rem + 0.35vw, 1.3125rem);
+    transition: color 500ms ease;
+  }
+
+  /* The five zones (scene 5): a row along the bottom of the stage */
+  .js .cine:not(.cine--static) .cine__zones {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 1.25rem;
+    position: absolute;
+    left: var(--cine-x);
+    right: var(--cine-x);
+    bottom: 3.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .cine__zones li {
+    display: flex;
+    gap: 0.6rem;
+    align-items: baseline;
+    padding-top: 0.6rem;
+    border-top: 1px solid var(--cine-accent);
+    font-size: clamp(0.9rem, 0.75rem + 0.35vw, 1.125rem);
+    line-height: 1.25;
+    opacity: 0.3;
+    transition: opacity 500ms ease, border-color 500ms ease, color 500ms ease;
+  }
+
+  .cine__zones li span { font-style: italic; color: var(--cine-accent); }
+  .cine__zones li.is-on { opacity: 1; }
+
+  /* Final scene: centred over the ivory veil */
+  .js .cine:not(.cine--static) .cine__final {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 0 var(--gutter);
+    text-align: center;
+    color: var(--color-burgundy);
+    pointer-events: none;
+  }
+
+  .js .cine:not(.cine--static) .cine__logo {
+    /* the lockup includes the ripple, so it is tall: cap it by the stage height as well as the width */
+    width: min(40vw, 38rem, calc(var(--cine-pin-h) * 0.62));
+    max-width: 100%;
+    will-change: transform;
+  }
+
+  /* The ripple rings of the official logo, traced as light before the lockup appears */
+  .js .cine:not(.cine--static) .cine__ripple { display: block; overflow: visible; }
+
+  .js .cine:not(.cine--static) .cine__ripple .u,
+  .js .cine:not(.cine--static) .cine__ripple .l {
+    fill: none;
+    stroke-linecap: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+
+  .js .cine:not(.cine--static) .cine__ripple .u { stroke: var(--color-burgundy); stroke-width: 12; }
+  .js .cine:not(.cine--static) .cine__ripple .l { stroke: var(--color-sky); stroke-width: 5; }
+  .js .cine:not(.cine--static) .cine__logo-img { opacity: 0; }
+
+  .js .cine:not(.cine--static) .cine__final .cine__eyebrow,
+  .js .cine:not(.cine--static) .cine__final .cine__h,
+  .js .cine:not(.cine--static) .cine__final .cine__actions {
+    opacity: 0;
+  }
+
+  .js .cine:not(.cine--static) .cine__final .cine__eyebrow { margin: 2.25rem 0 1rem; color: var(--color-burgundy); }
+
+  .js .cine:not(.cine--static) .cine__final .cine__h {
+    color: var(--color-burgundy);
+    font-size: clamp(2.25rem, min(4.6vw, 8vh), 4.5rem);
+    max-width: 16ch;
+  }
+
+  .js .cine:not(.cine--static) .cine__actions {
+    justify-content: center;
+    margin-top: 2rem;
+    pointer-events: auto;
+  }
+
+  .js .cine:not(.cine--static) .cine__actions[data-off] { visibility: hidden; pointer-events: none; }
+
+  /* HUD */
+  .js .cine:not(.cine--static) .cine__skip {
+    display: block;
+    position: absolute;
+    z-index: 6;
+    top: 1rem;
+    right: var(--gutter);
+    padding: 0.25rem 0;
+    color: var(--cine-fg);
+    font-size: 0.95rem;
+    font-style: italic;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.3em;
+    transition: color 500ms ease;
+    --focus: var(--cine-accent);
+  }
+
+  .js .cine:not(.cine--static) .cine__hud {
+    display: flex;
+    gap: 1.25rem;
+    align-items: baseline;
+    position: absolute;
+    z-index: 5;
+    left: var(--cine-x);
+    bottom: 1.25rem;
+    color: var(--cine-fg);
+    font-size: 0.9rem;
+    font-style: italic;
+    pointer-events: none;
+    transition: color 500ms ease;
+  }
+
+  .js .cine:not(.cine--static) .cine__scroll { transition: opacity 400ms ease; }
+
+  .js .cine:not(.cine--static) .cine__bar {
+    display: block;
+    position: absolute;
+    z-index: 5;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background-color: rgba(233, 240, 86, 0.25);
+  }
+
+  .js .cine:not(.cine--static) .cine__bar i {
+    display: block;
+    height: 100%;
+    background-color: var(--color-sky);
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+  }
+
+  /* ---- tall mode: phones and portrait tablets ---- */
+  @media (max-aspect-ratio: 1/1) {
+    .js .cine:not(.cine--static) .cine__poster {
+      transform: none;
+      object-position: 58% 40%;
+    }
+
+    /* Copy sits at the foot of the stage, over the extended backdrop */
+    .js .cine:not(.cine--static) .cine__scene {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 var(--gutter) 2.25rem;
+    }
+
+    .js .cine:not(.cine--static) .cine__block,
+    .js .cine:not(.cine--static) .cine__scene[data-scene="6"] .cine__block {
+      position: static;
+      translate: none;
+      width: auto;
+    }
+
+    .js .cine:not(.cine--static) .cine__eyebrow { margin-bottom: 0.5rem; font-size: 0.95rem; }
+
+    .js .cine:not(.cine--static) .cine__h,
+    .js .cine:not(.cine--static) .cine__scene[data-scene="6"] .cine__h {
+      font-size: clamp(1.875rem, min(9.4vw, 5.2vh), 3.25rem);
+      line-height: 1;
+    }
+
+    .js .cine:not(.cine--static) .cine__sub,
+    .js .cine:not(.cine--static) .cine__scene[data-scene="6"] .cine__sub {
+      display: block;
+      margin-top: 0.75rem;
+      max-width: none;
+      font-size: clamp(0.95rem, 0.9rem + 0.4vw, 1.125rem);
+      line-height: 1.45;
+    }
+
+    .js .cine:not(.cine--static) .cine__zones {
+      position: static;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 0.5rem;
+      margin-top: 0.85rem;
+    }
+
+    .cine__zones li {
+      padding: 0.2rem 0.55rem;
+      border: 1px solid var(--cine-accent);
+      font-size: 0.8125rem;
+    }
+
+    .cine__zones li span { display: none; }
+
+    .js .cine:not(.cine--static) .cine__logo { width: min(78vw, 30rem); }
+
+    /* The counter moves to the top so it never meets the copy */
+    .js .cine:not(.cine--static) .cine__hud { left: var(--gutter); top: 1rem; bottom: auto; }
+  }
+
+  /* Short landscape screens (phones turned sideways) */
+  @media (max-height: 30rem) and (min-aspect-ratio: 1/1) {
+    .js .cine:not(.cine--static) .cine__sub,
+    .js .cine:not(.cine--static) .cine__zones { display: none; }
+    .js .cine:not(.cine--static) .cine__h { font-size: clamp(1.75rem, 9vh, 3rem); }
+  }
+}
+
+
+/* ==========================================================================
+   Homepage sections after the hero
+   ========================================================================== */
+
+/* ---------- What we build ---------- */
+.build__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-bottom: 1px solid var(--color-burgundy);
+}
+
+.build__row {
+  display: grid;
+  gap: 0.75rem 2.5rem;
+  align-items: baseline;
+  padding-block: 2rem;
+  border-top: 1px solid var(--color-burgundy);
+  color: var(--color-burgundy);
+  text-decoration: none;
+  position: relative;
+}
+
+.build__no {
+  font-size: clamp(2rem, 1.4rem + 2vw, 3.25rem);
+  font-style: italic;
+  line-height: 1;
+}
+
+.build__name {
+  margin: 0;
+  font-size: clamp(1.625rem, 1.2rem + 1.6vw, 2.75rem);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--color-burgundy);
+}
+
+.build__desc {
+  margin: 0;
+  max-width: 36ch;
+  color: var(--color-charcoal);
+}
+
+.build__stage {
+  margin: 0;
+  font-size: 0.95rem;
+  font-style: italic;
+  white-space: nowrap;
+}
+
+.build__arrow {
+  display: inline-block;
+  margin-left: 0.5rem;
+  transition: transform 300ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@media (min-width: 56em) {
+  .build__row {
+    grid-template-columns: 5rem minmax(0, 1.1fr) minmax(0, 1.2fr) 9rem;
+    padding-block: 2.5rem;
+  }
+  .build__stage { text-align: right; }
+}
+
+@media (hover: hover) {
+  .build__row:hover { background-color: var(--color-paper); }
+  .build__row:hover .build__arrow { transform: translate(5px, -5px); }
+}
+
+.build__row:focus-visible { outline-offset: -3px; }
+
+.build__more { margin-top: 2.5rem; }
+
+/* ---------- How we work ---------- */
+.how__rail {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: how;
+}
+
+.how__step {
+  position: relative;
+  padding: 0 0 2.25rem 2.25rem;
+  border-left: 1px solid var(--color-burgundy);
+}
+
+.how__step::before {
+  content: "";
+  position: absolute;
+  left: -0.5rem;
+  top: 0.35rem;
+  width: 0.9rem;
+  height: 0.9rem;
+  border: 1px solid var(--color-burgundy);
+  border-radius: 50%;
+  background-color: var(--color-wash);
+}
+
+.how__step:last-child { padding-bottom: 0; }
+
+.how__no {
+  display: block;
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--color-burgundy);
+}
+
+.how__when {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.95rem;
+  color: var(--color-charcoal);
+}
+
+.how__title {
+  margin: 0.75rem 0 0.5rem;
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+}
+
+.how__desc { margin: 0; max-width: 30ch; color: var(--color-charcoal); }
+.how__more { margin-top: 3rem; }
+
+@media (min-width: 64em) {
+  .how__rail { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+
+  .how__step {
+    padding: 2.25rem 1.5rem 0 0;
+    border-left: 0;
+    border-top: 1px solid var(--color-burgundy);
+  }
+
+  .how__step::before { left: 0; top: -0.45rem; }
+  .how__step:last-child { padding-bottom: 0; }
+}
+
+/* ---------- Start your project (extends .next-step) ---------- */
+.start__stages {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-ink-light);
+}
+
+.start__label {
+  margin: 0 0 1.25rem;
+  font-size: 1rem;
+  font-style: italic;
+}
+
+.start__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.start__list a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 3rem;
+  padding: 0.5rem 1.25rem;
+  border: 1px solid var(--color-ivory);
+  color: var(--color-ivory);
+  font-size: 1.0625rem;
+  text-decoration: none;
+}
+
+.start__list a:hover,
+.start__list a:focus-visible {
+  background-color: var(--color-ivory);
+  color: var(--color-burgundy);
+}
+
+.start__cta { margin-top: 2.5rem; }
+
+/* ---------- Scroll reveals for the new sections (cine.js) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-cine-reveal] {
+    opacity: 0;
+    translate: 0 1.75rem;
+  }
+
+  .js [data-cine-reveal].is-in {
+    opacity: 1;
+    translate: none;
+    transition:
+      opacity 800ms cubic-bezier(0.2, 0.7, 0.2, 1) calc(var(--i, 0) * 90ms),
+      translate 900ms cubic-bezier(0.2, 0.7, 0.2, 1) calc(var(--i, 0) * 90ms);
+  }
+}
+
+.start__lede { margin-top: 2rem; }
+
+/* Track the available height when the preview enters or leaves fullscreen. */
+@supports (height: 100dvh) {
+  @media (prefers-reduced-motion: no-preference) {
+    .js .cine:not(.cine--static) { --cine-pin-h: calc(100dvh - var(--header-height)); }
+  }
+}
+
+/* Keep copy and architecture separate on wide screens, including fullscreen. */
+@media (prefers-reduced-motion: no-preference) and (min-aspect-ratio: 1/1) and (min-width: 56em) {
+  .js .cine:not(.cine--static) .cine__stage { left: 38%; }
+  .js .cine:not(.cine--static) .cine__pin { background-color: #0c0c0c; transition: background-color 400ms ease; }
+  .js .cine:not(.cine--static)[data-tone="dark"] .cine__pin { background-color: var(--color-ivory); }
+  .js .cine:not(.cine--static) .cine__block,
+  .js .cine:not(.cine--static) .cine__scene[data-scene="6"] .cine__block {
+    top: 50%; translate: 0 -50%; width: 29vw;
+  }
+  .js .cine:not(.cine--static) .cine__h,
+  .js .cine:not(.cine--static) .cine__scene[data-scene="6"] .cine__h {
+    font-size: clamp(2.25rem, min(4.3vw, 7.5vh), 5.5rem);
+  }
+  .js .cine:not(.cine--static) .cine__scene[data-scene="6"] .cine__sub { display: block; }
+}
